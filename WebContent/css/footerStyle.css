@@ -1,0 +1,30 @@
+#footer{
+	background-color: #9FC8D5;;
+	justify-content: center;
+	display: flex;
+	position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+#footer .section{
+	display: inline;
+	padding: 20px;
+}
+
+.section ul{
+	list-style-type: none;
+}
+
+.section ul li{
+	padding: 5px;
+}
+
+.details{
+	margin-top: 50px;
+}
+
+.details ul li{
+	display: inline;
+	padding: 7px;
+}
