@@ -7,11 +7,11 @@ public class Gadget extends Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String materiale;
-	private int altezza;
-	private int lunghezza;
-	private int larghezza;
+	private double altezza;
+	private double lunghezza;
+	private double larghezza;
 	
-	public Gadget(String nome, String descrizione, double prezzo, String materiale, int altezza, int lunghezza, int larghezza) {
+	public Gadget(String nome, String descrizione, double prezzo, String materiale, double altezza, double lunghezza, double larghezza) {
 		super(nome, descrizione, prezzo);
 		this.materiale = materiale;
 		this.altezza = altezza;
@@ -31,7 +31,7 @@ public class Gadget extends Product implements Serializable{
 		this.materiale = materiale;
 	}
 	
-	public int getAltezza() {
+	public double getAltezza() {
 		return altezza;
 	}
 	
@@ -39,7 +39,7 @@ public class Gadget extends Product implements Serializable{
 		this.altezza = altezza;
 	}
 	
-	public int getLunghezza() {
+	public double getLunghezza() {
 		return lunghezza;
 	}
 	
@@ -47,7 +47,7 @@ public class Gadget extends Product implements Serializable{
 		this.lunghezza = lunghezza;
 	}
 	
-	public int getLarghezza() {
+	public double getLarghezza() {
 		return larghezza;
 	}
 	
