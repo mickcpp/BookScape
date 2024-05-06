@@ -1,61 +1,59 @@
 nav{
     background-color: #0B86B6;
-    text-align: center;
-    display: flex;
+ 	display: flex;
 }
 
-#links{
-	display: inline;
+nav #links{
 	align-self: center;
 	margin-left: auto;
 	margin-right: 5%;
 }
-nav ul a{
-	padding: 13px 0px 13px 0px;
-}
-nav ul li{
+
+nav #links ul li{
     display: inline;
-    padding: 0px 12px 0px 12px;
-    font-size: 19px;
+}
+
+nav #links ul a{
+	padding: 13px 12px 13px 12px;
+	font-size: 18.7px;
     color: #EEEEEE;
+    text-decoration: none;
 }
 
-nav ul a:hover {
+nav #links ul a:hover {
     background-color: #89B9E3;
-    
-}
-
-nav ul a{
-   text-decoration: none;
 }
 
 #zona_utente{
-	margin: 1% 10% 0% 10%;
+	margin: 0.5% 10% 0% 10%;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
 #zona_utente #logo{
-	display: inline;
 	width: 8%;
 	height: 100%;
-	align-self: center;
 }
 
 #zona_utente #searchbar{
 	width: 40%;
 	height: 100%;
-	align-self: center;
+	flex-shrink: 10;
 }
 
 #zona_utente #icone{
 	width: 15%;
 	height: 100%;
-	align-self: center;
+	display: flex;
+}
+
+#zona_utente #icone img{
+    padding: 0px 30px 0px 0px;
 }
 
 #zona_utente form input{
-    height: 42px;
+    height: 40px;
     width: 100%;
     background-image: url("../img/search_icon.png");
     background-repeat: no-repeat;
@@ -71,11 +69,6 @@ nav ul a{
 
 #zona_utente form input::placeholder{
     color: rgba(57, 56, 56, 0.533);
-    font-size: 24px;
-    transform: translateY(2px);
-}
-
-#icone img{
-    padding: 0px 30px 0px 0px;
-    float: right;
+    font-size: 21px;
+    transform: translateY(1.5px);
 }

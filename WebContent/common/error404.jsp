@@ -8,9 +8,8 @@
 	<link rel="stylesheet" href="css/style.css">
 	<style>
 		.errorContent{
-			height: 100%;
 			text-align: center;
-			padding: 5px 0px 60px 0px;
+			padding: 5px 0px 30px 0px;
 		}
 		p{
 			font-size: 20px;

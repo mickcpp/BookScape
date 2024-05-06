@@ -10,8 +10,6 @@
 	<body>
 		<%@ include file="template/navbar.html" %>
 		
-		<div style="margin-top: 420px"></div>
-		
 		<%@ include file="template/footer.html" %>
 	</body>
 </html>

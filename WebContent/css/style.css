@@ -1,6 +1,12 @@
 @charset "UTF-8";
 
-body{
+html, body{
 	margin: 0px;
+	min-height: 100vh;
+}
+
+body{
+	display: flex;
+	flex-direction: column;
 }
 
