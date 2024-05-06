@@ -18,17 +18,17 @@ public class ProductModelDM implements ProductModel <Product> {
 	   String s = "";
 	   
 	   if(product instanceof Libro) {
-		   s = "Genere, Formato, Anno, ISBN, Autore, `Numero pagine` VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+		   s = "Genere, Formato, Anno, ISBN, Autore, `Numero pagine`) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "libro";
 	   }
 	   
 	   if(product instanceof Musica) {
-		   s = "Genere, Formato, Anno, `Numero tracce`, Artista VALUES (?,?,?,?,?,?,?,?,?,?)";
+		   s = "Genere, Formato, Anno, `Numero tracce`, Artista) VALUES (?,?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "musica";
 	   }
 	   
 	   if(product instanceof Gadget) {
-		   s = "Materiale, Lunghezza, Larghezza, Altezza VALUES (?,?,?,?,?,?,?,?,?)";
+		   s = "Materiale, Lunghezza, Larghezza, Altezza) VALUES (?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "gadget";
 	   }
 	   
