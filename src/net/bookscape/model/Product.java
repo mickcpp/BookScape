@@ -6,15 +6,14 @@ public abstract class Product implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final int ID;
+	private int ID;
     private String nome;
     private String  descrizione;
     private double prezzo;
     private int quantita;
-    private static int contatore = 1000;
 
     public Product(String nome, String descrizione, double prezzo) {
-        this.ID = contatore++;
+        this.ID = 0;
         setNome(nome);
         setPrezzo(prezzo);
         setDescrizione(descrizione);
@@ -22,13 +21,17 @@ public abstract class Product implements Serializable {
     }
     
     public Product() {
-		this.ID = contatore++;
+		this.ID = 0;
     }
 
     public int getId() {
     	return ID;
     }
 
+    public void setId(int ID) {
+    	if(this.ID == 0) this.ID = ID;
+    }
+    
     public String getNome() {
     	return nome;
     }

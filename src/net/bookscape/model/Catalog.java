@@ -6,17 +6,16 @@ public class Catalog {
 	
 	public static Product getProduct(int id) {
 		
-		if(id == 0) return null;
+		if(id <= 1000) return null;
 		
 		Product product;
 		
-	    for(int i=0; i<prodotti.length; i++) {
-	    	product = prodotti[i];
+	    for(Product p: prodotti) {
+	    	product = p;
 	    	if (id == product.getId()) {
 	    		return product;
 	    	}
 	    }
-	    
 	    return null;
 	  }
 	

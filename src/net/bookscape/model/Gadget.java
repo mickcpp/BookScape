@@ -35,7 +35,7 @@ public class Gadget extends Product implements Serializable{
 		return altezza;
 	}
 	
-	public void setAltezza(int altezza) {
+	public void setAltezza(double altezza) {
 		this.altezza = altezza;
 	}
 	
@@ -43,7 +43,7 @@ public class Gadget extends Product implements Serializable{
 		return lunghezza;
 	}
 	
-	public void setLunghezza(int lunghezza) {
+	public void setLunghezza(double lunghezza) {
 		this.lunghezza = lunghezza;
 	}
 	
@@ -51,7 +51,7 @@ public class Gadget extends Product implements Serializable{
 		return larghezza;
 	}
 	
-	public void setLarghezza(int larghezza) {
+	public void setLarghezza(double larghezza) {
 		this.larghezza = larghezza;
 	}
 	

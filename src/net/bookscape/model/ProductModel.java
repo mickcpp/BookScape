@@ -9,7 +9,7 @@ public interface ProductModel <T> {
 
 	public boolean doDelete(int id) throws SQLException;
 
-	public T doRetrieveByKey(int id) throws SQLException;
+	public T doRetrieveByKey(int id, TABLE tabella) throws SQLException;
 	
 	public Collection<T> doRetrieveAll(String order) throws SQLException;
 }
