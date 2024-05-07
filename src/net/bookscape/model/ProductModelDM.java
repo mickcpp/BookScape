@@ -160,7 +160,7 @@ public class ProductModelDM implements ProductModel <Product> {
 					l.setAnno(rs.getInt("Anno"));
 					l.setISBN(rs.getString("ISBN"));
 					l.setAutore(rs.getString("Autore"));
-					l.setNumeroPagine(rs.getInt("`Numero pagine`"));
+					l.setNumeroPagine(rs.getInt("Numero pagine"));
 					
 					product = l;
 				}
@@ -191,7 +191,7 @@ public class ProductModelDM implements ProductModel <Product> {
 					m.setFormato(FormatoMusica.valueOf(rs.getString("Formato")));
 					m.setAnno(rs.getInt("Anno"));
 					m.setArtista(rs.getString("Artista"));
-					m.setNumeroTracce(rs.getInt("`Numero tracce`"));
+					m.setNumeroTracce(rs.getInt("Numero tracce"));
 					
 					product = m;
 				} 
@@ -240,7 +240,8 @@ public class ProductModelDM implements ProductModel <Product> {
 				libro.setAnno(rs.getInt("Anno"));
 				libro.setISBN(rs.getString("ISBN"));
 				libro.setAutore(rs.getString("Autore"));
-				libro.setNumeroPagine(rs.getInt("`Numero pagine`"));
+				libro.setNumeroPagine(rs.getInt("Numero pagine"));
+				listaLibri.add(libro);
 			}
 			
 		} finally {
@@ -285,8 +286,9 @@ public class ProductModelDM implements ProductModel <Product> {
 				musica.setGenere(rs.getString("Genere"));
 				musica.setFormato(FormatoMusica.valueOf(rs.getString("Formato")));
 				musica.setAnno(rs.getInt("Anno"));
-				musica.setNumeroTracce(rs.getInt("`Numero tracce`"));
+				musica.setNumeroTracce(rs.getInt("Numero tracce"));
 				musica.setArtista(rs.getString("Artista"));
+				listaMusica.add(musica);
 			}
 			
 		} finally {
@@ -332,6 +334,7 @@ public class ProductModelDM implements ProductModel <Product> {
 				gadget.setLunghezza(rs.getDouble("Formato"));
 				gadget.setLarghezza(rs.getDouble("ISBN"));
 				gadget.setAltezza(rs.getDouble("Autore"));
+				listaGadget.add(gadget);
 			}
 		} finally {
 			try {
