@@ -336,9 +336,9 @@ public class ProductModelDM implements ProductModel <Product> {
 				gadget.setPrezzo(rs.getDouble("Prezzo"));
 				gadget.setQuantita(rs.getInt("Quantità"));
 				gadget.setMateriale(rs.getString("Materiale"));
-				gadget.setLunghezza(rs.getDouble("Formato"));
-				gadget.setLarghezza(rs.getDouble("ISBN"));
-				gadget.setAltezza(rs.getDouble("Autore"));
+				gadget.setLunghezza(rs.getDouble("Lunghezza"));
+				gadget.setLarghezza(rs.getDouble("Larghezza"));
+				gadget.setAltezza(rs.getDouble("Altezza"));
 				listaGadget.add(gadget);
 			}
 		} finally {
@@ -358,7 +358,8 @@ public class ProductModelDM implements ProductModel <Product> {
 		Collection<Gadget> listaGadget = doRetrieveAllGadget(order);
 		Collection<Musica> listaMusica = doRetrieveAllMusica(order);
 		
-		Collection<Product> prodotti = new LinkedList<>(listaLibri);
+		Collection<Product> prodotti = new LinkedList<>();
+		prodotti.addAll(listaLibri);
 		prodotti.addAll(listaGadget);
 		prodotti.addAll(listaMusica);
 		
