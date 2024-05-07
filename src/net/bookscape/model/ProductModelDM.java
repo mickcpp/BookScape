@@ -92,21 +92,26 @@ public class ProductModelDM implements ProductModel <Product> {
 		PreparedStatement preparedStatement = null;
 		int result = 0;
 		
-		Product product = Catalog.getProduct(id);
+		Collection<Product> prodotti = doRetrieveAll(null);
 		
-		if(product == null) return false;
-		  
-		if(product instanceof Libro) {
-			TABLE_NAME = "libro";
-		}
- 
-		if(product instanceof Musica) {
-			TABLE_NAME = "musica";
+		for(Product prodotto: prodotti) {
+			if(prodotto.getId() == id){
+				  
+				if(prodotto instanceof Libro) {
+					TABLE_NAME = "libro";
+				}
+		 
+				if(prodotto instanceof Musica) {
+					TABLE_NAME = "musica";
+				}
+				
+				if(prodotto instanceof Gadget) {
+					TABLE_NAME="gadget";
+				}
+			}
 		}
 		
-		if(product instanceof Gadget) {
-			TABLE_NAME="gadget";
-		}
+		if(TABLE_NAME.equals("")) return false;
 		
 		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE ID = ?";
 		  
