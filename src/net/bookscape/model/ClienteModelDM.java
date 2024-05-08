@@ -217,6 +217,45 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		
 		return clienti;
 	}
+
+	@Override
+	public Amministratore doRetrieveByKeyAdmin(int id) throws SQLException {
+		
+		TABLE_NAME = "amministratore";
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Amministratore admin = null;
+		
+		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE ID = ?";
+		
+		try {
+			connection = DriverManagerCP.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setInt(1, id);
+	
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				admin = new Amministratore();
+				admin.setEmail(rs.getString("Email"));
+				admin.setUsername(rs.getString("Username"));
+				admin.setPassword(rs.getString("Password"));
+				admin.setNome(rs.getString("Nome"));
+				admin.setCognome(rs.getString("Cognome"));  
+			}
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+		
+		return admin;
+	}
 	
 }
 	
