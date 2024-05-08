@@ -31,6 +31,8 @@ public class Cliente implements Serializable {
 		this.carta = carta;
 	}
 	
+	public Cliente() {}
+
 	public String getEmail() {
 		return email;
 	}
