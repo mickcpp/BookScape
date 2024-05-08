@@ -1,4 +1,4 @@
-<%@ page import="java.util.*" import="net.bookscape.model.Product" import="net.bookscape.control.HomePage" language="java" contentType="text/html; charset=UTF-8"
+<%@ page import="java.util.*" import="net.bookscape.model.Product, net.bookscape.control.HomePage" language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
