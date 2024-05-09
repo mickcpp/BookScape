@@ -32,6 +32,10 @@ public class CartItem {
 	public void incrementNum() {
 		setNumElementi(getNumElementi() + 1);
     }
+	
+	public void decrementNum() {
+		setNumElementi(getNumElementi() - 1);
+    }
 
 	public double getTotalCost() {
 	    return(getNumElementi() * product.getPrezzo());

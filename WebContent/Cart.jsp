@@ -58,9 +58,10 @@
 	                <form action="CartControl" method="post">
 	                    <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
 	                    <input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
-	                    <input type="hidden" name="action" value="rimuovi"> 
 	                    <input type="hidden" name="redirect" value="Cart.jsp">
-	                    <input type="submit" value="Rimuovi">
+	                    <input type="number" name="quantity" value="<%=item.getNumElementi()%>" min="1">
+   						<input type="submit" name="action" value="Aggiorna">
+   						<input type="submit" name="action" value="Rimuovi">
 	                </form>
 	            </div>
 	<%	

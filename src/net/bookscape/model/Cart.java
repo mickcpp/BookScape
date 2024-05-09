@@ -1,6 +1,7 @@
 package net.bookscape.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Cart {
@@ -15,14 +16,26 @@ public class Cart {
 		items.add(item);
 	}
 	
+	public void updateItemNum(CartItem item, int num) {
+	    Iterator<CartItem> iterator = items.iterator();
+	    while (iterator.hasNext()) {
+	        CartItem i = iterator.next();
+	        if (item.getProduct().getId() == i.getProduct().getId()) {
+	        	i.setNumElementi(num);
+	            break;
+	        }
+	    }
+	}
+	
 	public void deleteItem(CartItem item) {
-		for(CartItem i : items) {
-			if(item.getProduct().getId() == i.getProduct().getId()) {
-				items.remove(i);
-				break;
-			}
-		}
- 	}
+	    Iterator<CartItem> iterator = items.iterator();
+	    while (iterator.hasNext()) {
+	        CartItem i = iterator.next();
+	        if (item.getProduct().getId() == i.getProduct().getId()) {
+	        	iterator.remove();
+	        }
+	    }
+	}
 	
 	public List<CartItem> getItems() {
 		return items;

@@ -54,10 +54,15 @@ public class CartControl extends HttpServlet {
 					}else {
 						cart.addItem(item);
 					}
-				} else if (action.equalsIgnoreCase("rimuovi")) {
+				} else if (action.equalsIgnoreCase("Rimuovi")) {
 					int id = Integer.parseInt(request.getParameter("productId"));
 					CartItem item = new CartItem(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					cart.deleteItem(item);
+				} else if (action.equalsIgnoreCase("Aggiorna")) {
+					int id = Integer.parseInt(request.getParameter("productId"));
+					CartItem item = new CartItem(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
+					int num = Integer.parseInt(request.getParameter("quantity"));
+					cart.updateItemNum(item, num);
 				}
 			}	
 		} catch (SQLException e) {
