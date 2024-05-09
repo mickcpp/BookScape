@@ -41,7 +41,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 			<p><%= p.getDescrizione() %></p>
 			<p>Prezzo: <%= p.getPrezzo() %> EUR</p>
 			<p>Quantità disponibile: <%= p.getQuantita() %></p>
-			<img src="<%=p.getImgURL()%>">
+			<a href="ProductDetails?productId=<%=p.getId()%>&type=<%=p.getClass().getSimpleName().toLowerCase()%>"><img src="<%=p.getImgURL()%>"></a>
 			<form action="CartControl" method="post">
 				<input type="hidden" name="productId" value="<%= p.getId() %>">
 				<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">

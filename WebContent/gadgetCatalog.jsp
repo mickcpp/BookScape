@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 			<p><%= g.getDescrizione() %></p>
 			<p>Prezzo: <%= g.getPrezzo() %> EUR</p>
 			<p>Quantità disponibile: <%= g.getQuantita() %></p>
-			<img src="<%=g.getImgURL()%>">
+			<a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img src="<%=g.getImgURL()%>"></a>
 			<form action="CartControl" method="post">
 				<input type="hidden" name="productId" value="<%=g.getId() %>">
 				<input type="hidden" name="type" value="<%=g.getClass().getSimpleName().toLowerCase()%>">

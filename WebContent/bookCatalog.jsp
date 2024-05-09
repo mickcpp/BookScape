@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 			<p><%= l.getDescrizione() %></p>
 			<p>Prezzo: <%= l.getPrezzo() %> EUR</p>
 			<p>Quantità disponibile: <%= l.getQuantita() %></p>
-			<img src="<%=l.getImgURL()%>">
+			<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img src="<%=l.getImgURL()%>"></a>
 			<form action="CartControl" method="post">
 				<input type="hidden" name="productId" value="<%= l.getId() %>">
 				<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
