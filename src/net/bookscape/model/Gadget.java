@@ -11,8 +11,8 @@ public class Gadget extends Product implements Serializable{
 	private double lunghezza;
 	private double larghezza;
 	
-	public Gadget(String nome, String descrizione, double prezzo, String materiale, double altezza, double lunghezza, double larghezza) {
-		super(nome, descrizione, prezzo);
+	public Gadget(String nome, String descrizione, double prezzo, String materiale, double altezza, double lunghezza, double larghezza, String imgUrl) {
+		super(nome, descrizione, prezzo, imgUrl);
 		this.materiale = materiale;
 		this.altezza = altezza;
 		this.lunghezza = lunghezza;

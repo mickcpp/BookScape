@@ -10,6 +10,9 @@ import java.util.LinkedList;
 public class ProductModelDM implements ProductModel <Product> {
 	
    private static String TABLE_NAME = "";
+   public static final String BASE_IMG_PATH_BOOKS = "productImages/books/";
+   public static final String BASE_IMG_PATH_MUSICS = "productImages/musics/";
+   public static final String BASE_IMG_PATH_GADGETS = "productImages/gadgets/";
    
    public synchronized void doSave(Product product) throws SQLException {
 	   
@@ -18,22 +21,22 @@ public class ProductModelDM implements ProductModel <Product> {
 	   String s = "";
 	   
 	   if(product instanceof Libro) {
-		   s = "Genere, Formato, Anno, ISBN, Autore, `Numero pagine`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+		   s = "Genere, Formato, Anno, ISBN, Autore, `Numero pagine`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "libro";
 	   }
 	   
 	   if(product instanceof Musica) {
-		   s = "Genere, Formato, Anno, `Numero tracce`, Artista) VALUES (?,?,?,?,?,?,?,?,?)";
+		   s = "Genere, Formato, Anno, `Numero tracce`, Artista) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "musica";
 	   }
 	   
 	   if(product instanceof Gadget) {
-		   s = "Materiale, Lunghezza, Larghezza, Altezza) VALUES (?,?,?,?,?,?,?,?)";
+		   s = "Materiale, Lunghezza, Larghezza, Altezza) VALUES (?,?,?,?,?,?,?,?,?)";
 		   TABLE_NAME = "gadget";
 	   }
 	   
 	   String insertP = "INSERT INTO " + TABLE_NAME + " "
-					  + "(Nome, Descrizone, Prezzo, Quantità, " + s;
+					  + "(Nome, Descrizone, Prezzo, Quantità, Immagine " + s;
 
 	   try {
 		   connection = DriverManagerCP.getConnection();
@@ -46,29 +49,32 @@ public class ProductModelDM implements ProductModel <Product> {
 		   
 		   if(product instanceof Libro) {
 			   Libro l = (Libro) product;
-			   preparedStatement.setString(5, l.getGenere());
-			   preparedStatement.setString(6, l.getFormato().name());
-			   preparedStatement.setInt(7, l.getAnno());
-			   preparedStatement.setString(8, l.getISBN());
-			   preparedStatement.setString(9, l.getAutore());
-			   preparedStatement.setInt(10, l.getNumeroPagine());
+			   preparedStatement.setString(5, BASE_IMG_PATH_BOOKS + product.getImgURL());
+			   preparedStatement.setString(6, l.getGenere());
+			   preparedStatement.setString(7, l.getFormato().name());
+			   preparedStatement.setInt(8, l.getAnno());
+			   preparedStatement.setString(9, l.getISBN());
+			   preparedStatement.setString(10, l.getAutore());
+			   preparedStatement.setInt(11, l.getNumeroPagine());
 		   }
 		   
 		   if(product instanceof Gadget) {
 			   Gadget g = (Gadget) product;
-			   preparedStatement.setString(5, g.getMateriale());
-			   preparedStatement.setDouble(6, g.getLunghezza());
-			   preparedStatement.setDouble(7, g.getLarghezza());
-			   preparedStatement.setDouble(8, g.getAltezza()); 
+			   preparedStatement.setString(5, BASE_IMG_PATH_GADGETS + product.getImgURL());
+			   preparedStatement.setString(6, g.getMateriale());
+			   preparedStatement.setDouble(7, g.getLunghezza());
+			   preparedStatement.setDouble(8, g.getLarghezza());
+			   preparedStatement.setDouble(9, g.getAltezza()); 
 		   } 
 		  
 		   if(product instanceof Musica) {
 			   Musica m = (Musica) product;
-			   preparedStatement.setString(5, m.getGenere());
-			   preparedStatement.setString(6, m.getFormato().name());
-			   preparedStatement.setInt(7, m.getAnno());
-			   preparedStatement.setInt(8, m.getNumeroTracce());
-			   preparedStatement.setString(9, m.getArtista());   
+			   preparedStatement.setString(5, BASE_IMG_PATH_MUSICS + product.getImgURL());
+			   preparedStatement.setString(6, m.getGenere());
+			   preparedStatement.setString(7, m.getFormato().name());
+			   preparedStatement.setInt(8, m.getAnno());
+			   preparedStatement.setInt(9, m.getNumeroTracce());
+			   preparedStatement.setString(10, m.getArtista());   
 		   } 
 		   
 		   preparedStatement.executeUpdate();
@@ -160,6 +166,7 @@ public class ProductModelDM implements ProductModel <Product> {
 					l.setDescrizione(rs.getString("Descrizione"));
 					l.setPrezzo(rs.getDouble("Prezzo"));
 					l.setQuantita(rs.getInt("Quantità"));
+					l.setImgURL(rs.getString("Immagine"));
 					l.setGenere(rs.getString("Genere"));
 					l.setFormato(FormatoLibro.valueOf(rs.getString("Formato")));
 					l.setAnno(rs.getInt("Anno"));
@@ -177,6 +184,7 @@ public class ProductModelDM implements ProductModel <Product> {
 					g.setDescrizione(rs.getString("Descrizione"));
 					g.setPrezzo(rs.getDouble("Prezzo"));
 					g.setQuantita(rs.getInt("Quantità"));
+					g.setImgURL(rs.getString("Immagine"));
 				    g.setMateriale(rs.getString("Materiale"));
 					g.setLunghezza(rs.getDouble("Lunghezza"));
 					g.setLarghezza(rs.getDouble("Larghezza"));
@@ -192,6 +200,7 @@ public class ProductModelDM implements ProductModel <Product> {
 					m.setDescrizione(rs.getString("Descrizione"));
 					m.setPrezzo(rs.getDouble("Prezzo"));
 					m.setQuantita(rs.getInt("Quantità"));
+					m.setImgURL(rs.getString("Immagine"));
 				    m.setGenere(rs.getString("Genere"));
 					m.setFormato(FormatoMusica.valueOf(rs.getString("Formato")));
 					m.setAnno(rs.getInt("Anno"));
@@ -240,6 +249,7 @@ public class ProductModelDM implements ProductModel <Product> {
 				libro.setDescrizione(rs.getString("Descrizione"));
 				libro.setPrezzo(rs.getDouble("Prezzo"));
 				libro.setQuantita(rs.getInt("Quantità"));
+				libro.setImgURL(rs.getString("Immagine"));
 				libro.setGenere(rs.getString("Genere"));
 				libro.setFormato(FormatoLibro.valueOf(rs.getString("Formato")));
 				libro.setAnno(rs.getInt("Anno"));
@@ -288,6 +298,7 @@ public class ProductModelDM implements ProductModel <Product> {
 				musica.setDescrizione(rs.getString("Descrizione"));
 				musica.setPrezzo(rs.getDouble("Prezzo"));
 				musica.setQuantita(rs.getInt("Quantità"));
+				musica.setImgURL(rs.getString("Immagine"));
 				musica.setGenere(rs.getString("Genere"));
 				musica.setFormato(FormatoMusica.valueOf(rs.getString("Formato")));
 				musica.setAnno(rs.getInt("Anno"));
@@ -335,6 +346,7 @@ public class ProductModelDM implements ProductModel <Product> {
 				gadget.setDescrizione(rs.getString("Descrizione"));
 				gadget.setPrezzo(rs.getDouble("Prezzo"));
 				gadget.setQuantita(rs.getInt("Quantità"));
+				gadget.setImgURL(rs.getString("Immagine"));
 				gadget.setMateriale(rs.getString("Materiale"));
 				gadget.setLunghezza(rs.getDouble("Lunghezza"));
 				gadget.setLarghezza(rs.getDouble("Larghezza"));

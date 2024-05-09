@@ -13,8 +13,8 @@ public class Libro extends Product implements Serializable {
 	private int anno;
 	private int numeroPagine;
 
-	public Libro(String nome, String descrizione, double prezzo, String genere, FormatoLibro formato, String ISBN, String autore, int anno, int numeroPagine) {
-		super(nome, descrizione, prezzo);
+	public Libro(String nome, String descrizione, double prezzo, String genere, FormatoLibro formato, String ISBN, String autore, int anno, int numeroPagine, String imgUrl) {
+		super(nome, descrizione, prezzo, imgUrl);
 		this.genere=genere;
 		this.formato = formato;
 		this.ISBN = ISBN;

@@ -12,8 +12,8 @@ public class Musica extends Product implements Serializable {
 	private int anno;
 	private int numeroTracce;
 	
-	public Musica(String nome, String descrizione, double prezzo, String genere, FormatoMusica formato, String artista, int anno, int numeroTracce) {
-		super(nome, descrizione, prezzo);
+	public Musica(String nome, String descrizione, double prezzo, String genere, FormatoMusica formato, String artista, int anno, int numeroTracce, String imgUrl) {
+		super(nome, descrizione, prezzo, imgUrl);
 		this.genere = genere;
 		this.formato = formato;
 		this.artista = artista;

@@ -49,6 +49,7 @@
 	            <div class="product">
 	                <p>Nome Prodotto: <%= prodotto.getNome() %></p>
 	                <p>Prezzo: <%= prodotto.getPrezzo() %></p>
+	                <img src="<%=prodotto.getImgURL()%>">
 	                
 	                <form action="CartControl" method="post">
 	                    <input type="hidden" name="productId" value="<%= prodotto.getId() %>">

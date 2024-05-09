@@ -11,13 +11,15 @@ public abstract class Product implements Serializable {
     private String  descrizione;
     private double prezzo;
     private int quantita;
+    private String imgURL;
 
-    public Product(String nome, String descrizione, double prezzo) {
+    public Product(String nome, String descrizione, double prezzo, String imgUrl) {
         this.ID = 0;
         setNome(nome);
         setPrezzo(prezzo);
         setDescrizione(descrizione);
         this.quantita = 0;
+        this.setImgURL(imgUrl);
     }
     
     public Product() {
@@ -64,6 +66,14 @@ public abstract class Product implements Serializable {
     	this.quantita = quantita;
     }
     
+	public String getImgURL() {
+		return imgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
+	
     @Override
 	public String toString() {
 		return nome + " (" + ID + "), " + descrizione + " " + prezzo + ". " + quantita;
