@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.bookscape.model.ProductModelDM;
 import net.bookscape.model.TABLE;
 import net.bookscape.model.Cart;
+import net.bookscape.model.CartItem;
 
 /**
  * Servlet implementation class ProductDetails
@@ -47,10 +48,16 @@ public class CartControl extends HttpServlet {
 			if (action != null) {
 				if (action.equalsIgnoreCase("aggiungi")) {
 					int id = Integer.parseInt(request.getParameter("productId"));
-					cart.addProduct(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
+					CartItem item =  new CartItem(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
+					if(cart.isInCart(item)) {
+						cart.incrementItem(item);
+					}else {
+						cart.addItem(item);
+					}
 				} else if (action.equalsIgnoreCase("rimuovi")) {
 					int id = Integer.parseInt(request.getParameter("productId"));
-					cart.deleteProduct(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
+					CartItem item = new CartItem(model.doRetrieveByKey(id, TABLE.valueOf(tableName)));
+					cart.deleteItem(item);
 				}
 			}	
 		} catch (SQLException e) {

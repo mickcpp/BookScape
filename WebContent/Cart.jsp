@@ -1,5 +1,5 @@
 <%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Libro, net.bookscape.model.Musica, net.bookscape.model.Gadget" %>
-<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Collection, net.bookscape.model.CartItem" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="net.bookscape.model.Cart" %>
 
@@ -38,22 +38,26 @@
  	Cart carrello = (Cart)request.getSession().getAttribute("cart");
 	if(carrello != null){
 		
-		Collection<Product> prodotti = carrello.getProducts();
+		Collection<CartItem> items = carrello.getItems();
 		
-	    if (prodotti != null && !prodotti.isEmpty()) {
+	    if (items != null && !items.isEmpty()) {
 	        // Mostra i prodotti presenti nel carrello
-	        Iterator<Product> iterator = prodotti.iterator();
+	        Iterator<CartItem> iterator = items.iterator();
 	        while (iterator.hasNext()) {
-	        	Product prodotto = iterator.next();
+	        	CartItem item = iterator.next();
 	%>
 	            <div class="product">
-	                <p>Nome Prodotto: <%= prodotto.getNome() %></p>
-	                <p>Prezzo: <%= prodotto.getPrezzo() %></p>
-	                <a href="ProductDetails?productId=<%=prodotto.getId()%>&type=<%=prodotto.getClass().getSimpleName().toLowerCase()%>"><img src="<%=prodotto.getImgURL()%>"></a>
+	                <p>Nome Prodotto: <%= item.getProduct().getNome() %></p>
+	                <p>Prezzo: <%= item.getProduct().getPrezzo() %></p>
+	                <p>Quantità: <%= item.getNumElementi()%></p>
+	                <hr>
+	                <p>Prezzo totale: <%=item.getTotalCost()%></p>
+	                <hr>
+	                <a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>"><img src="<%=item.getProduct().getImgURL()%>"></a>
 	                
 	                <form action="CartControl" method="post">
-	                    <input type="hidden" name="productId" value="<%= prodotto.getId() %>">
-	                    <input type="hidden" name="type" value="<%=prodotto.getClass().getSimpleName().toLowerCase()%>">
+	                    <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
+	                    <input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
 	                    <input type="hidden" name="action" value="rimuovi"> 
 	                    <input type="hidden" name="redirect" value="Cart.jsp">
 	                    <input type="submit" value="Rimuovi">
