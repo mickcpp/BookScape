@@ -35,10 +35,24 @@
         cursor: pointer;
         margin-right: 10px;
     }
+    #logout{
+		margin-left: 5%;
+		padding-bottom: 10px;
+		font-size: 18px;
+	}
 </style>
 </head>
 <body>
 	<%@ include file="template/navbar.html" %>
+	
+	<%
+		String id = (String) session.getAttribute("cliente");
+		if(id != null && !id.equals("")){
+			%>
+			<a id="logout" href="Logout">Logout</a>
+			<%
+		}
+	%>
 	
 	<% if(request.getAttribute("prodotto") == null){
 			response.sendRedirect("./");

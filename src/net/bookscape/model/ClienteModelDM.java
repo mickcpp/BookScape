@@ -1,11 +1,13 @@
 package net.bookscape.model;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
@@ -23,25 +25,33 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 					  + "(Email, Username, Password, Nome, Cognome, `Data Nascita`, Città,"
 					  + " Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV)"
 					  + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
+		
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(insertP);
 		  
 			preparedStatement.setString(1, cliente.getEmail());
 			preparedStatement.setString(2, cliente.getUsername());
-			preparedStatement.setString(3, cliente.getPassword());
+			preparedStatement.setString(3, toHash(cliente.getPassword()));
 			preparedStatement.setString(4, cliente.getNome());
 			preparedStatement.setString(5, cliente.getCognome());
 			preparedStatement.setTimestamp(6, new Timestamp(cliente.getDataNascita().getTimeInMillis()));
 			preparedStatement.setString(7, cliente.getCitta());
 		   	preparedStatement.setString(8, cliente.getVia());
 		   	preparedStatement.setString(9, cliente.getCAP());
-		   	preparedStatement.setString(10, cliente.getCarta().getNomeCarta());
-		   	preparedStatement.setString(11, cliente.getCarta().getNumeroCarta());
-		   	preparedStatement.setTimestamp(12, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));
-		   	preparedStatement.setInt(13, cliente.getCarta().getCvv());
-		   
+		   	
+		   	if(cliente.getCarta() != null) {
+			   	preparedStatement.setString(10, cliente.getCarta().getNomeCarta());
+			   	preparedStatement.setString(11, cliente.getCarta().getNumeroCarta());
+			   	preparedStatement.setTimestamp(12, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));
+			   	preparedStatement.setInt(13, cliente.getCarta().getCvv());
+		   	}else {
+		   		preparedStatement.setString(10, null);
+			   	preparedStatement.setString(11, null);
+			   	preparedStatement.setTimestamp(12, null);
+			   	preparedStatement.setNull(13, java.sql.Types.INTEGER);
+		   	}
+		   	
 		   	preparedStatement.executeUpdate();
 		   	connection.commit();
 		   	
@@ -58,19 +68,19 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 
 	@Override
-	public boolean doDelete(int id) throws SQLException {
+	public boolean doDelete(String email) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		int result = 0;
 	
 		
-		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE ID = ?";
+		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE Email = ?";
 		  
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(deleteSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setString(1, email);
 
 			result = preparedStatement.executeUpdate();
 		} finally {
@@ -86,18 +96,23 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 
 	@Override
-	public Cliente doRetrieveByKey(int id) throws SQLException {
+	public Cliente doRetrieveByKey(String id) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		String selectSQL = null;
 		Cliente cliente = null;
 		
-		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE ID = ?";
-		
+		if(id.contains("@")) {
+			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Email = ?";
+		}else {
+			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Username = ?";
+		}
+	
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setString(1, id);
 	
 			ResultSet rs = preparedStatement.executeQuery();
 			
@@ -112,9 +127,10 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 				cliente.setNome(rs.getString("Nome"));
 				cliente.setCognome(rs.getString("Cognome"));
 					
-				Timestamp timestamp = rs.getTimestamp("Data scadenza");
+				Date data = rs.getDate("Data nascita");
 				GregorianCalendar dataNascita = new GregorianCalendar();
-				dataNascita.setTimeInMillis(timestamp.getTime());
+				dataNascita.setTime(data);
+				
 				cliente.setDataNascita(dataNascita);
 					
 				cliente.setCitta(rs.getString("Città"));
@@ -124,14 +140,20 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 				//setto i dati dell'oggetto di tipo CartaPagamento
 				carta.setNomeCarta(rs.getString("Nome carta"));
 				carta.setNumeroCarta(rs.getString("Numero carta"));
-					
-			    timestamp = rs.getTimestamp("Data Scadenza");
-				GregorianCalendar scadenza = new GregorianCalendar();
-				scadenza.setTimeInMillis(timestamp.getTime());
-				carta.setDataScadenza(scadenza);
+			
+				GregorianCalendar dataScadenza;
+				data = rs.getDate("Data scadenza");
+				if(data != null) {
+					dataScadenza = new GregorianCalendar();
+					dataScadenza.setTime(data);
+				}else {
+					dataScadenza = null;
+				}
+				
+				carta.setDataScadenza(dataScadenza);
 				
 				carta.setCvv(rs.getInt("CVV"));
-				
+
 				//setto la carta di cliente
                 cliente.setCarta(carta);    
 			}
@@ -219,20 +241,25 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 
 	@Override
-	public Amministratore doRetrieveByKeyAdmin(int id) throws SQLException {
+	public Amministratore doRetrieveByKeyAdmin(String id) throws SQLException {
 		
 		TABLE_NAME = "amministratore";
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		String selectSQL = null;
 		Amministratore admin = null;
 		
-		String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE ID = ?";
+		if(id.contains("@")) {
+			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Email = ?";
+		}else {
+			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Username = ?";
+		}
 		
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setString(1, id);
 	
 			ResultSet rs = preparedStatement.executeQuery();
 			
@@ -257,5 +284,24 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		return admin;
 	}
 	
+	public String toHash(String pass){
+		
+		String hashString = null;
+		try{
+			java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
+		    byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
+		    hashString = "";
+		    for(int i=0; i<hash.length ; i++){
+		        hashString += Integer.toHexString(
+		                (hash[i] & 0xFF) | 0x100)
+		                .toLowerCase().substring(1,3);
+		    }
+		} catch (java.security.NoSuchAlgorithmException e){
+		    System.out.println(e);
+		}
+
+		return hashString;
+	}
+		
 }
 	

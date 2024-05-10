@@ -25,10 +25,23 @@
 		h1{
 			text-align: center;
 		}
+		#logout{
+				margin-left: 5%;
+				padding-bottom: 10px;
+				font-size: 18px;
+		}
 	</style>
 </head>
 <body>
 	<%@ include file="template/navbar.html" %>
+	<%
+		String id = (String) session.getAttribute("cliente");
+		if(id != null && !id.equals("")){
+			%>
+			<a id="logout" href="Logout">Logout</a>
+			<%
+		}
+	%>
 	
 	<h1>Prodotti nel Carrello</h1>
 	<div id="contenuto">
@@ -58,9 +71,11 @@
 	                <form action="CartControl" method="post">
 	                    <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
 	                    <input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
+	                    <br>
 	                    <input type="hidden" name="redirect" value="Cart.jsp">
-	                    <input type="number" name="quantity" value="<%=item.getNumElementi()%>" min="1">
+	                    <input type="number" name="quantity" value="<%=item.getNumElementi()%>" min="1" max="10">
    						<input type="submit" name="action" value="Aggiorna">
+   						<hr>
    						<input type="submit" name="action" value="Rimuovi">
 	                </form>
 	            </div>

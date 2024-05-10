@@ -20,12 +20,26 @@ pageEncoding="UTF-8"%>
 				border: 2px solid black;
 				border-collapse: separate;
 			}
+			#logout{
+				margin-left: 5%;
+				padding-bottom: 10px;
+				font-size: 18px;
+			}
 		</style>
 	</head>
 	<body>
 		<%@ include file="template/navbar.html" %>
 		
 		<%!String nomeTabella = "";%>
+		
+		<%
+			String id = (String) session.getAttribute("cliente");
+			if(id != null && !id.equals("")){
+				%>
+				<a id="logout" href="Logout">Logout</a>
+				<%
+			}
+		%>
 		
 		<div id="contenuto">
 		<%

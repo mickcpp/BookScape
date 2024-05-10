@@ -7,9 +7,9 @@ public class CartaPagamento {
 	private String nomeCarta;
 	private String numeroCarta;
 	private GregorianCalendar dataScadenza;
-	private int cvv;
+	private Integer cvv;
 	
-	public CartaPagamento(String nomeCarta, String numeroCarta, GregorianCalendar dataScadenza, int cvv) {
+	public CartaPagamento(String nomeCarta, String numeroCarta, GregorianCalendar dataScadenza, Integer cvv) {
 		this.nomeCarta = nomeCarta;
 		this.numeroCarta = numeroCarta;
 		this.setDataScadenza(dataScadenza);
@@ -44,11 +44,11 @@ public class CartaPagamento {
 		this.dataScadenza = dataScadenza;
 	}
 	
-	public int getCvv() {
+	public Integer getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(int cvv) {
+	public void setCvv(Integer cvv) {
 		this.cvv = cvv;
 	}
 	

@@ -38,13 +38,11 @@ nav #links ul a:hover {
 
 #zona_utente #searchbar{
 	width: 40%;
-	height: 100%;
 	flex-shrink: 10;
 }
 
 #zona_utente #icone{
 	width: 15%;
-	height: 100%;
 	display: flex;
 }
 
