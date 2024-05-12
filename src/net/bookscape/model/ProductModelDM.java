@@ -377,4 +377,21 @@ public class ProductModelDM implements ProductModel <Product> {
 		
 		return prodotti;
 	}
+	
+	public Product doRetrieveByKeyGeneral(int id) {
+		try {
+			Collection<Product> prodotti = doRetrieveAll(null);
+			for(Product p : prodotti) {
+				if(p.getId() == id) {
+					return p;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return null;
+	}
+	
 }

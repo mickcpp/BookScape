@@ -1,12 +1,12 @@
 package net.bookscape.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class Cart {
 	
-	private List<CartItem> items;
+	private Collection<CartItem> items;
 	
 	public Cart() {
 		items = new ArrayList<CartItem>();
@@ -37,8 +37,24 @@ public class Cart {
 	    }
 	}
 	
-	public List<CartItem> getItems() {
+	public Collection<CartItem> getItems() {
 		return items;
+	}
+	
+	public void setItems(Collection<CartItem> items) {
+		this.items = items;
+	}
+	
+	public CartItem getItem(int id) {
+		Iterator<CartItem> iterator = items.iterator();
+	    while (iterator.hasNext()) {
+	        CartItem i = iterator.next();
+	        if(i.getProduct().getId() == id) {
+	        	return i;
+	        }
+	    }
+		
+		return null;
 	}
 
 	public boolean isInCart(CartItem item) {

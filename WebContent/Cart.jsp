@@ -37,6 +37,11 @@
 	<%
 		String id = (String) session.getAttribute("cliente");
 		if(id != null && !id.equals("")){
+			Cart cart = (Cart)request.getSession().getAttribute("cart");
+			if(cart == null){
+				response.sendRedirect("CartControl?redirect=Cart.jsp");
+				return;
+			}
 			%>
 			<a id="logout" href="Logout">Logout</a>
 			<%

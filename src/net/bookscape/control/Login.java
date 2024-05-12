@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.bookscape.model.Cart;
+import net.bookscape.model.CartModelDM;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 
@@ -41,7 +43,7 @@ public class Login extends HttpServlet {
 		}
 		
 		try {
-			checkLogin =  checkLogin(id, password);
+			checkLogin =  checkLogin(id, password, request);
 		} catch (Exception e) {
 			error = e.getMessage();
 		}
@@ -56,7 +58,7 @@ public class Login extends HttpServlet {
 		}
 	}
 
-	private boolean checkLogin(String id, String password) throws Exception{
+	private boolean checkLogin(String id, String password, HttpServletRequest request) throws Exception{
 		
 		Cliente cliente = null;
 		cliente = model.doRetrieveByKey(id);
@@ -65,6 +67,13 @@ public class Login extends HttpServlet {
 			throw new Exception("username o password errati!");
 		} else {
 			if((id.equals(cliente.getEmail()) || id.equals(cliente.getUsername())) && model.toHash(password).equals(cliente.getPassword())) {
+				Cart cart = new Cart();
+				try {
+					cart.setItems(new CartModelDM().doRetrieveAll(null, cliente.getEmail()));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				request.getSession().setAttribute("cart", cart);
 				return true;
 			}else {
 				throw new Exception("username o password errati!");
