@@ -72,7 +72,7 @@ public class CartControl extends HttpServlet {
 					int id = Integer.parseInt(request.getParameter("productId"));
 					CartItem item =  new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					if(cart.isInCart(item)) {
-						if(item.getNumElementi() < 10) {
+						if(cart.getItem(id).getNumElementi() < 10) {
 							cart.incrementItem(item);
 							if(userId != null && !userId.equals("")) {
 								cartModel.doUpdate(cart.getItem(id), cliente.getEmail());
