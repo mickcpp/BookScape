@@ -73,6 +73,14 @@
 			<input type="hidden" name="redirect" value="ProductDetails?productId=${prodotto.getId()}&type=${prodotto.getClass().getSimpleName().toLowerCase()}">
 	        <button class="btn">Aggiungi al carrello</button>
 		</form>
+		<hr>
+		<form action="WishlistControl" method="post">
+			<input type="hidden" name="productId" value="${prodotto.getId()}">
+			<input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
+			<input type="hidden" name="action" value="aggiungi">
+			<input type="hidden" name="redirect" value="ProductView.jsp">
+			<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+		</form>
 	    </div>
 	</div>
 	

@@ -64,6 +64,14 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				<input type="hidden" name="redirect" value="index.jsp">
 				<input type="submit" value="Aggiungi al carrello">
 			</form>
+			<hr>
+			<form action="WishlistControl" method="post">
+				<input type="hidden" name="productId" value="<%= p.getId() %>">
+				<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
+				<input type="hidden" name="action" value="aggiungi">
+				<input type="hidden" name="redirect" value="index.jsp">
+				<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+			</form>
 		</div>
 		<%
 				}

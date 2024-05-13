@@ -83,6 +83,14 @@
    						<hr>
    						<input type="submit" name="action" value="Rimuovi">
 	                </form>
+	                <hr>
+					<form action="WishlistControl" method="post">
+						<input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
+						<input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
+						<input type="hidden" name="action" value="aggiungi">
+						<input type="hidden" name="redirect" value="Cart.jsp">
+						<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+					</form>
 	            </div>
 	<%	
 	        }

@@ -14,6 +14,8 @@ import net.bookscape.model.Cart;
 import net.bookscape.model.CartModelDM;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
+import net.bookscape.model.Wishlist;
+import net.bookscape.model.WishlistModelDM;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -68,12 +70,15 @@ public class Login extends HttpServlet {
 		} else {
 			if((id.equals(cliente.getEmail()) || id.equals(cliente.getUsername())) && model.toHash(password).equals(cliente.getPassword())) {
 				Cart cart = new Cart();
+				Wishlist wishlist =  new Wishlist();
 				try {
 					cart.setItems(new CartModelDM().doRetrieveAll(null, cliente.getEmail()));
+					wishlist.setItems(new WishlistModelDM().doRetrieveAll(null, cliente.getEmail()));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				request.getSession().setAttribute("cart", cart);
+				request.getSession().setAttribute("wishlist", wishlist);
 				return true;
 			}else {
 				throw new Exception("username o password errati!");

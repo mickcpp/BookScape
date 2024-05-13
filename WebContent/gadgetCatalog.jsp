@@ -63,6 +63,14 @@ pageEncoding="UTF-8"%>
 				<input type="hidden" name="redirect" value="gadgetCatalog.jsp">
 				<input type="submit" value="Aggiungi al carrello">
 			</form>
+			<hr>
+			<form action="WishlistControl" method="post">
+				<input type="hidden" name="productId" value="<%= g.getId() %>">
+				<input type="hidden" name="type" value="<%=g.getClass().getSimpleName().toLowerCase()%>">
+				<input type="hidden" name="action" value="aggiungi">
+				<input type="hidden" name="redirect" value="gadgetCatalog.jsp">
+				<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+			</form>
 		</div>
 		<%
 				}
