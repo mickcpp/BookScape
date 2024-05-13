@@ -78,7 +78,7 @@ public class ProductModelDM implements ProductModel <Product> {
 		   } 
 		   
 		   preparedStatement.executeUpdate();
-		   connection.commit();
+//		   connection.commit();
 		   
 	   } finally {
 		   try {

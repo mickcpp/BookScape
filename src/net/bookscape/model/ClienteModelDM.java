@@ -53,7 +53,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		   	}
 		   	
 		   	preparedStatement.executeUpdate();
-		   	connection.commit();
+//		   	connection.commit();
 		   	
 	   } finally {
 		   try {

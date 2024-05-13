@@ -41,7 +41,7 @@ public class CartModelDM implements CartModel<CartItem>{
 			preparedStatement.setInt(3, item.getNumElementi());
 			
 		   	preparedStatement.executeUpdate();
-		   	connection.commit();
+//		   	connection.commit();
 		   	
 	   } finally {
 		   try {
@@ -85,7 +85,6 @@ public class CartModelDM implements CartModel<CartItem>{
 			preparedStatement.setString(2, clienteId);
 
 			result = preparedStatement.executeUpdate();
-			connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -183,8 +182,6 @@ public class CartModelDM implements CartModel<CartItem>{
 			preparedStatement.setInt(3, item.getProduct().getId());
 			
 		   	result = preparedStatement.executeUpdate();
-		   	connection.commit();
-		   	
 	   } finally {
 		   try {
 			   if (preparedStatement != null) {
