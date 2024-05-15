@@ -202,9 +202,10 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 				cliente.setNome(rs.getString("Nome"));
 				cliente.setCognome(rs.getString("Cognome"));
 					
-				Timestamp timestamp = rs.getTimestamp("Data scadenza");
+				Date data = rs.getDate("Data nascita");
 				GregorianCalendar dataNascita = new GregorianCalendar();
-				dataNascita.setTimeInMillis(timestamp.getTime());
+				dataNascita.setTime(data);
+				
 				cliente.setDataNascita(dataNascita);
 					
 				cliente.setCitta(rs.getString("Città"));
@@ -215,10 +216,16 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 				carta.setNomeCarta(rs.getString("Nome carta"));
 				carta.setNumeroCarta(rs.getString("Numero carta"));
 					
-			    timestamp = rs.getTimestamp("Data Scadenza");
-				GregorianCalendar scadenza = new GregorianCalendar();
-				scadenza.setTimeInMillis(timestamp.getTime());
-				carta.setDataScadenza(scadenza);
+				GregorianCalendar dataScadenza;
+				data = rs.getDate("Data scadenza");
+				if(data != null) {
+					dataScadenza = new GregorianCalendar();
+					dataScadenza.setTime(data);
+				}else {
+					dataScadenza = null;
+				}
+				
+				carta.setDataScadenza(dataScadenza);
 				
 				carta.setCvv(rs.getInt("CVV"));
 				
@@ -242,35 +249,60 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 
 	@Override
-	public Amministratore doRetrieveByKeyAdmin(String id) throws SQLException {
-		
-		TABLE_NAME = "amministratore";
+	public boolean isAdmin(String id) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		String selectSQL = null;
-		Amministratore admin = null;
 		
-		if(id.contains("@")) {
-			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Email = ?";
-		}else {
-			selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE Username = ?";
-		}
+		selectSQL = "SELECT COUNT(*) FROM amministratore WHERE Email = ?";
 		
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, id);
-	
+
 			ResultSet rs = preparedStatement.executeQuery();
 			
+			if(rs.next()) {
+				int count = rs.getInt(1); // Ottieni il valore della prima colonna
+				return count > 0; // Se count è maggiore di 0, ritorna true, altrimenti false
+			} else {
+				return false;
+			}
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+	}
+
+	public Collection<String> doRetrieveAllAdmin(String order) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		Collection<String> listaAdmin = new LinkedList<String>();
+		
+		String selectSQL = "SELECT * FROM amministratore ";
+
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;
+		}
+			
+		try {
+			connection = DriverManagerCP.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
 			while (rs.next()) {
-				admin = new Amministratore();
-				admin.setEmail(rs.getString("Email"));
-				admin.setUsername(rs.getString("Username"));
-				admin.setPassword(rs.getString("Password"));
-				admin.setNome(rs.getString("Nome"));
-				admin.setCognome(rs.getString("Cognome"));  
+				String adminEmail = rs.getString("Email");
+                listaAdmin.add(adminEmail);
 			}
 			
 		} finally {
@@ -282,7 +314,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			}
 		}
 		
-		return admin;
+		return listaAdmin;
 	}
 	
 	public String toHash(String pass){

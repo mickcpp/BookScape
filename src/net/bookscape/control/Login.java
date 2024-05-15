@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.bookscape.model.Amministratore;
 import net.bookscape.model.Cart;
 import net.bookscape.model.CartModelDM;
 import net.bookscape.model.Cliente;
@@ -79,8 +80,12 @@ public class Login extends HttpServlet {
 				}
 				request.getSession().setAttribute("cart", cart);
 				request.getSession().setAttribute("wishlist", wishlist);
+				
+				if(model.isAdmin(cliente.getEmail())) {
+					request.getSession().setAttribute("adminRole", true);
+				}
 				return true;
-			}else {
+			} else {
 				throw new Exception("username o password errati!");
 			}
 		}

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>BookScape</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
+  	<display-name>BookScape</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
   
   	<error-page>
 	    <error-code>404</error-code>
@@ -18,11 +18,21 @@
 	<error-page>
 	    <exception-type>javax.servlet.ServletException</exception-type>
 	    <location>/common/error.jsp</location>
-	    
   	</error-page>
-	  <error-page>
-	    <exception-type>java.lang.Exception</exception-type>
-	    <location>/common/error.jsp</location>
-	  </error-page>
+	 
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+    	<location>/common/error.jsp</location>
+	</error-page>
   
+	<filter>
+    	<filter-name>AdminFilter</filter-name>
+    	<filter-class>net.bookscape.control.AdminFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+    	<filter-name>AdminFilter</filter-name>
+    	<url-pattern>/admin/*</url-pattern>
+	</filter-mapping> 
+	 
 </web-app>

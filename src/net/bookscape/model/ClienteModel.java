@@ -13,6 +13,6 @@ public interface ClienteModel<T>{
 
     public Collection<T> doRetrieveAll(String order) throws SQLException;
    
-    public Amministratore doRetrieveByKeyAdmin(String id) throws SQLException;
+    public boolean isAdmin(String id) throws SQLException;
     
 }
