@@ -1,8 +1,4 @@
-<%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Libro, net.bookscape.model.Musica, net.bookscape.model.Gadget" %>
-<%@ page import="java.util.Collection, net.bookscape.model.CartItem" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="net.bookscape.model.Cart" %>
-
+<%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Cart, net.bookscape.model.CartItem" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,103 +6,122 @@
     <link rel="stylesheet" href="css/style.css">
     
     <style>
-		div#contenuto{
-			display: flex;
-			flex-direction: row;
-			flex-wrap: wrap;
-			justify-content: center;
-		}
-		div.product{
-			padding: 50px;
-			width: 20%;
-			border: 2px solid black;
-			border-collapse: separate;
-			}
-		h1{
-			text-align: center;
-		}
-		#logout{
-				margin-left: 5%;
-				padding-bottom: 10px;
-				font-size: 18px;
-		}
-	</style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #cart-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .product-info {
+            margin-top: 10px;
+        }
+        .product-info p {
+            margin: 5px 0;
+        }
+        .checkout-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-	<%@ include file="template/navbar.html" %>
-	<%
-		String id = (String) session.getAttribute("cliente");
-		if(id != null && !id.equals("")){
-			Cart cart = (Cart)request.getSession().getAttribute("cart");
-			if(cart == null){
-				response.sendRedirect("CartControl?redirect=Cart.jsp");
-				return;
-			}
-			%>
-			<a id="logout" href="Logout">Logout</a>
-			<%
-		}
-	%>
-	
-	<h1>Prodotti nel Carrello</h1>
-	<div id="contenuto">
-
-<%
-    // Ottieni l'oggetto "cart" dalla richiesta
- 	Cart carrello = (Cart)request.getSession().getAttribute("cart");
-	if(carrello != null){
-		
-		Collection<CartItem> items = carrello.getItems();
-		
-	    if (items != null && !items.isEmpty()) {
-	        // Mostra i prodotti presenti nel carrello
-	        Iterator<CartItem> iterator = items.iterator();
-	        while (iterator.hasNext()) {
-	        	CartItem item = iterator.next();
-	%>
-	            <div class="product">
-	                <p>Nome Prodotto: <%= item.getProduct().getNome() %></p>
-	                <p>Prezzo: <%= item.getProduct().getPrezzo() %></p>
-	                <p>Quantità: <%= item.getNumElementi()%></p>
-	                <hr>
-	                <p>Prezzo totale: <%=item.getTotalCost()%></p>
-	                <hr>
-	                <a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>"><img src="<%=item.getProduct().getImgURL()%>"></a>
-	                
-	                <form action="CartControl" method="post">
-	                    <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
-	                    <input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
-	                    <br>
-	                    <input type="hidden" name="redirect" value="Cart.jsp">
-	                    <input type="number" name="quantity" value="<%=item.getNumElementi()%>" min="1" max="10">
-   						<input type="submit" name="action" value="Aggiorna">
-   						<hr>
-   						<input type="submit" name="action" value="Rimuovi">
-	                </form>
-	                <hr>
-					<form action="WishlistControl" method="post">
-						<input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
-						<input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
-						<input type="hidden" name="action" value="aggiungi">
-						<input type="hidden" name="redirect" value="Cart.jsp">
-						<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
-					</form>
-	            </div>
-	<%	
-	        }
- 
-	    } else {
-%>
-	        <p>Il carrello è vuoto.</p>
-<%
-	    }
-	}else{ 
-%>
-   	 	<p>Il carrello è vuoto.</p>
-<%
-	}
-%>
-	</div>
-	<%@ include file="template/footer.html" %>
+   <%@ include file="template/navbar.html" %>
+   
+    <div class="container">
+        <h1>Prodotti nel Carrello</h1>
+        <div id="cart-items">
+            <% 
+                Cart carrello = (Cart)request.getSession().getAttribute("cart");
+                if(carrello != null){
+                    Collection<CartItem> items = carrello.getItems();
+                    if (items != null && !items.isEmpty()) {
+                        for (CartItem item : items) {
+            %>
+                            <div class="product">
+                                <img src="<%= item.getProduct().getImgURL() %>" alt="<%= item.getProduct().getNome() %>">
+                                <div class="product-info">
+                                    <p><strong>Nome Prodotto:</strong> <%= item.getProduct().getNome() %></p>
+                                    <p><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
+                                    <p><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
+                                    <hr>
+                                    <p><strong>Prezzo totale:</strong> <%= item.getTotalCost() %></p>
+                                    <hr>
+                                    <form action="CartControl" method="post">
+                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
+                                        <input type="hidden" name="type" value="<%= item.getProduct().getClass().getSimpleName().toLowerCase() %>">
+                                        <input type="hidden" name="redirect" value="Cart.jsp">
+                                        <input type="number" name="quantity" value="<%= item.getNumElementi() %>" min="1" max="10">
+                                        <input type="submit" name="action" value="Aggiorna">
+                                        <input type="submit" name="action" value="Rimuovi">
+                                    </form>
+                                </div>
+                            </div>
+            <%  
+                        }
+                    } else { 
+            %>
+                        <p class="empty-cart-msg">Il carrello è vuoto.</p>
+            <%          }
+                } else { 
+            %>
+                    <p class="empty-cart-msg">Il carrello è vuoto.</p>
+            <%  } %>
+        </div>
+        
+   		<%
+   			if(carrello != null && !carrello.getItems().isEmpty()){
+   				%>
+   				<button class="checkout-btn" onclick="location.href='OrderControl?action=checkout';">Procedi all'acquisto</button>
+   				<%
+   			}
+   		%>
+    </div>
+    
+    <%@ include file="template/footer.html" %>
 </body>
 </html>
