@@ -36,7 +36,7 @@ public class ProductModelDM implements ProductModel <Product> {
 	   }
 	   
 	   String insertP = "INSERT INTO " + TABLE_NAME + " "
-					  + "(Nome, Descrizone, Prezzo, Quantità, Immagine " + s;
+					  + "(Nome, Descrizione, Prezzo, Quantità, Immagine, " + s;
 
 	   try {
 		   connection = DriverManagerCP.getConnection();
@@ -394,4 +394,82 @@ public class ProductModelDM implements ProductModel <Product> {
 		return null;
 	}
 	
+	public synchronized void doUpdate(Product updatedProduct) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    String tableName = "";
+
+	    // Determine the table name based on the type of product
+	    if (updatedProduct instanceof Libro) {
+	        tableName = "libro";
+	    } else if (updatedProduct instanceof Musica) {
+	        tableName = "musica";
+	    } else if (updatedProduct instanceof Gadget) {
+	        tableName = "gadget";
+	    }
+
+	    // Construct the SQL update statement
+	    String updateQuery = "UPDATE " + tableName + " SET Nome = ?, Descrizione = ?, Prezzo = ?, Quantità = ?, Immagine = ?";
+	    
+	    // Append additional columns based on the type of product
+	    if (updatedProduct instanceof Libro) {
+	        updateQuery += ", Genere = ?, Formato = ?, Anno = ?, ISBN = ?, Autore = ?, `Numero pagine` = ?";
+	    } else if (updatedProduct instanceof Musica) {
+	        updateQuery += ", Genere = ?, Formato = ?, Anno = ?, `Numero tracce` = ?, Artista = ?";
+	    } else if (updatedProduct instanceof Gadget) {
+	        updateQuery += ", Materiale = ?, Lunghezza = ?, Larghezza = ?, Altezza = ?";
+	    }
+
+	    updateQuery += " WHERE ID = ?";
+
+	    try {
+	        connection = DriverManagerCP.getConnection();
+	        preparedStatement = connection.prepareStatement(updateQuery);
+
+	        // Set the parameters for the update statement
+	        preparedStatement.setString(1, updatedProduct.getNome());
+	        preparedStatement.setString(2, updatedProduct.getDescrizione());
+	        preparedStatement.setDouble(3, updatedProduct.getPrezzo());
+	        preparedStatement.setInt(4, updatedProduct.getQuantita());
+	        preparedStatement.setString(5, updatedProduct.getImgURL());
+
+	        int parameterIndex = 6; // Starting index for additional parameters
+
+	        if (updatedProduct instanceof Libro) {
+	            Libro libro = (Libro) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, libro.getGenere());
+	            preparedStatement.setString(parameterIndex++, libro.getFormato().name());
+	            preparedStatement.setInt(parameterIndex++, libro.getAnno());
+	            preparedStatement.setString(parameterIndex++, libro.getISBN());
+	            preparedStatement.setString(parameterIndex++, libro.getAutore());
+	            preparedStatement.setInt(parameterIndex, libro.getNumeroPagine());
+	        } else if (updatedProduct instanceof Musica) {
+	            Musica musica = (Musica) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, musica.getGenere());
+	            preparedStatement.setString(parameterIndex++, musica.getFormato().name());
+	            preparedStatement.setInt(parameterIndex++, musica.getAnno());
+	            preparedStatement.setInt(parameterIndex++, musica.getNumeroTracce());
+	            preparedStatement.setString(parameterIndex, musica.getArtista());
+	        } else if (updatedProduct instanceof Gadget) {
+	            Gadget gadget = (Gadget) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, gadget.getMateriale());
+	            preparedStatement.setDouble(parameterIndex++, gadget.getLunghezza());
+	            preparedStatement.setDouble(parameterIndex++, gadget.getLarghezza());
+	            preparedStatement.setDouble(parameterIndex, gadget.getAltezza());
+	        }
+
+	        preparedStatement.setInt(parameterIndex + 1, updatedProduct.getId());
+
+	        preparedStatement.executeUpdate();
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            DriverManagerCP.releaseConnection(connection);
+	        }
+	    }
+	}
+
 }

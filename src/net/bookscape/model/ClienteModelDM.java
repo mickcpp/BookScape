@@ -280,6 +280,38 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			}
 		}
 	}
+	
+	public boolean changeRole(String id, String role) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String selectSQL = null;
+		int result = 0;
+	
+		if(role.equals("admin")) {
+			selectSQL = "INSERT INTO amministratore (Email) VALUES (?)";
+		} else if(role.equals("cliente")){
+			selectSQL = "DELETE FROM amministratore WHERE Email = ?";
+		}
+		
+		try {
+			connection = DriverManagerCP.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, id);
+
+			result = preparedStatement.executeUpdate();
+				
+			return result != 0 ? true : false;
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+	}
 
 	public Collection<String> doRetrieveAllAdmin(String order) throws SQLException {
 		

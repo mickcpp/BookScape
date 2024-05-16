@@ -52,7 +52,6 @@ public class Login extends HttpServlet {
 		}
 		
 		if(checkLogin) {
-			request.getSession().setAttribute("cliente", id);
 			response.sendRedirect("./");
 		}else {
 			request.setAttribute("error", error);
@@ -78,6 +77,7 @@ public class Login extends HttpServlet {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				request.getSession().setAttribute("cliente", cliente.getEmail());
 				request.getSession().setAttribute("cart", cart);
 				request.getSession().setAttribute("wishlist", wishlist);
 				

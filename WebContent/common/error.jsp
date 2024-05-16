@@ -6,6 +6,8 @@
 		<meta charset="UTF-8">
 		<title>Servlet error</title>
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/navStyle.css">
+		<link rel="stylesheet" href="css/footerStyle.css">
 		<style>
 			p{
 				padding-left: 20px;
