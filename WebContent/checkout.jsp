@@ -81,7 +81,7 @@
         }
 
         .payment-form {
-            display: none;
+            display: none; /* Ensure the form is initially hidden */
             margin-top: 20px;
         }
 
@@ -93,27 +93,38 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
+        button:disabled {
+            background-color: #cccccc; /* Colore di sfondo più chiaro */
+            color: #666666; /* Colore del testo più chiaro */
+            border: 1px solid #999999; /* Bordo più chiaro */
+            cursor: not-allowed; /* Cambio del cursore */
+        }
     </style>
     <script>
         function togglePaymentForm() {
             var form = document.getElementById('payment-form');
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
         }
     </script>
 </head>
 <body>
     <%@ include file="template/navbar.html" %>
-    
+
     <%
-		Ordine ordine = (Ordine) request.getAttribute("ordine");
-		Cliente cliente = (Cliente) request.getAttribute("cliente");
-		
-		if(ordine == null || cliente == null){
-			response.sendRedirect("./");
-			return;
-		}
-	%>
-	
+        Ordine ordine = (Ordine) request.getAttribute("ordine");
+        Cliente cliente = (Cliente) request.getAttribute("cliente");
+
+        if(ordine == null || cliente == null){
+            response.sendRedirect("./");
+            return;
+        }
+    %>
+
     <div class="checkout-container">
         <div class="checkout-summary">
             <h2>Riepilogo dell'ordine</h2>
@@ -147,7 +158,7 @@
                 </tfoot>
             </table>
         </div>
-       
+
         <div class="checkout-customer-info">
             <h2>Informazioni Cliente</h2>
             <p>Nome: ${cliente.nome}</p>
@@ -155,7 +166,7 @@
             <p>Email: ${cliente.email}</p>
             <p>Indirizzo di Spedizione: ${cliente.via}, ${cliente.citta}, ${cliente.CAP}</p>
         </div>
-        
+
         <div class="checkout-payment-info">
             <h2>Metodo di Pagamento</h2>
             <% 
@@ -169,21 +180,33 @@
             <% } %>
 
             <div id="payment-form" class="payment-form">
-                <form action="UserControl?action=updatePagamento" method="post">
+                <form action="UpdateUser" method="post">
+                    <input type="hidden" name="action" value="updatePagamento">
+                    <input type="hidden" name="redirect" value="checkout.jsp">
                     <input type="text" name="nomeCarta" placeholder="Nome sulla Carta" required>
                     <input type="text" name="numeroCarta" placeholder="Numero della Carta" required>
-                    <input type="text" name="dataScadenza" placeholder="Data di Scadenza (MM/YY)" required>
+                    <input type="month" name="dataScadenza" required>
                     <input type="text" name="cvv" placeholder="CVV" required>
                     <button type="submit">Salva Metodo di Pagamento</button>
                 </form>
             </div>
         </div>
-        
-        <form style="text-align: center" action="confermaAcquisto.jsp" method="post">
-            <button type="submit">Conferma Acquisto</button>
+
+        <form style="text-align: center" action="OrderControl" method="post">
+            <%
+                if (carta == null || carta.getNomeCarta() == null || carta.getNumeroCarta() == null || carta.getDataScadenza() == null){
+            %>
+                <button type="submit" disabled>Conferma Acquisto</button>
+            <% 
+                } else {
+            %>
+                <button type="submit">Conferma Acquisto</button>
+            <%
+                }
+            %>
         </form>
     </div>
-    
+
     <%@ include file="template/footer.html" %>
 </body>
 </html>

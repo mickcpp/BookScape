@@ -349,6 +349,56 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		return listaAdmin;
 	}
 	
+	@Override
+	public void doUpdate(Cliente cliente) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    
+	    String updateSQL = "UPDATE " + TABLE_NAME + " SET "
+	                     + "Username = ?, Password = ?, Nome = ?, Cognome = ?, `Data Nascita` = ?, "
+	                     + "Città = ?, Via = ?, CAP = ?, `Nome carta` = ?, `Numero carta` = ?, `Data scadenza` = ?, CVV = ? "
+	                     + "WHERE Email = ?";
+	    
+	    try {
+	        connection = DriverManagerCP.getConnection();
+	        preparedStatement = connection.prepareStatement(updateSQL);
+	        
+	        preparedStatement.setString(1, cliente.getUsername());
+	        preparedStatement.setString(2, cliente.getPassword());
+	        preparedStatement.setString(3, cliente.getNome());
+	        preparedStatement.setString(4, cliente.getCognome());
+	        preparedStatement.setTimestamp(5, new Timestamp(cliente.getDataNascita().getTimeInMillis()));
+	        preparedStatement.setString(6, cliente.getCitta());
+	        preparedStatement.setString(7, cliente.getVia());
+	        preparedStatement.setString(8, cliente.getCAP());
+	        
+	        if(cliente.getCarta() != null) {
+	            preparedStatement.setString(9, cliente.getCarta().getNomeCarta());
+	            preparedStatement.setString(10, cliente.getCarta().getNumeroCarta());
+	            preparedStatement.setTimestamp(11, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));
+	            preparedStatement.setInt(12, cliente.getCarta().getCvv());
+	        } else {
+	            preparedStatement.setString(9, null);
+	            preparedStatement.setString(10, null);
+	            preparedStatement.setTimestamp(11, null);
+	            preparedStatement.setNull(12, java.sql.Types.INTEGER);
+	        }
+	        
+	        preparedStatement.setString(13, cliente.getEmail());
+	        
+	        preparedStatement.executeUpdate();
+	        
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            DriverManagerCP.releaseConnection(connection);
+	        }
+	    }
+	}
+
 	public String toHash(String pass){
 		
 		String hashString = null;

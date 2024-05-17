@@ -2,6 +2,11 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,8 +40,7 @@ public class UpdateUser extends HttpServlet {
 		model = new ClienteModelDM();
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String clienteId = (String) request.getSession().getAttribute("cliente");
 		if(clienteId == null || clienteId.equals("")) {
 			response.sendRedirect("Login");
@@ -47,17 +51,43 @@ public class UpdateUser extends HttpServlet {
 	
 		try {
 			if(action.equals("updatePagamento")) {
+				Cliente cliente = model.doRetrieveByKey(clienteId);
 				CartaPagamento carta = new CartaPagamento();
-//				model.doUpdate(clienteId);
+				carta.setNomeCarta(request.getParameter("nomeCarta"));
+				carta.setNumeroCarta(request.getParameter("numeroCarta"));
+		        
+		        // Analizza il valore "YYYY-MM"
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		        GregorianCalendar dataScadenza = new GregorianCalendar();
+		        
+		        try {
+		            // Analizza la stringa in una data (senza giorno)
+		            Date date = dateFormat.parse(request.getParameter("dataScadenza"));
+		            // Ottieni il calendario e impostalo con la data analizzata
+		            dataScadenza.setTime(date);
+		        } catch (ParseException e) {
+		            e.printStackTrace();
+		        }
+		        
+		        // Imposta dataScadenza come necessario, ad esempio:
+		        carta.setDataScadenza(dataScadenza);
+				carta.setCvv(Integer.parseInt(request.getParameter("cvv")));
+				
+				cliente.setCarta(carta);
+				
+				model.doUpdate(cliente);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String redirect = (String)request.getParameter("redirect");
+		
+		if(redirect != null && !redirect.equals("")) {
+			response.sendRedirect(redirect);
+		}else {
+			response.sendRedirect("./");
+		}
 	}
 
 }
