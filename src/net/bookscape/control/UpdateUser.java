@@ -62,6 +62,10 @@ public class UpdateUser extends HttpServlet {
 		            Date date = dateFormat.parse(request.getParameter("dataScadenza"));
 		            // Imposta la data analizzata in dataScadenza
 		            dataScadenza.setTime(date);
+		            // Incrementa il mese di 1 perché GregorianCalendar usa i mesi indicizzati a partire da 0
+	                int month = dataScadenza.get(GregorianCalendar.MONTH);
+	                dataScadenza.set(GregorianCalendar.MONTH, month + 1);
+
 		        } catch (ParseException e) {
 		            e.printStackTrace();
 		        }

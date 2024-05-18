@@ -2,8 +2,9 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -44,14 +45,13 @@ public class Registration extends HttpServlet {
 		cliente.setNome(request.getParameter("nome"));
 		cliente.setCognome(request.getParameter("cognome"));
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate data = LocalDate.parse(request.getParameter("dataNascita"), formatter);
+		
+		Date dataNascitaDate = Date.from(data.atStartOfDay().toInstant(ZoneOffset.UTC));
+		
 		GregorianCalendar dataNascita = new GregorianCalendar();
-		Date date = null;
-		try {
-			date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dataNascita"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		dataNascita.setTime(date);
+		dataNascita.setTime(dataNascitaDate);
 		
 		cliente.setDataNascita(dataNascita);
 		
