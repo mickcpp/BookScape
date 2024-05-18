@@ -2,7 +2,6 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.bookscape.model.CartaPagamento;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 
@@ -64,7 +62,7 @@ public class Registration extends HttpServlet {
 	
 		try {
 			model.doSave(cliente);
-			request.getSession().setAttribute("cliente", request.getParameter("username"));
+			request.getSession().setAttribute("cliente", request.getParameter("email"));
 			response.sendRedirect("./");
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Cart, net.bookscape.model.CartItem" %>
+<%@ page import="java.util.Collection, net.bookscape.model.Cart, net.bookscape.model.CartItem" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -110,7 +110,8 @@
                 } else { 
             %>
                     <p class="empty-cart-msg">Il carrello è vuoto.</p>
-            <%  } %>
+            <%  }  %>
+            
         </div>
         
    		<%

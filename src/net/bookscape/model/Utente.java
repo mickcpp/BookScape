@@ -3,7 +3,7 @@ package net.bookscape.model;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-public abstract class Utente implements Serializable{
+public abstract class Utente implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

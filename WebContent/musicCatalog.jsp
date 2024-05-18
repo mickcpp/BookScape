@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Musica" language="java" contentType="text/html; charset=UTF-8"
+<%@ page import="java.util.Collection, net.bookscape.model.Musica" language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -43,40 +43,43 @@ pageEncoding="UTF-8"%>
 		
 		<div id="contenuto">
 		<%
+			@SuppressWarnings("unchecked")
 			Collection<Musica> musics = (Collection<Musica>)request.getAttribute("musics");
+		
 			if(musics == null || musics.isEmpty()) {
 				response.sendRedirect("MusicCatalog");
 				return;
 			} else {
 				for(Musica m: musics) {
 		%>
-		<div class="product">
-			<h2><%= m.getNome() %></h2>
-			<p><%= m.getDescrizione() %></p>
-			<p>Prezzo: <%= m.getPrezzo() %> EUR</p>
-			<p>Quantità disponibile: <%= m.getQuantita() %></p>
-			<a href="ProductDetails?productId=<%=m.getId()%>&type=<%=m.getClass().getSimpleName().toLowerCase()%>"><img src="<%=m.getImgURL()%>"></a>
-			<form action="CartControl" method="post">
-				<input type="hidden" name="productId" value="<%=m.getId() %>">
-				<input type="hidden" name="type" value="<%=m.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="musicCatalog.jsp">
-				<input type="submit" value="Aggiungi al carrello">
-			</form>
-			<hr>
-			<form action="WishlistControl" method="post">
-				<input type="hidden" name="productId" value="<%= m.getId() %>">
-				<input type="hidden" name="type" value="<%=m.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="musicCatalog.jsp">
-				<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
-			</form>
-		</div>
+					<div class="product">
+						<h2><%= m.getNome() %></h2>
+						<p><%= m.getDescrizione() %></p>
+						<p>Prezzo: <%= m.getPrezzo() %> EUR</p>
+						<p>Quantità disponibile: <%= m.getQuantita() %></p>
+						<a href="ProductDetails?productId=<%=m.getId()%>&type=<%=m.getClass().getSimpleName().toLowerCase()%>"><img src="<%=m.getImgURL()%>"></a>
+						<form action="CartControl" method="post">
+							<input type="hidden" name="productId" value="<%=m.getId() %>">
+							<input type="hidden" name="type" value="<%=m.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="musicCatalog.jsp">
+							<input type="submit" value="Aggiungi al carrello">
+						</form>
+						<hr>
+						<form action="WishlistControl" method="post">
+							<input type="hidden" name="productId" value="<%= m.getId() %>">
+							<input type="hidden" name="type" value="<%=m.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="musicCatalog.jsp">
+							<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+						</form>
+					</div>
 		<%
 				}
 			}
 		%>
 		</div>
+		
 		<%@ include file="template/footer.html" %>
 	</body>
 </html>

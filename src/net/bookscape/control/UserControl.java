@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.bookscape.model.Amministratore;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.Product;
@@ -38,10 +37,11 @@ public class UserControl extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String user = (String) request.getSession().getAttribute("cliente");
 		if(user == null || user.equals("")) {
 			response.sendRedirect("Login");
-		}else {
+		} else {
 			try {
 				Cliente cliente = (Cliente) clienteModel.doRetrieveByKey(user);
 				request.setAttribute("cliente", cliente);
@@ -56,16 +56,18 @@ public class UserControl extends HttpServlet {
 					request.setAttribute("clienti", clienti);
 					request.setAttribute("prodotti", prodotti);
 					request.setAttribute("listaAdmin", listaAdmin);
+					
 					RequestDispatcher dispatcher = request.getRequestDispatcher("admin/dashboard.jsp");
 					dispatcher.forward(request, response);
+					
 				} else {
 					RequestDispatcher dispatcher = request.getRequestDispatcher("clientePersonal.jsp");
 					dispatcher.forward(request, response);
 				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
-			
+			}	
 		}
 	}
 
@@ -73,5 +75,5 @@ public class UserControl extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
+	
 }

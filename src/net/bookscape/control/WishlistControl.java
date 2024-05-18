@@ -13,10 +13,6 @@ import net.bookscape.model.ProductModelDM;
 import net.bookscape.model.TABLE;
 import net.bookscape.model.WishlistModelDM;
 import net.bookscape.model.Wishlist;
-import net.bookscape.model.CartItem;
-import net.bookscape.model.CartModelDM;
-import net.bookscape.model.Cliente;
-import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.Product;
 
 /**
@@ -29,12 +25,10 @@ public class WishlistControl extends HttpServlet {
 	
 	private static ProductModelDM productModel;
 	private static WishlistModelDM wishlistModel;
-	private static ClienteModelDM clienteModel;
 	
 	static {
 		productModel = new ProductModelDM();
 		wishlistModel =  new WishlistModelDM();
-		clienteModel = new ClienteModelDM();
 	}
 	
     public WishlistControl() {
@@ -45,14 +39,13 @@ public class WishlistControl extends HttpServlet {
 		
         String userId = (String) request.getSession().getAttribute("cliente");
         Wishlist wishlist = (Wishlist)request.getSession().getAttribute("wishlist");
-        Cliente cliente = null;
+        int id = 0;
         
         if(userId != null && !userId.equals("")) {
         	try {
-				cliente = clienteModel.doRetrieveByKey(userId);
 				if(wishlist == null) {
 	        		wishlist = new Wishlist();
-	        		wishlist.setItems(wishlistModel.doRetrieveAll(null, cliente.getEmail()));
+	        		wishlist.setItems(wishlistModel.doRetrieveAll(null, userId));
 	        		request.getSession().setAttribute("wishlist", wishlist);
 	        	}
 			} catch (SQLException e) {
@@ -63,28 +56,33 @@ public class WishlistControl extends HttpServlet {
         	return;
         }    
 		
+        if(request.getParameter("productId") != null){
+        	id = Integer.parseInt(request.getParameter("productId"));
+        }
+        
 		String action = request.getParameter("action");
 		String tableName = request.getParameter("type");
 		
 		try {
 			if (action != null) {
-				if (action.equalsIgnoreCase("aggiungi")) {
-					int id = Integer.parseInt(request.getParameter("productId"));
+				
+				if (action.equalsIgnoreCase("Aggiungi")) {
 					Product product = productModel.doRetrieveByKey(id, TABLE.valueOf(tableName));
 					if(wishlist.isInWishlist(product)) {
 						System.out.println("Prodotto già presente nella wishlist!");
 					} else {
 						wishlist.addItem(product);
-						wishlistModel.doSave(product, cliente.getEmail());
+						wishlistModel.doSave(product, userId);
 					}
+					
 				} else if (action.equalsIgnoreCase("Rimuovi")) {
-					int id = Integer.parseInt(request.getParameter("productId"));
 					Product product = productModel.doRetrieveByKey(id, TABLE.valueOf(tableName));
 					wishlist.deleteItem(product);
 					
-					wishlistModel.doDelete(id, cliente.getEmail());
+					wishlistModel.doDelete(id, userId);
 				}
 			}	
+			
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
@@ -103,5 +101,5 @@ public class WishlistControl extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
+	
 }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 
 /**
@@ -37,21 +36,26 @@ public class UserManagement extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
+		
 		String action = request.getParameter("action");
 		String clienteId = request.getParameter("id");
 		String role = request.getParameter("role");
 		String clienteInSession = (String) request.getSession().getAttribute("cliente");
 		
 		try {
+			
 			if(action.equalsIgnoreCase("rimuovi")) {
 				try {
 					model.doDelete(clienteId);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				
 			} else if(action.equalsIgnoreCase("changeRole")) {
+				
 				if(role.equalsIgnoreCase("admin")) model.changeRole(clienteId, "admin");
 				else if(role.equalsIgnoreCase("cliente")) model.changeRole(clienteId, "cliente");
+				
 				if(clienteInSession.equalsIgnoreCase(clienteId)) {
 					response.sendRedirect("Logout");
 					return;

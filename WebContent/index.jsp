@@ -44,40 +44,43 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 		
 		<div id="contenuto">
 		<%
+			@SuppressWarnings("unchecked")
 			Collection<Product> prodotti = (Collection<Product>) request.getAttribute("prodotti");
+		
 			if(prodotti == null || prodotti.isEmpty()) {
 				response.sendRedirect("HomePage");
 				return;
 			} else {
 				for(Product p: prodotti) {
 		%>
-		<div class="product">
-			<h2><%= p.getNome() %></h2>
-			<p><%= p.getDescrizione() %></p>
-			<p>Prezzo: <%= p.getPrezzo() %> EUR</p>
-			<p>Quantità disponibile: <%= p.getQuantita() %></p>
-			<a href="ProductDetails?productId=<%=p.getId()%>&type=<%=p.getClass().getSimpleName().toLowerCase()%>"><img src="<%=p.getImgURL()%>"></a>
-			<form action="CartControl" method="post">
-				<input type="hidden" name="productId" value="<%= p.getId() %>">
-				<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="index.jsp">
-				<input type="submit" value="Aggiungi al carrello">
-			</form>
-			<hr>
-			<form action="WishlistControl" method="post">
-				<input type="hidden" name="productId" value="<%= p.getId() %>">
-				<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="index.jsp">
-				<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
-			</form>
-		</div>
+					<div class="product">
+						<h2><%= p.getNome() %></h2>
+						<p><%= p.getDescrizione() %></p>
+						<p>Prezzo: <%= p.getPrezzo() %> EUR</p>
+						<p>Quantità disponibile: <%= p.getQuantita() %></p>
+						<a href="ProductDetails?productId=<%=p.getId()%>&type=<%=p.getClass().getSimpleName().toLowerCase()%>"><img src="<%=p.getImgURL()%>"></a>
+						<form action="CartControl" method="post">
+							<input type="hidden" name="productId" value="<%= p.getId() %>">
+							<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="index.jsp">
+							<input type="submit" value="Aggiungi al carrello">
+						</form>
+						<hr>
+						<form action="WishlistControl" method="post">
+							<input type="hidden" name="productId" value="<%= p.getId() %>">
+							<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="index.jsp">
+							<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+						</form>
+					</div>
 		<%
 				}
 			}
 		%>
 		</div>
+		
 		<%@ include file="template/footer.html" %>
 	</body>
 </html>

@@ -149,10 +149,7 @@ public class WishlistModelDM implements CartModel<Product>{
 
 	@Override
 	public boolean doUpdate(Product item, String userId) throws SQLException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 }
-
-

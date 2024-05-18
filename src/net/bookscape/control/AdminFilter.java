@@ -13,10 +13,10 @@ import javax.servlet.http.HttpSession;
 
 public class AdminFilter implements Filter {
 
-	public void destroy() {
-	}
+	public void destroy() {}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		
 		HttpServletRequest hrequest = (HttpServletRequest) request;
 		HttpServletResponse hresponse = (HttpServletResponse) response;
 		
@@ -39,7 +39,6 @@ public class AdminFilter implements Filter {
 		}
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+	public void init(FilterConfig fConfig) throws ServletException {}
 	
 }

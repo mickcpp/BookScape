@@ -25,8 +25,14 @@ public class GadgetCatalog extends HttpServlet {
         super();
     }
     
+	private static ProductModelDM model;
+	
+	static {
+		model = new ProductModelDM();
+	}
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductModelDM model = new ProductModelDM();
+		
 		Collection<Gadget> gadgets = null;
 		
 		try {

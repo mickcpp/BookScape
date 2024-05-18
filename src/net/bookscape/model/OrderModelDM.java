@@ -3,10 +3,10 @@ package net.bookscape.model;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class OrderModelDM implements OrderModel{
+public class OrderModelDM implements OrderModel <Ordine> {
 
 	@Override
-	public void doSave(Object order) throws SQLException {
+	public void doSave(Ordine order) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -18,9 +18,9 @@ public class OrderModelDM implements OrderModel{
 	}
 
 	@Override
-	public Collection doRetrieveAll(String order) throws SQLException {
+	public Collection<Ordine> doRetrieveAll(String order) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 }

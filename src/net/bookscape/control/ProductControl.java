@@ -36,6 +36,7 @@ public class ProductControl extends HttpServlet {
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		Boolean checkAdmin = (Boolean) request.getSession().getAttribute("adminRole");
 		if(checkAdmin == null || !checkAdmin.booleanValue()) {
 			response.sendRedirect("./");
@@ -50,19 +51,21 @@ public class ProductControl extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		try {
+	
 			if(action.equalsIgnoreCase("rimuovi")) {
 				model.doDelete(productId);
+				
 			} else if(action.equalsIgnoreCase("viewEdit")) {
 				
-				Product p = model.doRetrieveByKeyGeneral(productId);
-				request.setAttribute("prodotto", p);
-				request.setAttribute("action", "modifica");
+				Product prodotto = model.doRetrieveByKeyGeneral(productId);
+				request.setAttribute("prodotto", prodotto);
+				request.setAttribute("action", "edit");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("admin/editProduct.jsp");
 				dispatcher.forward(request, response);
 				return;
 				
 			} else if(action.equalsIgnoreCase("modifica")) {
-				Product p = model.doRetrieveByKeyGeneral(productId);
+				Product p = null;
 				String type = request.getParameter("type");
 				
 				Libro l = new Libro();

@@ -14,8 +14,6 @@ import net.bookscape.model.TABLE;
 import net.bookscape.model.Cart;
 import net.bookscape.model.CartItem;
 import net.bookscape.model.CartModelDM;
-import net.bookscape.model.Cliente;
-import net.bookscape.model.ClienteModelDM;
 
 /**
  * Servlet implementation class ProductDetails
@@ -27,12 +25,10 @@ public class CartControl extends HttpServlet {
 	
 	private static ProductModelDM productModel;
 	private static CartModelDM cartModel;
-	private static ClienteModelDM clienteModel;
 	
 	static {
 		productModel = new ProductModelDM();
 		cartModel =  new CartModelDM();
-		clienteModel = new ClienteModelDM();
 	}
 	
     public CartControl() {
@@ -43,14 +39,17 @@ public class CartControl extends HttpServlet {
 		
         String userId = (String) request.getSession().getAttribute("cliente");
         Cart cart = (Cart)request.getSession().getAttribute("cart");
-        Cliente cliente = null;
+        int id = 0;
         
+        if(request.getParameter("productId") != null){
+        	id = Integer.parseInt(request.getParameter("productId"));
+        }
+      
         if(userId != null && !userId.equals("")) {
         	try {
-				cliente = clienteModel.doRetrieveByKey(userId);
 				if(cart == null) {
 	        		cart = new Cart();
-	        		cart.setItems(cartModel.doRetrieveAll(null, cliente.getEmail()));
+	        		cart.setItems(cartModel.doRetrieveAll(null, userId));
 	        		request.getSession().setAttribute("cart", cart);
 	        	}
 			} catch (SQLException e) {
@@ -68,14 +67,14 @@ public class CartControl extends HttpServlet {
 		
 		try {
 			if (action != null) {
-				if (action.equalsIgnoreCase("aggiungi")) {
-					int id = Integer.parseInt(request.getParameter("productId"));
+				
+				if (action.equalsIgnoreCase("Aggiungi")) {
 					CartItem item =  new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					if(cart.isInCart(item)) {
 						if(cart.getItem(id).getNumElementi() < 10) {
 							cart.incrementItem(item);
 							if(userId != null && !userId.equals("")) {
-								cartModel.doUpdate(cart.getItem(id), cliente.getEmail());
+								cartModel.doUpdate(cart.getItem(id), userId);
 							}
 						} else {
 							System.out.println("Raggiunto numero limite del prodotto nel carrello!");
@@ -83,27 +82,25 @@ public class CartControl extends HttpServlet {
 					} else {
 						cart.addItem(item);
 						if(userId != null && !userId.equals("")) {
-							cartModel.doSave(cart.getItem(id), cliente.getEmail());
+							cartModel.doSave(cart.getItem(id), userId);
 						}
 					}
 					
 				} else if (action.equalsIgnoreCase("Rimuovi")) {
-					int id = Integer.parseInt(request.getParameter("productId"));
 					CartItem item = new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					cart.deleteItem(item);
 					
 					if(userId != null && !userId.equals("")) {
-						cartModel.doDelete(id, cliente.getEmail());
+						cartModel.doDelete(id, userId);
 					}
 					
 				} else if (action.equalsIgnoreCase("Aggiorna")) {
-					int id = Integer.parseInt(request.getParameter("productId"));
 					CartItem item = new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					int num = Integer.parseInt(request.getParameter("quantity"));
 					cart.updateItemNum(item, num);
 					
 					if(userId != null && !userId.equals("")) {
-						cartModel.doUpdate(cart.getItem(id), cliente.getEmail());
+						cartModel.doUpdate(cart.getItem(id), userId);
 					}
 				}
 			}	

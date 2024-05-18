@@ -43,40 +43,43 @@ pageEncoding="UTF-8"%>
 		
 		<div id="contenuto">
 		<%
+			@SuppressWarnings("unchecked")
 			Collection<Libro> libri = (Collection<Libro>)request.getAttribute("libri");
+		
 			if(libri == null || libri.isEmpty()) {
 				response.sendRedirect("BookCatalog");
 				return;
 			} else {
 				for(Libro l: libri) {
 		%>
-		<div class="product">
-			<h2><%= l.getNome() %></h2>
-			<p><%= l.getDescrizione() %></p>
-			<p>Prezzo: <%= l.getPrezzo() %> EUR</p>
-			<p>Quantità disponibile: <%= l.getQuantita() %></p>
-			<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img src="<%=l.getImgURL()%>"></a>
-			<form action="CartControl" method="post">
-				<input type="hidden" name="productId" value="<%= l.getId() %>">
-				<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="bookCatalog.jsp">
-				<input type="submit" value="Aggiungi al carrello">
-			</form>
-			<hr>
-			<form action="WishlistControl" method="post">
-				<input type="hidden" name="productId" value="<%= l.getId() %>">
-				<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
-				<input type="hidden" name="action" value="aggiungi">
-				<input type="hidden" name="redirect" value="bookCatalog.jsp">
-				<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
-			</form>
-		</div>
+					<div class="product">
+						<h2><%= l.getNome() %></h2>
+						<p><%= l.getDescrizione() %></p>
+						<p>Prezzo: <%= l.getPrezzo() %> EUR</p>
+						<p>Quantità disponibile: <%= l.getQuantita() %></p>
+						<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img src="<%=l.getImgURL()%>"></a>
+						<form action="CartControl" method="post">
+							<input type="hidden" name="productId" value="<%= l.getId() %>">
+							<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="bookCatalog.jsp">
+							<input type="submit" value="Aggiungi al carrello">
+						</form>
+						<hr>
+						<form action="WishlistControl" method="post">
+							<input type="hidden" name="productId" value="<%= l.getId() %>">
+							<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
+							<input type="hidden" name="action" value="aggiungi">
+							<input type="hidden" name="redirect" value="bookCatalog.jsp">
+							<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
+						</form>
+					</div>
 		<%
 				}
 			}
 		%>
 		</div>
+		
 		<%@ include file="template/footer.html" %>
 	</body>
 </html>

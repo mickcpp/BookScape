@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.bookscape.model.Cart;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
 import net.bookscape.model.TABLE;

@@ -14,4 +14,5 @@ public interface ProductModel <T> {
 	public Collection<T> doRetrieveAll(String order) throws SQLException;
 	
 	public void doUpdate(T product) throws SQLException;
+	
 }

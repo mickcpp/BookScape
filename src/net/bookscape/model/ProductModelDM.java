@@ -398,8 +398,7 @@ public class ProductModelDM implements ProductModel <Product> {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    String tableName = "";
-
-	    // Determine the table name based on the type of product
+	    
 	    if (updatedProduct instanceof Libro) {
 	        tableName = "libro";
 	    } else if (updatedProduct instanceof Musica) {
@@ -408,10 +407,8 @@ public class ProductModelDM implements ProductModel <Product> {
 	        tableName = "gadget";
 	    }
 
-	    // Construct the SQL update statement
 	    String updateQuery = "UPDATE " + tableName + " SET Nome = ?, Descrizione = ?, Prezzo = ?, Quantità = ?, Immagine = ?";
 	    
-	    // Append additional columns based on the type of product
 	    if (updatedProduct instanceof Libro) {
 	        updateQuery += ", Genere = ?, Formato = ?, Anno = ?, ISBN = ?, Autore = ?, `Numero pagine` = ?";
 	    } else if (updatedProduct instanceof Musica) {
@@ -426,14 +423,13 @@ public class ProductModelDM implements ProductModel <Product> {
 	        connection = DriverManagerCP.getConnection();
 	        preparedStatement = connection.prepareStatement(updateQuery);
 
-	        // Set the parameters for the update statement
 	        preparedStatement.setString(1, updatedProduct.getNome());
 	        preparedStatement.setString(2, updatedProduct.getDescrizione());
 	        preparedStatement.setDouble(3, updatedProduct.getPrezzo());
 	        preparedStatement.setInt(4, updatedProduct.getQuantita());
 	        preparedStatement.setString(5, updatedProduct.getImgURL());
 
-	        int parameterIndex = 6; // Starting index for additional parameters
+	        int parameterIndex = 6;
 
 	        if (updatedProduct instanceof Libro) {
 	            Libro libro = (Libro) updatedProduct;
@@ -461,6 +457,7 @@ public class ProductModelDM implements ProductModel <Product> {
 	        preparedStatement.setInt(parameterIndex + 1, updatedProduct.getId());
 
 	        preparedStatement.executeUpdate();
+	        
 	    } finally {
 	        try {
 	            if (preparedStatement != null) {
@@ -471,5 +468,5 @@ public class ProductModelDM implements ProductModel <Product> {
 	        }
 	    }
 	}
-
+	
 }

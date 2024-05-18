@@ -1,6 +1,4 @@
-<%@page import="net.bookscape.model.Amministratore"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Collection, net.bookscape.model.Cliente, net.bookscape.model.Product" %>
 <%@ page import="net.bookscape.model.Libro" %>
 <%@ page import="net.bookscape.model.Musica" %>
@@ -122,9 +120,13 @@
 </head>
 <body>
     <%
-        // Assuming "clienti" attribute contains a collection of Cliente objects
+    	@SuppressWarnings("unchecked")
         Collection<Cliente> clienti = (Collection<Cliente>) request.getAttribute("clienti");
+    
+    	@SuppressWarnings("unchecked")
         Collection<String> listaAdmin = (Collection<String>) request.getAttribute("listaAdmin");
+    	
+    	@SuppressWarnings("unchecked")
         Collection<Product> prodotti = (Collection<Product>) request.getAttribute("prodotti");
         
         if(clienti == null || listaAdmin == null || prodotti == null){
@@ -241,15 +243,10 @@
                                     } else {
                                 %>
                                     <button onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=admin'">Promuovi ad admin</button>
-                                <%
-                                    }
-                                    
-                                    if(!admin){
-                                %>
                                     <button onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=rimuovi'">Elimina</button>
                                 <%
-                                    }
-                                %>
+                                   	}
+                            	%>
                             </td>
                         </tr>
                         <%

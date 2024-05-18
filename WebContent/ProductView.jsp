@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +118,7 @@
                 <h2>${prodotto.nome}</h2>
                 <p>${prodotto.descrizione}</p>
                 <p>Prezzo: ${prodotto.prezzo}</p>
-                <p>Disponibilit‡: ${prodotto.quantita}</p>
+                <p>Disponibilit√†: ${prodotto.quantita}</p>
                 <form action="CartControl" method="post">
                     <input type="hidden" name="productId" value="${prodotto.getId()}">
                     <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">

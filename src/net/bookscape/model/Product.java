@@ -77,6 +77,6 @@ public abstract class Product implements Serializable {
     @Override
 	public String toString() {
 		return nome + " (" + ID + "), " + descrizione + " " + prezzo + ". " + quantita;
-	}
-   
+    }
+    
 }
