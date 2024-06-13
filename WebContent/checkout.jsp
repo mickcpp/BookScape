@@ -179,7 +179,7 @@
 	            
 		                <p>Carta: <%= carta.getNomeCarta() %> (**** **** **** <%= carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4) %>)</p>
 		                <p>Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
-	           			<p><b>Modifica Metodo di Pagamento: </b><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
+	           			<p><b>Modifica o Elimina Metodo di Pagamento: </b><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
 	            <% } %>
 	
 	            <div id="payment-form" class="payment-form">

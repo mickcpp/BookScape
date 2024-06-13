@@ -78,6 +78,12 @@ public class UpdateUser extends HttpServlet {
 				cliente.setCarta(carta);
 				
 				model.doUpdate(cliente);
+				
+			} else if(action.equals("eliminaPagamento")) {
+			
+				cliente.setCarta(null);
+				
+				model.doUpdate(cliente);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

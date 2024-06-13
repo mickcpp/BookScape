@@ -26,7 +26,7 @@
             text-align: center;
             color: #333;
             margin-bottom: 20px;
-            font-size: 2.3em;
+            font-size: 2.2em;
         }
         h2 {
             margin-top: 30px;
@@ -93,6 +93,11 @@
         .payment-form button:hover {
             background-color: #218838;
         }
+        
+      	button#eliminaCarta{
+     		cursor: pointer;
+      	}
+      	
     </style>
 </head>
 <body>
@@ -139,6 +144,11 @@
                 <p>Carta: <%= carta.getNomeCarta() %> (**** **** **** <%= carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4) %>)</p>
                 <p>Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
                 <p><b>Modifica Metodo di Pagamento: </b><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
+                <form action="UpdateUser" method="POST">
+                	<input type="hidden" name="action" value="eliminaPagamento">
+                    <input type="hidden" name="redirect" value="UserControl">
+                    <button id="eliminaCarta" type="submit">Elimina</button>
+                </form>
             <% } %>
             <div id="payment-form" class="payment-form">
                 <form action="UpdateUser" method="post">
