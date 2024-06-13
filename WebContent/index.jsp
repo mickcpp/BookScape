@@ -14,6 +14,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				flex-wrap: wrap;
 				justify-content: center;
 			}
+			
 			div.product{
 				padding: 20px;
 				width: 20%;

@@ -45,11 +45,12 @@ public class UpdateUser extends HttpServlet {
 		}
 		
 		String action = request.getParameter("action");
+		Cliente cliente = null;
 	
 		try {
+			cliente = model.doRetrieveByKey(clienteId);
 			
 			if(action.equals("updatePagamento")) {
-				Cliente cliente = model.doRetrieveByKey(clienteId);
 				CartaPagamento carta = new CartaPagamento();
 				carta.setNomeCarta(request.getParameter("nomeCarta"));
 				carta.setNumeroCarta(request.getParameter("numeroCarta"));
@@ -85,6 +86,10 @@ public class UpdateUser extends HttpServlet {
 		String redirect = (String)request.getParameter("redirect");
 		
 		if(redirect != null && !redirect.equals("")) {
+			if(redirect.equals("checkout.jsp")) {
+				response.sendRedirect("OrderControl?action=checkout");
+				return;
+			}
 			response.sendRedirect(redirect);
 		}else {
 			response.sendRedirect("./");

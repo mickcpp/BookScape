@@ -67,11 +67,27 @@
             bottom: 0;
             width: 100%;
         }
+       	#logout{
+      		position: absolute;
+			margin-left: 5%;
+			top: 138px;
+			padding-bottom: 10px;
+			font-size: 18px;
+		}
     </style>
 </head>
 <body>
    <%@ include file="template/navbar.html" %>
    
+ 	<%
+		String id = (String) session.getAttribute("cliente");
+		if(id != null && !id.equals("")){
+			%>
+			<a id="logout" href="Logout">Logout</a>
+			<%
+		}
+	%>
+		
     <div class="container">
         <h1>Prodotti nel Carrello</h1>
         <div id="cart-items">
