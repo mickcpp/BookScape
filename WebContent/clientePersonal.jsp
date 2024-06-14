@@ -26,10 +26,10 @@
             text-align: center;
             color: #333;
             margin-bottom: 20px;
-            font-size: 2.2em;
+            font-size: 2em;
         }
         h2 {
-            margin-top: 30px;
+            margin-top: 28px;
             color: #333;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
@@ -58,56 +58,84 @@
             margin-bottom: 15px;
             font-size: 1.5em;
         }
+        
         .checkout-payment-info p {
             color: #555;
         }
-        .checkout-payment-info a {
+      	
+      	a{
             color: #4caf50;
             text-decoration: none;
         }
-        .checkout-payment-info a:hover {
+        
+       	a:hover {
             text-decoration: underline;
         }
         .payment-form {
             display: none;
             margin-top: 20px;
         }
-        .payment-form input {
-            display: block;
-            width: 100%;
+        .payment-form input, #edit-form input{
+            display: inline-block;
+            width: calc(100% - 150px);
             padding: 12px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
+            box-sizing: border-box;  
         }
-        .payment-form button {
+        
+        .payment-form label,
+        #edit-form label,
+        #edit-form-address label {
+            display: inline-block;
+            width: 130px; /* Larghezza fissa per le label */
+            text-align: right; /* Allinea il testo delle label a destra */
+            margin-right: 10px; /* Aggiunge un margine a destra per separare la label dal campo input */
+        }
+        
+        #edit-form-address input{
+            display: inline-block;
+            width: calc(100% - 150px);
+            padding: 6.7px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+            box-sizing: border-box;  
+        }
+        
+      	button {
             background-color: #28a745;
             color: #ffffff;
-            padding: 10px 20px;
+            padding: 7px 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
         }
-        .payment-form button:hover {
+       
+        button:hover {
             background-color: #218838;
         }
-        
-      	button#eliminaCarta{
-     		cursor: pointer;
-      	}
-      	
+         
+       	hr {
+		    border: none; /* Rimuove il bordo predefinito */
+		    height: 1px; /* Altezza desiderata dell'hr */
+		    background-color: rgba(0, 0, 0, 0.1); /* Colore con trasparenza */
+		}
     </style>
 </head>
 <body>
     <%@ include file="template/navbar.html" %>
     <%
         String id = (String) session.getAttribute("cliente");
-        if(id != null && !id.equals("")){
-            %>
-            <a id="logout" href="Logout">Logout</a>
-            <%
+        if(id != null && !id.equals("")) {
+    %>
+    <a id="logout" href="Logout">Logout</a>
+    <%
         }
     %>
     <%
@@ -126,12 +154,42 @@
             <p><strong>Nome:</strong> ${cliente.getNome()}</p>
             <p><strong>Cognome:</strong> ${cliente.getCognome()}</p>
             <p><strong>Data di Nascita:</strong> ${cliente.getDataNascita().time}</p>
+ 			<hr>
+            <p><b>Modifica Dati Personali: </b><a href="javascript:void(0);" onclick="toggleEditFormData()">Modifica</a></p>
+        </div>
+        <div id="edit-form" style="display: none;">
+            <h2>Modifica Dati Personali</h2>
+            <form action="UpdateUser" method="post">
+                <input type="hidden" name="action" value="updateDatiPersonali">
+                <input type="hidden" name="redirect" value="UserControl">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="${cliente.getEmail()}" required><br>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="${cliente.getUsername()}" required><br>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="${cliente.getNome()}" required><br>
+                <label for="cognome">Cognome:</label>
+                <input type="text" id="cognome" name="cognome" value="${cliente.getCognome()}" required><br>
+                <label for="dataNascita">Data di Nascita:</label>
+                <input type="date" id="dataNascita" name="dataNascita" value="${cliente.getDataNascita()}" required><br>
+                <button type="submit">Salva Modifiche</button>
+            </form>
         </div>
         <div>
             <h2>Indirizzo</h2>
             <p><strong>Città:</strong> ${cliente.getCitta()}</p>
             <p><strong>Via:</strong> ${cliente.getVia()}</p>
             <p><strong>CAP:</strong> ${cliente.getCAP()}</p>
+            <hr>
+            <p><b>Modifica Indirizzo: </b><a href="javascript:void(0);" onclick="toggleEditAddress()">Modifica</a></p>
+        </div>
+         
+        <div id="edit-form-address" style="display: none">
+            <h2>Modifica Indirizzo</h2>
+            <form action="UpdateUser" method="post">
+                <input type="text" name="indirizzo" placeholder="Via, Città, CAP" required>
+                <button type="submit">Salva</button>
+            </form>
         </div>
         <div class="checkout-payment-info">
             <h2>Metodo di Pagamento</h2>
@@ -145,7 +203,7 @@
                 <p>Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
                 <p><b>Modifica Metodo di Pagamento: </b><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
                 <form action="UpdateUser" method="POST">
-                	<input type="hidden" name="action" value="eliminaPagamento">
+                    <input type="hidden" name="action" value="eliminaPagamento">
                     <input type="hidden" name="redirect" value="UserControl">
                     <button id="eliminaCarta" type="submit">Elimina</button>
                 </form>
@@ -165,6 +223,14 @@
     </div>
     <%@ include file="template/footer.html" %>
     <script>
+        function toggleEditFormData() {
+            const form = document.getElementById('edit-form');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+        function toggleEditAddress() {
+            const form = document.getElementById('edit-form-address');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
         function togglePaymentForm() {
             const form = document.getElementById('payment-form');
             form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
