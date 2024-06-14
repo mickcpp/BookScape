@@ -27,6 +27,18 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				padding-bottom: 10px;
 				font-size: 18px;
 			}
+			.product img#productImage{
+	            width: 50%;
+	            border-radius: 8px;
+	        }
+		     .product {
+	            margin: 20px;
+	            padding: 20px;
+	            background-color: #fff;
+	            border-radius: 8px;
+	            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	            width: 200px;
+	        }
 		</style>
 	</head>
 	<body>
@@ -59,7 +71,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 						<p><%= p.getDescrizione() %></p>
 						<p>Prezzo: <%= p.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= p.getQuantita() %></p>
-						<a href="ProductDetails?productId=<%=p.getId()%>&type=<%=p.getClass().getSimpleName().toLowerCase()%>"><img src="<%=p.getImgURL()%>"></a>
+						<a href="ProductDetails?productId=<%=p.getId()%>&type=<%=p.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=p.getImgURL()%>"></a>
 						<form action="CartControl" method="post">
 							<input type="hidden" name="productId" value="<%= p.getId() %>">
 							<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">

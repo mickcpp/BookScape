@@ -25,6 +25,12 @@ pageEncoding="UTF-8"%>
 				padding-bottom: 10px;
 				font-size: 18px;
 			}
+			
+			.product img#productImage{
+	            width: 50%;
+	            border-radius: 8px;
+	        }
+		
 		</style>
 	</head>
 	<body>
@@ -57,7 +63,7 @@ pageEncoding="UTF-8"%>
 						<p><%= m.getDescrizione() %></p>
 						<p>Prezzo: <%= m.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= m.getQuantita() %></p>
-						<a href="ProductDetails?productId=<%=m.getId()%>&type=<%=m.getClass().getSimpleName().toLowerCase()%>"><img src="<%=m.getImgURL()%>"></a>
+						<a href="ProductDetails?productId=<%=m.getId()%>&type=<%=m.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=m.getImgURL()%>"></a>
 						<form action="CartControl" method="post">
 							<input type="hidden" name="productId" value="<%=m.getId() %>">
 							<input type="hidden" name="type" value="<%=m.getClass().getSimpleName().toLowerCase()%>">

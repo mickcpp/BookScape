@@ -25,6 +25,18 @@ pageEncoding="UTF-8"%>
 				padding-bottom: 10px;
 				font-size: 18px;
 			}
+			.product img#productImage{
+	            width: 50%;
+	            border-radius: 8px;
+	        }
+		     .product {
+	            margin: 20px;
+	            padding: 20px;
+	            background-color: #fff;
+	            border-radius: 8px;
+	            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	            width: 200px;
+	        }
 		</style>
 	</head>
 	<body>
@@ -57,7 +69,7 @@ pageEncoding="UTF-8"%>
 						<p><%= l.getDescrizione() %></p>
 						<p>Prezzo: <%= l.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= l.getQuantita() %></p>
-						<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img src="<%=l.getImgURL()%>"></a>
+						<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=l.getImgURL()%>"></a>
 						<form action="CartControl" method="post">
 							<input type="hidden" name="productId" value="<%= l.getId() %>">
 							<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
