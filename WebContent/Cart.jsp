@@ -19,6 +19,9 @@
         h1 {
             text-align: center;
             color: #333;
+            margin-top: 0;
+            margin-bottom: 7px;
+            font-size: 1.9em;
         }
         #cart-items {
             display: flex;
@@ -27,11 +30,11 @@
         }
         .product {
             margin: 20px;
-            padding: 20px;
+            padding: 10px 10px 0px 10px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 200px;
+            width: 170px;
         }
         .product img {
             width: 100%;
@@ -99,8 +102,7 @@
                         for (CartItem item : items) {
             %>
                             <div class="product">
-                                <img src="<%= item.getProduct().getImgURL() %>" alt="<%= item.getProduct().getNome() %>">
-                                <div class="product-info">
+									<a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>"><img src="<%=item.getProduct().getImgURL()%>"></a>                                <div class="product-info">
                                     <p><strong>Nome Prodotto:</strong> <%= item.getProduct().getNome() %></p>
                                     <p><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
                                     <p><strong>Quantità:</strong> <%= item.getNumElementi() %></p>

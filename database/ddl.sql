@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS bookscape;
 create schema bookscape;
 use bookscape;
 

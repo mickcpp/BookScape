@@ -14,30 +14,29 @@ pageEncoding="UTF-8"%>
 				flex-wrap: wrap;
 				justify-content: center;
 			}
+			
 			div.product{
 				padding: 20px;
 				width: 20%;
-				border: 2px solid black;
+				border: 1px solid black;
 				border-collapse: separate;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				margin: 15px;
+				border-radius: 8px;
+				box-sizing: border-box;
 			}
+			
 			#logout{
 				margin-left: 5%;
-				padding-bottom: 10px;
 				font-size: 18px;
 			}
 			
 			.product img#productImage{
-	            width: 50%;
+	            width: 180px;
+	            height: 180px;
 	            border-radius: 8px;
 	        }
-		     .product {
-	            margin: 20px;
-	            padding: 20px;
-	            background-color: #fff;
-	            border-radius: 8px;
-	            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	            width: 200px;
-	        }
+	       
 		</style>
 	</head>
 	<body>
