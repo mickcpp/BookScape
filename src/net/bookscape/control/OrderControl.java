@@ -55,9 +55,34 @@ public class OrderControl extends HttpServlet {
 				ordine.setPrezzoTotale();
 				ordine.setDataConsegna();
 				ordine.setDataOrdine();
-				ordine.setCitta(cliente.getCitta());
-				ordine.setVia(cliente.getVia());
-				ordine.setCAP(cliente.getCAP());
+				
+				if(request.getParameter("option") != null && request.getParameter("option").equals("updateSpedizione")) {
+					String nome = request.getParameter("nomeSpedizione");
+					String cognome = request.getParameter("cognomeSpedizione");
+					
+					ordine.setNomeConsegna(nome);
+					ordine.setCognomeConsegna(cognome);
+					
+					String input = request.getParameter("indirizzoSpedizione");
+					String[] parts = input.split(",\\s*");
+					 
+			        if (parts.length == 3) {
+			            String via = parts[0];
+			            String citta = parts[1];
+			            String cap = parts[2];
+
+			            ordine.setVia(via);
+			            ordine.setCitta(citta);
+			            ordine.setCAP(cap);
+			            
+			            request.setAttribute("fatturazioneCheckbox", false);
+			        }
+				} else {
+					ordine.setCitta(cliente.getCitta());
+					ordine.setVia(cliente.getVia());
+					ordine.setCAP(cliente.getCAP());
+				}
+				
 				ordine.setCliente(cliente.getEmail());
 				
 				request.setAttribute("ordine", ordine);
