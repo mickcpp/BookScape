@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -84,6 +85,45 @@ public class UpdateUser extends HttpServlet {
 				cliente.setCarta(null);
 				
 				model.doUpdate(cliente);
+				
+			} else if(action.equals("updateDatiPersonali")) {
+				cliente.setUsername(request.getParameter("username"));
+				cliente.setNome(request.getParameter("nome"));
+				cliente.setCognome(request.getParameter("cognome"));
+				
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		        GregorianCalendar dataNascita = new GregorianCalendar();
+		        
+		        try {
+		            // Analizza la stringa in una data
+		            Date date = dateFormat.parse(request.getParameter("dataNascita"));
+		            dataNascita.setTime(date);
+		        } catch (ParseException e) {
+		            e.printStackTrace();
+		        }
+		        dataNascita.set(Calendar.HOUR_OF_DAY, 12);
+		        dataNascita.set(Calendar.MINUTE, 0);
+		        dataNascita.set(Calendar.SECOND, 0);
+		        dataNascita.set(Calendar.MILLISECOND, 0);
+				cliente.setDataNascita(dataNascita);
+				
+				model.doUpdate(cliente);
+			} else if(action.equals("updateIndirizzo")) {
+				String input = request.getParameter("indirizzo");
+				String[] parts = input.split(",\\s*");
+				 
+		        if (parts.length == 3) {
+		            String via = parts[0];
+		            String citta = parts[1];
+		            String cap = parts[2];
+		            
+		            cliente.setVia(via);
+		            cliente.setCitta(citta);
+		            cliente.setCAP(cap);
+		            
+		            model.doUpdate(cliente);
+		        }
+		        
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

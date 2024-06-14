@@ -372,7 +372,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	        preparedStatement.setString(7, cliente.getVia());
 	        preparedStatement.setString(8, cliente.getCAP());
 	        
-	        if(cliente.getCarta() != null) {
+	        if(cliente.getCarta() != null && cliente.getCarta().getNomeCarta() != null && cliente.getCarta().getNumeroCarta() != null && cliente.getCarta().getDataScadenza() != null && cliente.getCarta().getCvv() != null) {
 	            preparedStatement.setString(9, cliente.getCarta().getNomeCarta());
 	            preparedStatement.setString(10, cliente.getCarta().getNumeroCarta());
 	            preparedStatement.setTimestamp(11, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));

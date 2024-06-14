@@ -84,9 +84,7 @@ VALUES
 -- Popolare la tabella 'cliente'
 INSERT INTO cliente (Email, Username, `Password`, Nome, Cognome, `Data nascita`, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV)
 VALUES 
-('cliente1@gmail.com', 'cliente1', SHA('password1',512), 'Mario', 'Rossi', '1990-05-15', 'Roma', 'Via Roma 1', '10100', 'Mario Rossi', '123456789012', '2025-12-31', '123'),
-('admin1@gmail.com', 'admin1', SHA('password1',512), 'Mario', 'Rossi', '1990-05-15', 'Roma', 'Via Roma 1', '10100', 'Mario Rossi', '123456789012', '2025-12-31', '123');
-
+('admin1@gmail.com', 'admin', SHA('bookscape',512), 'Admin', 'Admin', '1990-05-15', 'Roma', 'Via Roma', '10100', 'Admin admin', '123456789012', '2025-12-31', '123');
 
 INSERT INTO amministratore (Email)
 VALUES

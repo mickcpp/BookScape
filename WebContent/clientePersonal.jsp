@@ -1,4 +1,5 @@
 <%@ page import="net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento, java.util.Calendar" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,12 +64,12 @@
             color: #555;
         }
       	
-      	a{
+      	div a{
             color: #4caf50;
             text-decoration: none;
         }
         
-       	a:hover {
+       	div a:hover {
             text-decoration: underline;
         }
         .payment-form {
@@ -162,8 +163,6 @@
             <form action="UpdateUser" method="post">
                 <input type="hidden" name="action" value="updateDatiPersonali">
                 <input type="hidden" name="redirect" value="UserControl">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="${cliente.getEmail()}" required><br>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="${cliente.getUsername()}" required><br>
                 <label for="nome">Nome:</label>
@@ -171,7 +170,19 @@
                 <label for="cognome">Cognome:</label>
                 <input type="text" id="cognome" name="cognome" value="${cliente.getCognome()}" required><br>
                 <label for="dataNascita">Data di Nascita:</label>
-                <input type="date" id="dataNascita" name="dataNascita" value="${cliente.getDataNascita()}" required><br>
+               
+               <%
+	               GregorianCalendar dataNascita = cliente.getDataNascita();
+	
+	               // Ottieni l'anno, il mese e il giorno
+	               int year = dataNascita.get(Calendar.YEAR);
+	               int month = dataNascita.get(Calendar.MONTH) + 1; // I mesi sono indicizzati a partire da 0
+	               int day = dataNascita.get(Calendar.DAY_OF_MONTH);
+	
+	               // Formatta la data nel formato YYYY-MM-DD
+	               String formattedDate = String.format("%04d-%02d-%02d", year, month, day);
+               %>
+                <input type="date" id="dataNascita" name="dataNascita" value="<%= formattedDate %>"required><br>
                 <button type="submit">Salva Modifiche</button>
             </form>
         </div>
@@ -187,6 +198,8 @@
         <div id="edit-form-address" style="display: none">
             <h2>Modifica Indirizzo</h2>
             <form action="UpdateUser" method="post">
+             	<input type="hidden" name="action" value="updateIndirizzo">
+                <input type="hidden" name="redirect" value="UserControl">
                 <input type="text" name="indirizzo" placeholder="Via, Città, CAP" required>
                 <button type="submit">Salva</button>
             </form>

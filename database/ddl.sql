@@ -2,7 +2,7 @@ create schema bookscape;
 use bookscape;
 
 create table musica (
-ID INT   PRIMARY KEY DEFAULT 1000 ,
+ID INT PRIMARY KEY DEFAULT 1000 ,
 Nome VARCHAR(50) NOT NULL,
 Descrizione VARCHAR(1000) NOT NULL,
 Prezzo DECIMAL(6, 2 ) NOT NULL,
@@ -95,7 +95,6 @@ FOREIGN KEY (Ordine)
     ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
 CREATE TABLE `acquisto gadget`(
 Gadget INT  NOT NULL,
 Ordine INT UNSIGNED NOT NULL,
@@ -112,7 +111,6 @@ FOREIGN KEY (Gadget)
 	REFERENCES gadget (ID)
     ON UPDATE CASCADE ON DELETE CASCADE
 );
-
 
 CREATE TABLE `acquisto musica`(
 Musica INT  NOT NULL,
@@ -249,4 +247,3 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
-
