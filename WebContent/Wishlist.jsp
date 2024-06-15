@@ -17,6 +17,8 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: -30px;
+            margin-bottom: 24px;
         }
         
         h1 {
@@ -93,10 +95,13 @@
                 width: 100%;
             }
         }
+        #searchbar-section{
+	       	display: none;
+	    }
     </style>
 </head>
 <body>
-<%@ include file="template/navbar.html" %>
+<%@ include file="template/navbar.jsp" %>
   <a class="logout" href="Logout">Logout</a>
 <div class="container">
     <%

@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
 		</style>
 	</head>
 	<body>
-		<%@ include file="template/navbar.html" %>
+		<%@ include file="template/navbar.jsp" %>
 		
 		<%!String nomeTabella = "";%>
 		

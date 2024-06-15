@@ -15,6 +15,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: -50px;
         }
         h1 {
             text-align: center;
@@ -29,7 +30,7 @@
             justify-content: center;
         }
         .product {
-            margin: 20px;
+            margin: 20px 20px 15px 20px;
             padding: 10px 10px 0px 10px;
             background-color: #fff;
             border-radius: 8px;
@@ -48,7 +49,7 @@
         }
         .checkout-btn {
             display: block;
-            margin: 20px auto;
+            margin: 0px auto 15px auto;
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
@@ -77,10 +78,13 @@
 			padding-bottom: 10px;
 			font-size: 18px;
 		}
+		#searchbar-section{
+	      	display: none;
+	    }
     </style>
 </head>
 <body>
-   <%@ include file="template/navbar.html" %>
+   <%@ include file="template/navbar.jsp" %>
    
  	<%
 		String id = (String) session.getAttribute("cliente");

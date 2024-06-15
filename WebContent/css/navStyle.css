@@ -36,8 +36,8 @@ nav #links ul a:hover {
 	height: 100%;
 }
 
-#zona_utente #searchbar{
-	width: 40%;
+#zona_utente #searchbar-section{
+	width: 32%;
 	flex-shrink: 10;
 }
 
@@ -50,13 +50,12 @@ nav #links ul a:hover {
     padding: 0px 30px 0px 0px;
 }
 
-#zona_utente form input{
+#zona_utente input{
     height: 40px;
     width: 100%;
     background-image: url("../img/search_icon.png");
     background-repeat: no-repeat;
     background-position: right 10px center;
-    padding-right: 30px;
     background-size: 28px;
     color: grey;
     border: 2px solid #ccc;
@@ -65,8 +64,25 @@ nav #links ul a:hover {
   	font-size: 22px;
 }
 
-#zona_utente form input::placeholder{
+#zona_utente input::placeholder{
     color: rgba(57, 56, 56, 0.533);
     font-size: 21px;
     transform: translateY(1.5px);
+}
+
+.risultati {
+    position: absolute;
+    left: auto;
+    right: auto;
+    width: 24%;
+    background-color: white;
+    border: 1px solid silver;
+    border-radius: 0 0 3px 3px;
+    display: none;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000; /* Ensure .risultati is above other content */
+}
+
+.risultati .product{
+	width: 80%;
 }

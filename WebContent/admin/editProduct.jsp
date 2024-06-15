@@ -79,7 +79,7 @@
 	</head>
 	<body>
 
-		<%@ include file="/template/navbar.html" %>
+		<%@ include file="/template/navbar.jsp" %>
 	
 <%
 		String id = (String) session.getAttribute("cliente");

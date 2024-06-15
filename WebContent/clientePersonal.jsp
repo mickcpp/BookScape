@@ -17,7 +17,8 @@
         }
         .container {
             width: 60%;
-            margin: 40px auto;
+            margin: -12px auto 40px auto;
+            
             padding: 30px;
             background-color: #ffffff;
             border-radius: 10px;
@@ -127,10 +128,14 @@
 		    height: 1px; /* Altezza desiderata dell'hr */
 		    background-color: rgba(0, 0, 0, 0.1); /* Colore con trasparenza */
 		}
+		
+		#searchbar-section{
+	    	display: none;
+	    }
     </style>
 </head>
 <body>
-    <%@ include file="template/navbar.html" %>
+    <%@ include file="template/navbar.jsp" %>
     <%
         String id = (String) session.getAttribute("cliente");
         if(id != null && !id.equals("")) {

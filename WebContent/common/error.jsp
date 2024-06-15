@@ -18,7 +18,7 @@
 		</style>
 	</head>
 	<body>
-		<%@ include file="/template/navbar.html" %>
+		<%@ include file="/template/navbar.jsp" %>
 		<h1 style="text-align: center;">Errore!</h1>
 		<%
 		  if(exception != null) {

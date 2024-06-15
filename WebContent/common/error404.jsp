@@ -20,7 +20,7 @@
 	</style>
 </head>
 <body>
-	<%@ include file="/template/navbar.html" %>
+	<%@ include file="/template/navbar.jsp" %>
 	<div class="errorContent">
 		<h1>Errore! Pagina non trovata.</h1>
 		<img src="img/errorBook.png" alt="erroreImg" width="30%" height="30%">

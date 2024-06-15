@@ -55,10 +55,13 @@
 	        #contenuto{
 	        	align-self: center;
 	        }
+	        #searchbar-section{
+	       		display: none;
+	       	}
 	    </style>
 	</head>
 	<body>
-		<%@ include file="template/navbar.html" %>
+		<%@ include file="template/navbar.jsp" %>
 		
 		<div id="contenuto">
 		    <div class="container">

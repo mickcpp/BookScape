@@ -40,7 +40,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 		</style>
 	</head>
 	<body>
-		<%@ include file="template/navbar.html" %>
+		<%@ include file="template/navbar.jsp" %>
 		
 		<%
 			String id = (String) session.getAttribute("cliente");

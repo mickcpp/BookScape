@@ -101,6 +101,10 @@
             border: 1px solid #999999; /* Bordo più chiaro */
             cursor: not-allowed; /* Cambio del cursore */
         }
+        
+        #searchbar-section{
+	    	display: none;
+	    }
     </style>
     <script>
 	    function togglePaymentForm() {
@@ -137,7 +141,7 @@
     </script>
 </head>
 <body>
-    <%@ include file="template/navbar.html" %>
+    <%@ include file="template/navbar.jsp" %>
 
     <%
         Ordine ordine = (Ordine) request.getAttribute("ordine");

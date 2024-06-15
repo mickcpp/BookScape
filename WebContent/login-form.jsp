@@ -45,10 +45,14 @@
 	        .login-box input[type="submit"]:hover {
 	            background: #0056b3;
 	        }
+	        
+	       	#searchbar-section{
+	       		display: none;
+	       	}
 	    </style>
 	</head>
 	<body>
-		<%@ include file="template/navbar.html" %>
+		<%@ include file="template/navbar.jsp" %>
 		
 		<div class="login-box">
 		    <h2>Login</h2>
