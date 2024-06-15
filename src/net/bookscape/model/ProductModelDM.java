@@ -427,12 +427,12 @@ public class ProductModelDM implements ProductModel <Product> {
 	        preparedStatement.setString(2, updatedProduct.getDescrizione());
 	        preparedStatement.setDouble(3, updatedProduct.getPrezzo());
 	        preparedStatement.setInt(4, updatedProduct.getQuantita());
-	        preparedStatement.setString(5, updatedProduct.getImgURL());
 
-	        int parameterIndex = 6;
+	        int parameterIndex = 5;
 
 	        if (updatedProduct instanceof Libro) {
 	            Libro libro = (Libro) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, BASE_IMG_PATH_BOOKS + updatedProduct.getImgURL());
 	            preparedStatement.setString(parameterIndex++, libro.getGenere());
 	            preparedStatement.setString(parameterIndex++, libro.getFormato().name());
 	            preparedStatement.setInt(parameterIndex++, libro.getAnno());
@@ -441,6 +441,7 @@ public class ProductModelDM implements ProductModel <Product> {
 	            preparedStatement.setInt(parameterIndex, libro.getNumeroPagine());
 	        } else if (updatedProduct instanceof Musica) {
 	            Musica musica = (Musica) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, BASE_IMG_PATH_MUSICS+ updatedProduct.getImgURL());
 	            preparedStatement.setString(parameterIndex++, musica.getGenere());
 	            preparedStatement.setString(parameterIndex++, musica.getFormato().name());
 	            preparedStatement.setInt(parameterIndex++, musica.getAnno());
@@ -448,6 +449,7 @@ public class ProductModelDM implements ProductModel <Product> {
 	            preparedStatement.setString(parameterIndex, musica.getArtista());
 	        } else if (updatedProduct instanceof Gadget) {
 	            Gadget gadget = (Gadget) updatedProduct;
+	            preparedStatement.setString(parameterIndex++, BASE_IMG_PATH_GADGETS + updatedProduct.getImgURL());
 	            preparedStatement.setString(parameterIndex++, gadget.getMateriale());
 	            preparedStatement.setDouble(parameterIndex++, gadget.getLunghezza());
 	            preparedStatement.setDouble(parameterIndex++, gadget.getLarghezza());

@@ -110,9 +110,10 @@
 			<div class="form-container">
 			
 		        <h2><%=action.equals("modifica") ? "Modifica" : "Inserisci"%> prodotto</h2>
-		        <form action="ProductControl" method="post">
+		        <form action="FileUpload" method="post" enctype="multipart/form-data">
 		            <input type="hidden" name="action" value="<%=action%>">
 		            <input type="hidden" name="productId" id="productId" value="<%= prodotto.getId() %>">
+		            <input type="hidden" name="productImageURL" id="productImageURL" value="<%= prodotto.getImgURL() %>">
 		
 		            <div class="form-group">
 		                <label for="nome">Nome:</label>
@@ -136,7 +137,7 @@
 		
 		            <div class="form-group">
 		                <label for="immagine">Immagine:</label>
-		                <input type="text" id="immagine" name="immagine" value="${prodotto.getImgURL()}">
+		                <input type="file" id="immagine" name="immagine" accept=".jpg, .jpeg, .png">
 		            </div>
 			
 				<%	if (prodotto instanceof Libro) {

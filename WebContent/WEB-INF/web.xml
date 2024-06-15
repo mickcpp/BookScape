@@ -34,5 +34,10 @@
     	<filter-name>AdminFilter</filter-name>
     	<url-pattern>/admin/*</url-pattern>
 	</filter-mapping> 
+	
+	<context-param>
+        <param-name>uploadLocation</param-name>
+        <param-value>C:\Users\marco\OneDrive\Desktop\github\BookScape\WebContent\productImages</param-value>
+    </context-param>
 	 
 </web-app>

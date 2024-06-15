@@ -74,7 +74,13 @@ public class ProductControl extends HttpServlet {
 				l.setDescrizione(request.getParameter("descrizione"));
 				l.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 				l.setQuantita(Integer.parseInt(request.getParameter("quantity")));
-				l.setImgURL(request.getParameter("immagine"));
+				if(request.getAttribute("fileName") != null && !request.getAttribute("fileName").equals("")) {
+					l.setImgURL((String) request.getAttribute("fileName"));
+				} else {
+					String fullURL = request.getParameter("productImageURL");
+					String fileName = fullURL.substring(fullURL.lastIndexOf("/") + 1);
+					l.setImgURL(fileName); // Imposta solo il nome del file
+				}
 				
 				if(type.equalsIgnoreCase("libro")) {
 					l.setGenere(request.getParameter("genere"));
@@ -155,7 +161,7 @@ public class ProductControl extends HttpServlet {
 				l.setDescrizione(request.getParameter("descrizione"));
 				l.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
 				l.setQuantita(Integer.parseInt(request.getParameter("quantity")));
-				l.setImgURL(request.getParameter("immagine"));
+				l.setImgURL((String) request.getAttribute("fileName"));
 				
 				if(type.equalsIgnoreCase("libro")) {
 					l.setGenere(request.getParameter("genere"));
