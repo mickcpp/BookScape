@@ -137,7 +137,8 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	}
 
 	@Override
-	public Collection<Ordine> doRetrieveAll(String clienteId) throws SQLException {
+	public Collection<Ordine> doRetrieveAll(String clienteId, boolean completo) throws SQLException {
+		
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
@@ -193,6 +194,11 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            ordine.setCAP(cap);
 	            ordine.setCliente(resultSet.getString("Cliente"));
 	            
+	            if(completo) {
+	            	Collection<CartItem> items = doRetrieveProductsByOrder(ordine.getId());
+		            ordine.setProdotti(items);
+	            }
+	            
 	            // Aggiungi l'ordine alla collezione
 	            ordini.add(ordine);
 	        }
@@ -212,5 +218,94 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	    
 	    return ordini;
 	}
-	
+
+	public Collection<CartItem> doRetrieveProductsByOrder(int orderId) throws SQLException {
+		
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Collection<CartItem> prodotti = new ArrayList<CartItem>();
+
+	    String queryLibri = "SELECT Ordine, Quantità, `Prezzo acquisto`, libro "
+	            + "FROM `Acquisto libro` WHERE Ordine = ?";
+	    String queryGadget = "SELECT Ordine, Quantità, `Prezzo acquisto`, gadget "
+	            + "FROM `Acquisto gadget` WHERE Ordine = ?";
+	    String queryMusica = "SELECT Ordine, Quantità, `Prezzo acquisto`, musica "
+	            + "FROM `Acquisto musica` WHERE Ordine = ?";
+
+	    ProductModelDM productModel = new ProductModelDM();
+	    
+	    try {
+	        connection = DriverManagerCP.getConnection();
+	        
+	        // Process books
+	        preparedStatement = connection.prepareStatement(queryLibri);
+	        preparedStatement.setInt(1, orderId);
+	        resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	        	Libro libro = new Libro();
+	        	libro = (Libro) productModel.doRetrieveByKey(resultSet.getInt("libro"), TABLE.libro);
+	        	
+	        	CartItem item = new CartItem();
+	        	item.setProduct(libro);
+	        	item.setNumElementi(resultSet.getInt("Quantità"));
+	        	item.getProduct().setPrezzo(resultSet.getDouble("Prezzo acquisto"));
+	    
+	            prodotti.add(item);
+	        }
+	        resultSet.close();
+	        preparedStatement.close();
+
+	        // Process gadgets
+	        preparedStatement = connection.prepareStatement(queryGadget);
+	        preparedStatement.setInt(1, orderId);
+	        resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	        	Gadget gadget = new Gadget();
+	        	gadget = (Gadget) productModel.doRetrieveByKey(resultSet.getInt("gadget"), TABLE.gadget);
+	        	
+	        	CartItem item = new CartItem();
+	        	item.setProduct(gadget);
+	        	item.setNumElementi(resultSet.getInt("Quantità"));
+	        	item.getProduct().setPrezzo(resultSet.getDouble("Prezzo acquisto"));
+	    
+	            prodotti.add(item);
+	        }
+	        resultSet.close();
+	        preparedStatement.close();
+
+	        // Process music
+	        preparedStatement = connection.prepareStatement(queryMusica);
+	        preparedStatement.setInt(1, orderId);
+	        resultSet = preparedStatement.executeQuery();
+	        while (resultSet.next()) {
+	           	Musica musica = new Musica();
+	           	musica = (Musica) productModel.doRetrieveByKey(resultSet.getInt("musica"), TABLE.musica);
+	        	
+	        	CartItem item = new CartItem();
+	        	item.setProduct(musica);
+	        	item.setNumElementi(resultSet.getInt("Quantità"));
+	        	item.getProduct().setPrezzo(resultSet.getDouble("Prezzo acquisto"));
+	    
+	            prodotti.add(item);
+	        }
+	        resultSet.close();
+	        preparedStatement.close();
+
+	    } finally {
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            DriverManagerCP.releaseConnection(connection);
+	        }
+	    }
+
+	    return prodotti;
+	}
+
 }

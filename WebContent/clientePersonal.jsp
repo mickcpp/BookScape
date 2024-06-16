@@ -70,6 +70,11 @@
             text-decoration: none;
         }
         
+        h3 a{
+        	color: #4caf50;
+            text-decoration: underline;
+        }
+        
        	div a:hover {
             text-decoration: underline;
         }
@@ -240,7 +245,7 @@
         @SuppressWarnings("unchecked")
 		Collection<Ordine> ordini = (Collection<Ordine>) request.getAttribute("ordini");
 		if(ordini == null){
-			response.sendRedirect("OrderControl?action=visualizza");
+			response.sendRedirect("UserControl");
 			return;
 		}
 	%>
@@ -251,6 +256,7 @@
     
     <div class="container">
         <h1>Profilo Cliente</h1>
+       	<h3 style="float: right"><a href="OrderControl?action=visualizza">I miei acquisti</a></h3>
         <div>
             <h2>Dati Personali</h2>
             <p><strong>Email:</strong> ${cliente.getEmail()}</p>

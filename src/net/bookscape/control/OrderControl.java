@@ -121,16 +121,14 @@ public class OrderControl extends HttpServlet {
 				
 				response.sendRedirect("./");
 				
-			} if(action.equals("visualizza")) {
-				
-				Collection<Ordine> ordini = orderModel.doRetrieveAll(clienteId);
-				Cliente cliente = model.doRetrieveByKey(clienteId);
+			} else if(action.equals("visualizza")){
+				Collection<Ordine> ordini = orderModel.doRetrieveAll(clienteId, true);
 				request.setAttribute("ordini", ordini);
-				request.setAttribute("cliente", cliente);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("clientePersonal.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("acquisti.jsp");
 				dispatcher.forward(request, response);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

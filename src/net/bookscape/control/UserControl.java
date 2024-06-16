@@ -48,7 +48,9 @@ public class UserControl extends HttpServlet {
 		} else {
 			try {
 				Cliente cliente = (Cliente) clienteModel.doRetrieveByKey(user);
+				Collection<Ordine> ordini = orderModel.doRetrieveAll(user, false);
 				request.setAttribute("cliente", cliente);
+				request.setAttribute("ordini", ordini);
 				
 				Boolean checkAdmin = (Boolean) request.getSession().getAttribute("adminRole");
 			
@@ -56,7 +58,7 @@ public class UserControl extends HttpServlet {
 					Collection<Cliente> clienti = clienteModel.doRetrieveAll(null);
 					Collection<Product> prodotti = productModel.doRetrieveAll(null);
 					Collection<String> listaAdmin = clienteModel.doRetrieveAllAdmin(null);
-					Collection<Ordine> ordini = orderModel.doRetrieveAll(null);
+					ordini = orderModel.doRetrieveAll(null, false);
 					
 					request.setAttribute("clienti", clienti);
 					request.setAttribute("prodotti", prodotti);
