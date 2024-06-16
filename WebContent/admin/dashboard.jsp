@@ -269,6 +269,7 @@
                     <thead>
                         <tr>
                  	       	<th>ID</th>
+                 	       	<th>Cliente</th>
                  	       	<th>Nome</th>
                  	       	<th>Cognome</th>
 				            <th>Data Ordine</th>
@@ -287,6 +288,7 @@
                         %>
     					<tr>
                             <td><%= ordine.getId() %></td>
+                            <td><%= ordine.getCliente() %></td>
                             <td><%= ordine.getNomeConsegna() %></td>
                             <td><%= ordine.getCognomeConsegna() %></td>
                             <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>

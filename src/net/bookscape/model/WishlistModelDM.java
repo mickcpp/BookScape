@@ -152,4 +152,9 @@ public class WishlistModelDM implements CartModel<Product>{
 		return false;
 	}
 
+	@Override
+	public boolean doDeleteAll(String userId) throws SQLException {
+		return false;
+	}
+
 }

@@ -96,7 +96,34 @@ public class CartModelDM implements CartModel<CartItem>{
 		
 		return result != 0 ? true : false;
 	}
+	
+	@Override
+	public boolean doDeleteAll(String userId) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		int result = 0;
 
+		String deleteSQL = "DELETE FROM " + TABLE_NAME + " WHERE Cliente = ?";
+		  
+		try {
+			connection = DriverManagerCP.getConnection();
+			preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setString(1, userId);
+
+			result = preparedStatement.executeUpdate();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+		
+		return result != 0 ? true : false;
+	}
+	
 	@Override
 	public Collection<CartItem> doRetrieveAll(String order, String clienteId) throws SQLException {
 		

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.bookscape.model.Cart;
+import net.bookscape.model.CartModelDM;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.OrderModelDM;
@@ -31,10 +32,12 @@ public class OrderControl extends HttpServlet {
     
 	private static ClienteModelDM model;
 	private static OrderModelDM orderModel;
+	private static CartModelDM cartModel;
 	
 	static {
 		model = new ClienteModelDM();
 		orderModel = new OrderModelDM();
+		cartModel = new CartModelDM();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -112,6 +115,9 @@ public class OrderControl extends HttpServlet {
 				ordine.setCliente(clienteId);
 				
 				orderModel.doSave(ordine);
+				
+				cartModel.doDeleteAll(clienteId);
+				request.getSession().removeAttribute("cart");
 				
 				response.sendRedirect("./");
 				

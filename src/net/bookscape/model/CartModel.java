@@ -8,6 +8,8 @@ public interface CartModel<T> {
 	public void doSave(T item, String userId) throws SQLException;
 
     public boolean doDelete(int id, String userId) throws SQLException;
+    
+    public boolean doDeleteAll(String userId) throws SQLException;
 
     public boolean doUpdate(T item, String userId) throws SQLException;
 

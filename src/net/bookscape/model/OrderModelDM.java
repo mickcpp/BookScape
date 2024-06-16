@@ -51,9 +51,30 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            throw new SQLException("Nessun ID generato dopo l'inserimento dell'ordine.");
 	        }
 	        
+	        preparedStatement.close();
+	        
+	        String s = "INSERT INTO datiFatturazione (Ordine, Nome, Cognome, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+	        preparedStatement = connection.prepareStatement(s);
+	        
+	        Cliente cliente = new ClienteModelDM().doRetrieveByKey(order.getCliente());
+	        
+	        preparedStatement.setInt(1, orderId);
+	        preparedStatement.setString(2, cliente.getNome());
+	        preparedStatement.setString(3, cliente.getCognome());
+	        preparedStatement.setString(4, cliente.getCitta());
+	        preparedStatement.setString(5, cliente.getVia());
+	        preparedStatement.setString(6, cliente.getCAP());
+	        preparedStatement.setString(7, cliente.getCarta().getNomeCarta());
+	        preparedStatement.setString(8, cliente.getCarta().getNumeroCarta());
+	        preparedStatement.setTimestamp(9, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));
+	        preparedStatement.setInt(10, cliente.getCarta().getCvv());
+	        
+	        preparedStatement.executeUpdate();
+	        
 	        for (CartItem item : order.getProdotti()) {
 	            if (item.getProduct() instanceof Libro) {
-	                String s = "INSERT INTO `acquisto libro` (Libro, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
+	                s = "INSERT INTO `acquisto libro` (Libro, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
 	                           + "VALUES (?,?,?,?,?)";
 	                preparedStatementProdotti = connection.prepareStatement(s);
 	                
@@ -68,7 +89,7 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            }
 	            
 	            if (item.getProduct() instanceof Gadget) {
-	                String s = "INSERT INTO `acquisto gadget` (Gadget, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
+	                s = "INSERT INTO `acquisto gadget` (Gadget, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
 	                           + "VALUES (?,?,?,?,?)";
 	                preparedStatementProdotti = connection.prepareStatement(s);
 	                
@@ -83,7 +104,7 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            }
 	            
 	            if (item.getProduct() instanceof Musica) {
-	                String s = "INSERT INTO `acquisto musica` (Musica, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
+	                s = "INSERT INTO `acquisto musica` (Musica, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
 	                           + "VALUES (?,?,?,?,?)";
 	                preparedStatementProdotti = connection.prepareStatement(s);
 	                
@@ -170,6 +191,7 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            ordine.setCitta(citta);
 	            ordine.setVia(via);
 	            ordine.setCAP(cap);
+	            ordine.setCliente(resultSet.getString("Cliente"));
 	            
 	            // Aggiungi l'ordine alla collezione
 	            ordini.add(ordine);

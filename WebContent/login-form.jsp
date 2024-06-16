@@ -13,7 +13,7 @@
 	        }
 	        .login-box {
 	            width: 300px;
-	            margin: 70px auto;
+	            margin: auto;
 	            margin-bottom: 110px;
 	            padding: 20px;
 	            background: #fff;
