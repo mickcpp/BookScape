@@ -22,7 +22,7 @@
             color: #333;
             margin-top: 0;
             margin-bottom: 7px;
-            font-size: 1.9em;
+            font-size: 2em;
         }
         #cart-items {
             display: flex;
@@ -96,13 +96,15 @@
 	%>
 		
     <div class="container">
-        <h1>Prodotti nel Carrello</h1>
+      	<h1>Prodotti nel Carrello</h1>
         <div id="cart-items">
             <% 
                 Cart carrello = (Cart)request.getSession().getAttribute("cart");
                 if(carrello != null){
                     Collection<CartItem> items = carrello.getItems();
                     if (items != null && !items.isEmpty()) {
+            %>
+            <%
                         for (CartItem item : items) {
             %>
                             <div class="product">
@@ -126,11 +128,11 @@
             <%  
                         }
                     } else { 
-            %>
+            %>		
                         <p class="empty-cart-msg">Il carrello è vuoto.</p>
             <%          }
                 } else { 
-            %>
+            %>		
                     <p class="empty-cart-msg">Il carrello è vuoto.</p>
             <%  }  %>
             

@@ -11,6 +11,7 @@ public class Ordine implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Collection<CartItem> prodotti;
+	private int id;
 	private String nomeConsegna;
 	private String cognomeConsegna;
 	private double prezzoTotale;
@@ -32,6 +33,7 @@ public class Ordine implements Serializable{
 		this.via = via;
 		this.CAP = CAP;
 		this.clienteId = clienteId;
+		this.id = 0;
 	}
 	
 	public Ordine() {
@@ -53,6 +55,14 @@ public class Ordine implements Serializable{
 		}
 	}
 	
+	public int getId() {
+    	return id;
+    }
+
+    public void setId(int id) {
+    	if(this.id == 0) this.id = id;
+    }
+    
 	public String getNomeConsegna() {
 		return nomeConsegna;
 	}
@@ -80,6 +90,10 @@ public class Ordine implements Serializable{
 		}
 		this.prezzoTotale = tot;
 	}
+	
+	public void setPrezzoTotale(double prezzoTotale) {
+		this.prezzoTotale = prezzoTotale;
+	}
 
 	public GregorianCalendar getDataConsegna() {
 		return dataConsegna;
@@ -96,6 +110,10 @@ public class Ordine implements Serializable{
 		this.dataConsegna = (GregorianCalendar) oggi;
 	}
 
+	public void setDataConsegna(GregorianCalendar dataConsegna) {
+		this.dataConsegna = dataConsegna;
+	}
+	
 	public GregorianCalendar getDataOrdine() {
 		return dataOrdine;
 	}
@@ -105,9 +123,13 @@ public class Ordine implements Serializable{
 		Calendar oggi = Calendar.getInstance();
 
 		// Utilizzare il valore aggiornato per impostare la data di consegna
-		this.dataConsegna = (GregorianCalendar) oggi;
+		this.dataOrdine = (GregorianCalendar) oggi;
 	}
 
+	public void setDataOrdine(GregorianCalendar dataOrdine) {
+		this.dataOrdine = dataOrdine;
+	}
+	
 	public String getCitta() {
 		return citta;
 	}

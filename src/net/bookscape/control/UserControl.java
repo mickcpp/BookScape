@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
+import net.bookscape.model.OrderModelDM;
+import net.bookscape.model.Ordine;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
 
@@ -26,10 +28,12 @@ public class UserControl extends HttpServlet {
        
 	private static ClienteModelDM clienteModel;
 	private static ProductModelDM productModel;
+	private static OrderModelDM orderModel;
 	
 	static {
 		clienteModel = new ClienteModelDM();
 		productModel = new ProductModelDM();
+		orderModel = new OrderModelDM();
 	}
 	
     public UserControl() {
@@ -52,10 +56,12 @@ public class UserControl extends HttpServlet {
 					Collection<Cliente> clienti = clienteModel.doRetrieveAll(null);
 					Collection<Product> prodotti = productModel.doRetrieveAll(null);
 					Collection<String> listaAdmin = clienteModel.doRetrieveAllAdmin(null);
+					Collection<Ordine> ordini = orderModel.doRetrieveAll(null);
 					
 					request.setAttribute("clienti", clienti);
 					request.setAttribute("prodotti", prodotti);
 					request.setAttribute("listaAdmin", listaAdmin);
+					request.setAttribute("ordini", ordini);
 					
 					RequestDispatcher dispatcher = request.getRequestDispatcher("admin/dashboard.jsp");
 					dispatcher.forward(request, response);

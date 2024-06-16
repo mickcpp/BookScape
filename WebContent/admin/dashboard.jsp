@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Collection, net.bookscape.model.Cliente, net.bookscape.model.Product" %>
-<%@ page import="net.bookscape.model.Libro" %>
-<%@ page import="net.bookscape.model.Musica" %>
-<%@ page import="net.bookscape.model.Gadget" %>
+<%@ page import="net.bookscape.model.Libro, net.bookscape.model.Ordine" %>
+<%@ page import="net.bookscape.model.Musica, java.text.SimpleDateFormat" %>
+<%@ page import="net.bookscape.model.Gadget, java.util.Date" %>
 
 <!DOCTYPE html>
 <html>
@@ -128,8 +128,11 @@
     	
     	@SuppressWarnings("unchecked")
         Collection<Product> prodotti = (Collection<Product>) request.getAttribute("prodotti");
+    	
+    	@SuppressWarnings("unchecked")
+		Collection<Ordine> ordini = (Collection<Ordine>) request.getAttribute("ordini");
         
-        if(clienti == null || listaAdmin == null || prodotti == null){
+        if(clienti == null || listaAdmin == null || prodotti == null || ordini == null){
             response.sendRedirect("/BookScape/UserControl");
             return;
         }
@@ -251,6 +254,50 @@
                         </tr>
                         <%
                                     userId++;
+                                }
+                            }
+                        %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="sezione">
+            <h2>Manage Orders</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                 	       	<th>ID</th>
+                 	       	<th>Nome</th>
+                 	       	<th>Cognome</th>
+				            <th>Data Ordine</th>
+				            <th>Data Consegna</th>
+				            <th>Città</th>
+				            <th>Via</th>
+				            <th>CAP</th>
+				            <th>Prezzo Totale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            if (ordini != null) {
+                            	SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+                                for (Ordine ordine : ordini) {
+                        %>
+    					<tr>
+                            <td><%= ordine.getId() %></td>
+                            <td><%= ordine.getNomeConsegna() %></td>
+                            <td><%= ordine.getCognomeConsegna() %></td>
+                            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
+	            			<td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
+                            <td><%= ordine.getCitta()%></td>
+                            <td><%= ordine.getVia()%></td>
+                            <td><%= ordine.getCAP()%></td>
+                            <td><%= ordine.getPrezzoTotale()%></td>
+                        </tr>
+         
+                        <%
                                 }
                             }
                         %>

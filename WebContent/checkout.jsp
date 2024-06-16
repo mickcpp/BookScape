@@ -256,6 +256,12 @@
         </div>
 
         <form style="text-align: center" action="OrderControl" method="post">
+      		<input type="hidden" name="action" value="acquista">
+      		<input type="hidden" name="nomeConsegna" value="${ordine.nomeConsegna }">
+      		<input type="hidden" name="cognomeConsegna" value="${ordine.cognomeConsegna }">
+      		<input type="hidden" name="viaConsegna" value="${ordine.via }">
+      		<input type="hidden" name="cittaConsegna" value="${ordine.citta }">
+      		<input type="hidden" name="capConsegna" value="${ordine.CAP }">
             <% if (carta == null || carta.getNomeCarta() == null || carta.getNumeroCarta() == null || carta.getDataScadenza() == null) { %>
                 <button type="submit" disabled>Conferma Acquisto</button>
             <% } else { %>

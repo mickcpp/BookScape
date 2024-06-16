@@ -1,6 +1,7 @@
 nav{
     background-color: #0B86B6;
  	display: flex;
+ 	z-index: 1000;
 }
 
 nav #links{
@@ -29,6 +30,7 @@ nav #links ul a:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	z-index: 1000;
 }
 
 #zona_utente #logo{

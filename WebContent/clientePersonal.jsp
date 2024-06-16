@@ -1,5 +1,5 @@
 <%@ page import="net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento, java.util.Calendar" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date, net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,6 +132,92 @@
 		#searchbar-section{
 	    	display: none;
 	    }
+	    
+	   	/* General table styling */
+		table {
+		    width: 100%;
+		    border-collapse: collapse;
+		    font-family: 'Helvetica Neue', Arial, sans-serif;
+		    margin: 20px 0;
+		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		    border-radius: 8px;
+		    overflow: hidden;
+		}
+		
+		/* Table headers */
+		th {
+		    background-color: #3e4a52;
+		    color: #f0f0f0;
+		    text-align: left;
+		    padding: 12px;
+		    font-size: 14px;
+		    text-transform: uppercase;
+		    letter-spacing: 0.5px;
+		}
+		
+		/* Table cells */
+		td {
+		    padding: 12px;
+		    border-bottom: 1px solid #dcdcdc;
+		    font-size: 13px;
+		    color: #333;
+		}
+		
+		/* Zebra striping for rows */
+		tr:nth-child(even) {
+		    background-color: #f8f8f8;
+		}
+		
+		/* Hover effect for rows */
+		tr:hover {
+		    background-color: #ececec;
+		}
+		
+		/* Styling the unordered list within the cells */
+		table ul {
+		    list-style-type: none;
+		    padding: 0;
+		    margin: 0;
+		}
+		
+		table li {
+		    background: #e9f0f4;
+		    margin: 4px 0;
+		    padding: 8px;
+		    border-radius: 4px;
+		    font-size: 13px;
+		    color: #555;
+		}
+		
+		/* Styling for the table caption */
+		caption {
+		    font-size: 18px;
+		    font-weight: bold;
+		    margin-bottom: 10px;
+		    color: #444;
+		}
+		
+		/* Responsive table */
+		@media screen and (max-width: 600px) {
+		    table, th, td {
+		        width: 100%;
+		        display: block;
+		    }
+		
+		    th, td {
+		        box-sizing: border-box;
+		    }
+		
+		    th {
+		        text-align: center;
+		    }
+		
+		    tr {
+		        display: block;
+		        margin-bottom: 15px;
+		    }
+		}
+	   			  
     </style>
 </head>
 <body>
@@ -150,7 +236,19 @@
             response.sendRedirect("login-form.jsp");
             return;
         }
+        
+        @SuppressWarnings("unchecked")
+		Collection<Ordine> ordini = (Collection<Ordine>) request.getAttribute("ordini");
+		if(ordini == null){
+			response.sendRedirect("OrderControl?action=visualizza");
+			return;
+		}
+	%>
+	
+	<%
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
     %>
+    
     <div class="container">
         <h1>Profilo Cliente</h1>
         <div>
@@ -159,7 +257,7 @@
             <p><strong>Username:</strong> ${cliente.getUsername()}</p>
             <p><strong>Nome:</strong> ${cliente.getNome()}</p>
             <p><strong>Cognome:</strong> ${cliente.getCognome()}</p>
-            <p><strong>Data di Nascita:</strong> ${cliente.getDataNascita().time}</p>
+            <p><strong>Data di Nascita:</strong> <%= dateFormatter.format(cliente.getDataNascita().getTime()) %></p>
  			<hr>
             <p><b>Modifica Dati Personali: </b><a href="javascript:void(0);" onclick="toggleEditFormData()">Modifica</a></p>
         </div>
@@ -238,7 +336,34 @@
                 </form>
             </div>
         </div>
+        
+       	<hr>
+	    
+	    <table border="1">
+	        <caption>Order Details</caption>
+	        <tr>
+	        	<th>ID</th>
+	            <th>Data Ordine</th>
+	            <th>Data Consegna</th>
+	            <th>Città</th>
+	            <th>Via</th>
+	            <th>CAP</th>
+	            <th>Prezzo Totale</th>
+	        </tr>
+	        <% for (Ordine ordine : ordini) { %>
+	        <tr>
+	        	<td><%= ordine.getId() %></td>
+	            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
+	            <td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
+	            <td><%= ordine.getCitta() %></td>
+	            <td><%= ordine.getVia() %></td>
+	            <td><%= ordine.getCAP() %></td>
+	            <td><%= ordine.getPrezzoTotale() %></td>
+	        </tr>
+	        <% } %>
+	    </table>
     </div>
+    
     <%@ include file="template/footer.html" %>
     <script>
         function toggleEditFormData() {
