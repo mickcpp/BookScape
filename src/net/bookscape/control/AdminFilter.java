@@ -13,32 +13,23 @@ import javax.servlet.http.HttpSession;
 
 public class AdminFilter implements Filter {
 
-	public void destroy() {}
+    public void destroy() {}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
-		HttpServletRequest hrequest = (HttpServletRequest) request;
-		HttpServletResponse hresponse = (HttpServletResponse) response;
-		
-		String adminURI = hrequest.getContextPath() + "/admin";
-		boolean loginRequest = hrequest.getRequestURI().startsWith(adminURI);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        
+        HttpServletRequest hrequest = (HttpServletRequest) request;
+        HttpServletResponse hresponse = (HttpServletResponse) response;
+        
+        HttpSession session = hrequest.getSession(false);
+        boolean loggedIn = session != null && session.getAttribute("adminRole") != null;
 
-		if(loginRequest) {
-			HttpSession session = hrequest.getSession(false);
-			boolean loggedIn = session != null && session.getAttribute("adminRole") != null;
+        if (!loggedIn) {
+            hresponse.sendRedirect(hrequest.getContextPath());
+        } else {
+            // admin
+            chain.doFilter(request, response);
+        }
+    }
 
-			if(!loggedIn) {
-				hresponse.sendRedirect(hrequest.getContextPath());
-			} else {
-				// risorsa admin
-				chain.doFilter(request, response);
-			}
-		} else {
-			// risorsa accessibile
-			chain.doFilter(request, response);
-		}
-	}
-
-	public void init(FilterConfig fConfig) throws ServletException {}
-	
+    public void init(FilterConfig fConfig) throws ServletException {}
 }

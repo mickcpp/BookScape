@@ -30,12 +30,6 @@ public class UserManagement extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		Boolean checkAdmin = (Boolean) request.getSession().getAttribute("adminRole");
-		if(checkAdmin == null || !checkAdmin.booleanValue()) {
-			response.sendRedirect("./");
-			return;
-		}
 		
 		String action = request.getParameter("action");
 		String clienteId = request.getParameter("id");

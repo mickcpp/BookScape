@@ -37,12 +37,6 @@ public class ProductControl extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Boolean checkAdmin = (Boolean) request.getSession().getAttribute("adminRole");
-		if(checkAdmin == null || !checkAdmin.booleanValue()) {
-			response.sendRedirect("./");
-			return;
-		}
-	
 		int productId = 0;
 		if(request.getParameter("productId") != null) {
 			productId = Integer.parseInt(request.getParameter("productId"));
