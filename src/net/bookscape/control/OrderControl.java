@@ -119,7 +119,7 @@ public class OrderControl extends HttpServlet {
 				cartModel.doDeleteAll(clienteId);
 				request.getSession().removeAttribute("cart");
 				
-				response.sendRedirect("./");
+				response.sendRedirect("OrderControl?action=visualizza");
 				
 			} else if(action.equals("visualizza")){
 				Collection<Ordine> ordini = orderModel.doRetrieveAll(clienteId, true);

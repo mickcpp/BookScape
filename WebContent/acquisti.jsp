@@ -1,4 +1,5 @@
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection, java.text.SimpleDateFormat" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -14,15 +15,17 @@
 
         .container {
             width: 80%;
-            margin: 0 auto;
+            margin: 27px auto;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 7px;
         }
 
         h1 {
             text-align: center;
             color: #333;
+            margin: 1%;
         }
 
         .ordine {
@@ -61,12 +64,27 @@
             margin: 0;
             color: #333;
         }
+        
+        #logout {
+            position: absolute;
+            margin-left: 4%;
+            top: 138px;
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 	
 	<%@ include file="template/navbar.jsp" %>
-	
+	<%
+        String id = (String) session.getAttribute("cliente");
+        if(id != null && !id.equals("")) {
+    %>
+    <a id="logout" href="Logout">Logout</a>
+    <%
+        }
+    %>
     <div class="container">
         <h1>I Miei Acquisti</h1>
         <%
@@ -80,7 +98,11 @@
  			
             if (ordini != null) {
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
-                for (Ordine ordine : ordini) {
+                
+                List<Ordine> ordiniList = new ArrayList<Ordine>(ordini);
+				ListIterator<Ordine> listIterator = ordiniList.listIterator(ordini.size());
+                while (listIterator.hasPrevious()) {
+                	Ordine ordine = listIterator.previous();
         %>
             <div class="ordine">
                 <h2>Ordine ID: <%= ordine.getId() %></h2>
