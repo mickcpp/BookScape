@@ -38,9 +38,10 @@ nav #links ul a:hover {
 	height: 100%;
 }
 
-#zona_utente #searchbar-section{
-	width: 32%;
-	flex-shrink: 10;
+#zona_utente #searchbar-section {
+    position: relative; /* Aggiungiamo posizionamento relativo */
+    width: 36%;
+    flex-shrink: 10;
 }
 
 #zona_utente #icone{
@@ -63,28 +64,64 @@ nav #links ul a:hover {
     border: 2px solid #ccc;
   	border-radius: 7px;
   	outline: none;
-  	font-size: 22px;
+  	font-size: 19px;
 }
 
 #zona_utente input::placeholder{
     color: rgba(57, 56, 56, 0.533);
-    font-size: 21px;
-    transform: translateY(1.5px);
+    font-size: 19px;
+    transform: translateY(1.8px);
 }
 
 .risultati {
     position: absolute;
-    left: auto;
-    right: auto;
-    width: 24%;
+    left: 0;
+    top: 100%; /* Posiziona il menu sotto l'input */
+    width: 100%;
     background-color: white;
     border: 1px solid silver;
-    border-radius: 0 0 3px 3px;
+    border-radius: 2px 2px 10px 10px;
     display: none;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1000; /* Ensure .risultati is above other content */
+    z-index: 1000;
+    overflow: hidden; /* Evita che il menu si espanda oltre i bordi */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-sizing: border-box; /* Assicura che padding e bordo siano inclusi nella larghezza */
 }
 
-.risultati .product{
-	width: 80%;
+/* Mostra il menu quando è visibile */
+.risultati.show {
+    display: block;
+}
+
+.risultati .product {
+    display: flex; /* Utilizziamo flexbox per allineare immagine e testo */
+    align-items: center; /* Allinea verticalmente gli elementi */
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    padding: 15px;
+	border: 1px solid black;
+	border-collapse: separate;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	margin: 10px;
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+.risultati .product img {
+    width: 20%; /* Dimensioni dell'immagine */
+    height: auto;
+    margin-right: 5%; /* Spazio tra immagine e testo */
+}
+
+.risultati .product #name {
+    flex: 1; /* Espande il testo per occupare lo spazio rimanente */
+    font-size: 16px; /* Dimensione del testo */
+    color: #333; /* Colore del testo */
+}
+
+.risultati .product:hover {
+    background-color: #f0f0f0;
 }

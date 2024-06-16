@@ -15,7 +15,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				justify-content: center;
 			}
 			
-			div.product{
+			#contenuto div.product{
 				padding: 20px;
 				width: 20%;
 				border: 1px solid black;
@@ -25,7 +25,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				border-radius: 8px;
 				box-sizing: border-box;
 			}
-			
+		
 			#logout{
 				margin-left: 5%;
 				font-size: 18px;

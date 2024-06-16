@@ -49,7 +49,7 @@
         }
         .checkout-btn {
             display: block;
-            margin: 0px auto 15px auto;
+            margin: 0px auto 20px auto;
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;

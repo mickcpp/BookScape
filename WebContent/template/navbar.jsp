@@ -22,7 +22,7 @@
     </div>
    
      <div id="searchbar-section">
-     	<input id="searchbar" name="search" type="search" placeholder="cerca nel catalogo...">
+     	<input id="searchbar" name="search" type="text" placeholder="cerca nel catalogo...">
      	
      	<div class="risultati"></div>
      </div>
