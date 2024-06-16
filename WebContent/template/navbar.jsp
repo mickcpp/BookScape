@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<base href="${pageContext.request.contextPath}/">
     <link rel="stylesheet" href="css/navStyle.css">
 </head>
 <body>

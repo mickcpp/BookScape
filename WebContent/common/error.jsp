@@ -5,9 +5,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Servlet error</title>
+		
+		<base href="${pageContext.request.contextPath}/">
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="css/navStyle.css">
 		<link rel="stylesheet" href="css/footerStyle.css">
+		
 		<style>
 			p{
 				padding-left: 20px;
