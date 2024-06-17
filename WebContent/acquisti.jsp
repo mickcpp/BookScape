@@ -113,18 +113,18 @@
                 	Ordine ordine = listIterator.previous();
         %>
             <div class="ordine">
-                <h2 style="margin-bottom: 0.5%">Ordine ID: <%= index-- %></h2>
-           		<form id="scaricaFattura" method="post" action="FatturaDownload">
+                <h2 style="margin-bottom: 0.5%">Ordine ID: <%= index %></h2>
+           		<form id="scaricaFattura<%= index %>" method="post" action="FatturaDownload">
            			<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
         			<input type="hidden" name="orderId" value="<%= ordine.getId() %>">
            			<input type="hidden" name="dataAcquisto" value="<%= dateFormatter.format(ordine.getDataOrdine().getTime())%>">
-           			<input type="hidden" value="">
            			<input type="hidden" name="nomeCompletoConsegna" value="<%= ordine.getNomeConsegna() + " " + ordine.getCognomeConsegna()%>">
            			<input type="hidden" name="viaConsegna" value="<%= ordine.getVia()%>">
 					<input type="hidden" name="cittaConsegna" value="<%= ordine.getCitta()%>">
            			<input type="hidden" name="capConsegna" value="<%= ordine.getCAP()%>">
            			<input type="hidden" name="numeroProdotti" value="<%= ordine.getProdotti().size()%>">
            			<%
+           			
            				int i = 1;
            				for(CartItem item : ordine.getProdotti()){
            					%>
@@ -137,8 +137,11 @@
            				}
            			%>
            			<input type="hidden" name="prezzoTotale" value="<%= ordine.getPrezzoTotale()%>">
-           			<input type="submit" value="Scarica fattura">
+           			<input type="submit" value="Scarica fattura" onclick="submitFormAndRefresh('scaricaFattura<%= index%>'); return false;">
            		</form>
+           		
+        		<% index--; %>
+        		
                 <p>Data Ordine: <%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></p>
                 <p>Prezzo Totale: € <%= ordine.getPrezzoTotale() %></p>
                 <h3>Prodotti:</h3>
@@ -170,5 +173,18 @@
     </div>
     
     <%@ include file="template/footer.html" %>
+    
+    <script>
+	    // Funzione per gestire il submit del form
+	    function submitFormAndRefresh(formId) {
+		    var form = document.getElementById(formId);
+		    form.submit();
+		    
+		    setTimeout(function() {
+		        location.reload();
+		    }, 80); // 60 millisecondi di ritardo prima di aggiornare la pagina
+		}
+	</script>
+    
 </body>
 </html>

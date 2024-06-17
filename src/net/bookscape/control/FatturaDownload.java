@@ -50,6 +50,7 @@ public class FatturaDownload extends HttpServlet {
         // Verifica il token CSRF
         String csrfToken = request.getParameter("csrfToken");
         String sessionCsrfToken = (String) session.getAttribute("csrfToken");
+        
         if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
             // Token CSRF non valido
             response.sendRedirect("./");
@@ -254,9 +255,13 @@ public class FatturaDownload extends HttpServlet {
 
                 // Salvataggio del documento PDF
                 document.save(response.getOutputStream());
+                
             } catch (IOException i) {
             	System.err.println("Errore durante la creazione di una nuova pagina: " + i.getMessage());
                 i.printStackTrace();
+                
+            } finally {
+            	response.sendRedirect("OrderControl?action=visualizza");
             }
 
         } catch (IOException e) {
