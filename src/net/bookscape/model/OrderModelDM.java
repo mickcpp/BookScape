@@ -307,5 +307,63 @@ public class OrderModelDM implements OrderModel <Ordine> {
 
 	    return prodotti;
 	}
+	
+	public Cliente doRetrieveDatiFatturazioneByOrder(int orderId) throws SQLException {
+		
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Cliente clienteFatturazione = null;
 
+	    String query = "SELECT * FROM datifatturazione WHERE Ordine = ?";
+	    
+	    try {
+	        connection = DriverManagerCP.getConnection();
+	        
+	        // Process books
+	        preparedStatement = connection.prepareStatement(query);
+	        preparedStatement.setInt(1, orderId);
+	        
+	        resultSet = preparedStatement.executeQuery();
+	        
+	        while (resultSet.next()) {
+	        	
+	        	clienteFatturazione = new Cliente();
+	   
+	        	clienteFatturazione.setNome(resultSet.getString("Nome"));
+	        	clienteFatturazione.setCognome(resultSet.getString("Cognome"));
+	        	clienteFatturazione.setVia(resultSet.getString("Via"));
+	        	clienteFatturazione.setCitta(resultSet.getString("Città"));
+	        	clienteFatturazione.setCAP(resultSet.getString("CAP"));
+	        	
+	        	CartaPagamento carta = new CartaPagamento();
+	        	carta.setNomeCarta(resultSet.getString("Nome carta"));
+	        	carta.setNumeroCarta(resultSet.getString("Numero carta"));
+	        	
+				Date data = resultSet.getDate("Data scadenza");
+				GregorianCalendar dataScadenza = new GregorianCalendar();
+				dataScadenza.setTime(data);
+				
+	        	carta.setDataScadenza(dataScadenza);
+	            carta.setCvv(Integer.parseInt(resultSet.getString("CVV")));
+	            
+	            clienteFatturazione.setCarta(carta);
+	            
+	        }
+	        
+	    } finally {
+	        try {
+	            if (resultSet != null) {
+	                resultSet.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            DriverManagerCP.releaseConnection(connection);
+	        }
+	    }
+
+	    return clienteFatturazione;
+	}
 }

@@ -65,12 +65,12 @@
             color: #555;
         }
       	
-      	div a{
+      	.greenlink{
             color: #4caf50;
             text-decoration: none;
         }
         
-        h3 a{
+        .greenlinkunderline{
         	color: #4caf50;
             text-decoration: underline;
         }
@@ -256,7 +256,7 @@
     
     <div class="container">
         <h1>Profilo Cliente</h1>
-       	<h3 style="float: right"><a href="OrderControl?action=visualizza">I miei acquisti</a></h3>
+       	<h3 style="float: right"><a class="greenlinkunderline" href="OrderControl?action=visualizza">I miei acquisti</a></h3>
         <div>
             <h2>Dati Personali</h2>
             <p><strong>Email:</strong> ${cliente.getEmail()}</p>
@@ -265,7 +265,7 @@
             <p><strong>Cognome:</strong> ${cliente.getCognome()}</p>
             <p><strong>Data di Nascita:</strong> <%= dateFormatter.format(cliente.getDataNascita().getTime()) %></p>
  			<hr>
-            <p><b>Modifica Dati Personali: </b><a href="javascript:void(0);" onclick="toggleEditFormData()">Modifica</a></p>
+            <p><b>Modifica Dati Personali: </b><a class="greenlink" href="javascript:void(0);" onclick="toggleEditFormData()">Modifica</a></p>
         </div>
         <div id="edit-form" style="display: none;">
             <h2>Modifica Dati Personali</h2>
@@ -301,7 +301,7 @@
             <p><strong>Via:</strong> ${cliente.getVia()}</p>
             <p><strong>CAP:</strong> ${cliente.getCAP()}</p>
             <hr>
-            <p><b>Modifica Indirizzo: </b><a href="javascript:void(0);" onclick="toggleEditAddress()">Modifica</a></p>
+            <p><b>Modifica Indirizzo: </b><a class="greenlink" href="javascript:void(0);" onclick="toggleEditAddress()">Modifica</a></p>
         </div>
          
         <div id="edit-form-address" style="display: none">
@@ -319,11 +319,11 @@
                 CartaPagamento carta = cliente.getCarta();
                 if (carta == null || carta.getNomeCarta() == null || carta.getNumeroCarta() == null || carta.getDataScadenza() == null) {
             %>
-                <p>Aggiungi Metodo di Pagamento: <a href="javascript:void(0);" onclick="togglePaymentForm()">Aggiungi</a></p>
+                <p>Aggiungi Metodo di Pagamento: <a class="greenlink" href="javascript:void(0);" onclick="togglePaymentForm()">Aggiungi</a></p>
             <% } else { %>
                 <p>Carta: <%= carta.getNomeCarta() %> (**** **** **** <%= carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4) %>)</p>
                 <p>Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
-                <p><b>Modifica Metodo di Pagamento: </b><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
+                <p><b>Modifica Metodo di Pagamento: </b><a class="greenlink" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
                 <form action="UpdateUser" method="POST">
                     <input type="hidden" name="action" value="eliminaPagamento">
                     <input type="hidden" name="redirect" value="UserControl">
@@ -355,16 +355,22 @@
 	            <th>Via</th>
 	            <th>CAP</th>
 	            <th>Prezzo Totale</th>
+	            <th>Fattura</th>
 	        </tr>
-	        <% for (Ordine ordine : ordini) { %>
+	        <%
+	       	int i = 1;
+	        for (Ordine ordine : ordini) { %>
 	        <tr>
-	        	<td><%= ordine.getId() %></td>
+	        	<td><%= i++ %></td>
 	            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
 	            <td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
 	            <td><%= ordine.getCitta() %></td>
 	            <td><%= ordine.getVia() %></td>
 	            <td><%= ordine.getCAP() %></td>
 	            <td><%= ordine.getPrezzoTotale() %></td>
+	            <td>
+	          		<a class="greenlinkunderline" href="" onclick="submitFormInNewPage(event)">scarica</a>
+	            </td>
 	        </tr>
 	        <% } %>
 	    </table>
@@ -384,6 +390,22 @@
             const form = document.getElementById('payment-form');
             form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
         }
+        
+        function submitFormInNewPage(event) {
+            event.preventDefault(); // Previene il comportamento di default del link
+
+            var newWindow = window.open('acquisti.jsp', '_blank', 'width=1,height=1');
+
+            // Attende che la nuova pagina sia caricata e inviare il modulo
+            newWindow.onload = function() {
+                newWindow.document.getElementsByTagName('html')[0].style.display = 'none';
+                newWindow.document.getElementById('scaricaFattura').submit();
+                setTimeout(function() {
+                    newWindow.close();
+                }, 60);
+            };
+        }
+
     </script>
 </body>
 </html>

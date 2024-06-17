@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>I Miei Acquisti</title>
+  	<link rel="stylesheet" href="css/style.css">
+  	
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,7 +27,7 @@
         h1 {
             text-align: center;
             color: #333;
-            margin: 1%;
+            margin: 0.8% 1% 0% 1%;
         }
 
         .ordine {
@@ -96,16 +98,43 @@
  				return;
  			}
  			
-            if (ordini != null) {
-                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+            if (ordini.size() != 0) {
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
                 
                 List<Ordine> ordiniList = new ArrayList<Ordine>(ordini);
 				ListIterator<Ordine> listIterator = ordiniList.listIterator(ordini.size());
+	
+				int index = ordini.size();
+				
                 while (listIterator.hasPrevious()) {
                 	Ordine ordine = listIterator.previous();
         %>
             <div class="ordine">
-                <h2>Ordine ID: <%= ordine.getId() %></h2>
+                <h2 style="margin-bottom: 0.5%">Ordine ID: <%= index-- %></h2>
+           		<form id="scaricaFattura" method="post" action="FatturaDownload">
+        			<input type="hidden" name="orderId" value="<%= ordine.getId() %>">
+           			<input type="hidden" name="dataAcquisto" value="<%= dateFormatter.format(ordine.getDataOrdine().getTime())%>">
+           			<input type="hidden" value="">
+           			<input type="hidden" name="nomeCompletoConsegna" value="<%= ordine.getNomeConsegna() + " " + ordine.getCognomeConsegna()%>">
+           			<input type="hidden" name="viaConsegna" value="<%= ordine.getVia()%>">
+					<input type="hidden" name="cittaConsegna" value="<%= ordine.getCitta()%>">
+           			<input type="hidden" name="capConsegna" value="<%= ordine.getCAP()%>">
+           			<input type="hidden" name="numeroProdotti" value="<%= ordine.getProdotti().size()%>">
+           			<%
+           				int i = 1;
+           				for(CartItem item : ordine.getProdotti()){
+           					%>
+           						<input type="hidden" name="tipo<%= i %>" value="<%= item.getProduct().getClass().getSimpleName()%>">
+           						<input type="hidden" name="nome<%= i %>" value="<%= item.getProduct().getNome()%>">
+           						<input type="hidden" name="quantita<%= i %>" value="<%= item.getNumElementi()%>">
+           						<input type="hidden" name="prezzo<%= i %>" value="<%= item.getProduct().getPrezzo()%>">
+           					<%
+           					i++;
+           				}
+           			%>
+           			<input type="hidden" name="prezzoTotale" value="<%= ordine.getPrezzoTotale()%>">
+           			<input type="submit" value="Scarica fattura">
+           		</form>
                 <p>Data Ordine: <%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></p>
                 <p>Prezzo Totale: € <%= ordine.getPrezzoTotale() %></p>
                 <h3>Prodotti:</h3>
@@ -127,6 +156,11 @@
             </div>
         <%
                 }
+            } else{
+            	%>
+            		<p style="text-align: center">Non hai effettuato nessun acquisto!</p>
+            		<p style="text-align: center; padding-bottom: 21%"><a href="./">Torna al catalogo</a></p>
+            	<%
             }
         %>
     </div>

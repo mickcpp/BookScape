@@ -55,7 +55,7 @@ Città VARCHAR(50) NOT NULL,
 Via VARCHAR(50) NOT NULL,
 CAP CHAR(5) NOT NULL CHECK (CAP BETWEEN 10000 AND 99999),
 `Nome carta`VARCHAR(40) ,
-`Numero carta` CHAR(12) ,
+`Numero carta` CHAR(16) ,
 `Data scadenza` DATE ,
 CVV INT CHECK( CVV BETWEEN 100 AND 999)
 );
@@ -84,7 +84,7 @@ CREATE TABLE datiFatturazione (
     Via VARCHAR(50),
 	CAP CHAR(5) NOT NULL CHECK (CAP BETWEEN 10000 AND 99999),
 	`Nome carta`VARCHAR(40) ,
-	`Numero carta` CHAR(12) ,
+	`Numero carta` CHAR(16) ,
 	`Data scadenza` DATE ,
 	 CVV INT CHECK(CVV BETWEEN 100 AND 999),
      FOREIGN KEY (Ordine)
