@@ -1,5 +1,5 @@
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection, java.text.SimpleDateFormat" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator"%>
+<%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator, java.util.UUID"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -106,12 +106,16 @@
 	
 				int index = ordini.size();
 				
+				String csrfToken = UUID.randomUUID().toString();
+				session.setAttribute("csrfToken", csrfToken);
+				
                 while (listIterator.hasPrevious()) {
                 	Ordine ordine = listIterator.previous();
         %>
             <div class="ordine">
                 <h2 style="margin-bottom: 0.5%">Ordine ID: <%= index-- %></h2>
            		<form id="scaricaFattura" method="post" action="FatturaDownload">
+           			<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
         			<input type="hidden" name="orderId" value="<%= ordine.getId() %>">
            			<input type="hidden" name="dataAcquisto" value="<%= dateFormatter.format(ordine.getDataOrdine().getTime())%>">
            			<input type="hidden" value="">

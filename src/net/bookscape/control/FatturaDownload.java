@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -39,7 +40,24 @@ public class FatturaDownload extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+    	HttpSession session = request.getSession(false);
+    	if(session == null) {
+    		response.sendRedirect("./");
+    		return;
+    	}
     	
+        // Verifica il token CSRF
+        String csrfToken = request.getParameter("csrfToken");
+        String sessionCsrfToken = (String) session.getAttribute("csrfToken");
+        if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
+            // Token CSRF non valido
+            response.sendRedirect("./");
+            return;
+        }
+        
+        session.removeAttribute("csrfToken");
+        
     	String dataAcquisto = request.getParameter("dataAcquisto");
     	Cliente clienteFatturazione = null;
     	SimpleDateFormat scadenzaFormatter = new SimpleDateFormat("MM/yyyy");
