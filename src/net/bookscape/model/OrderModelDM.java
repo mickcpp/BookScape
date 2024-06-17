@@ -172,7 +172,14 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            
 	            // Costruisci un oggetto Ordine
 	            Ordine ordine = new Ordine();
-	            ordine.setId(resultSet.getInt("ID"));
+	            int orderId = resultSet.getInt("ID");
+	            
+        		if(completo) {
+   	            	Collection<CartItem> items = doRetrieveProductsByOrder(orderId);
+   		            ordine = new Ordine(items, null, null, 0, null, null, null, null, null, null);
+   	            }
+        		
+	            ordine.setId(orderId);
 	            ordine.setNomeConsegna(nomeConsegna);
 	            ordine.setCognomeConsegna(cognomeConsegna);
 	            ordine.setPrezzoTotale(prezzoTotale);
@@ -193,11 +200,6 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	            ordine.setVia(via);
 	            ordine.setCAP(cap);
 	            ordine.setCliente(resultSet.getString("Cliente"));
-	            
-	            if(completo) {
-	            	Collection<CartItem> items = doRetrieveProductsByOrder(ordine.getId());
-		            ordine.setProdotti(items);
-	            }
 	            
 	            // Aggiungi l'ordine alla collezione
 	            ordini.add(ordine);

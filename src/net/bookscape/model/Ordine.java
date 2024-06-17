@@ -23,7 +23,7 @@ public class Ordine implements Serializable{
 	private String clienteId;
 	
 	public Ordine(Collection<CartItem> prodotti, String nomeConsegna, String cognomeConsegna, double prezzoTotale, GregorianCalendar dataConsegna, GregorianCalendar dataOrdine, String citta, String via, String CAP, String clienteId) {
-		setProdotti(prodotti);
+		this.prodotti = prodotti;
 		this.nomeConsegna = nomeConsegna;
 		this.cognomeConsegna = cognomeConsegna;
 		this.prezzoTotale = prezzoTotale;
