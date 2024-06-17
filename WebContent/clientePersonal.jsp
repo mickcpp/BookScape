@@ -361,7 +361,7 @@
 	       	int i = 1;
 	        for (Ordine ordine : ordini) { %>
 	        <tr>
-	        	<td><%= i++ %></td>
+	        	<td><%= i %></td>
 	            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
 	            <td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
 	            <td><%= ordine.getCitta() %></td>
@@ -369,10 +369,14 @@
 	            <td><%= ordine.getCAP() %></td>
 	            <td><%= ordine.getPrezzoTotale() %></td>
 	            <td>
-	          		<a class="greenlinkunderline" href="" onclick="submitFormInNewPage(event)">scarica</a>
+	          		<a class="greenlinkunderline" href="" onclick="submitFormInNewPage(<%= i %>, event)">scarica</a>
 	            </td>
 	        </tr>
-	        <% } %>
+	        <%
+	        	i++;
+	        }
+	        
+	        %>
 	    </table>
     </div>
     
@@ -391,18 +395,18 @@
             form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
         }
         
-        function submitFormInNewPage(event) {
+        function submitFormInNewPage(i) {
             event.preventDefault(); // Previene il comportamento di default del link
 
             var newWindow = window.open('acquisti.jsp', '_blank', 'width=1,height=1');
-
+         
             // Attende che la nuova pagina sia caricata e inviare il modulo
             newWindow.onload = function() {
                 newWindow.document.getElementsByTagName('html')[0].style.display = 'none';
-                newWindow.document.getElementById('scaricaFattura').submit();
+                newWindow.document.getElementById('scaricaFattura' + i).submit();
                 setTimeout(function() {
                     newWindow.close();
-                }, 60);
+                }, 80);
             };
         }
 

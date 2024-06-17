@@ -258,10 +258,7 @@ public class FatturaDownload extends HttpServlet {
                 
             } catch (IOException i) {
             	System.err.println("Errore durante la creazione di una nuova pagina: " + i.getMessage());
-                i.printStackTrace();
-                
-            } finally {
-            	response.sendRedirect("OrderControl?action=visualizza");
+                i.printStackTrace(); 
             }
 
         } catch (IOException e) {
