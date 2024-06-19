@@ -104,7 +104,7 @@
                 List<Ordine> ordiniList = new ArrayList<Ordine>(ordini);
 				ListIterator<Ordine> listIterator = ordiniList.listIterator(ordini.size());
 	
-				int index = ordini.size();
+				int index = ordini.size() - 1;
 				
 				String csrfToken = UUID.randomUUID().toString();
 				session.setAttribute("csrfToken", csrfToken);
@@ -182,7 +182,7 @@
 		    
 		    setTimeout(function() {
 		        location.reload();
-		    }, 80); // 60 millisecondi di ritardo prima di aggiornare la pagina
+		    }, 90); // 90 millisecondi di ritardo prima di aggiornare la pagina
 		}
 	</script>
     
