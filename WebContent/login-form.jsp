@@ -8,8 +8,8 @@
 	    <style>
 	        /* Stili CSS per il form */
 	        body {
-	            font-family: Arial, sans-serif;
-	            background-color: #f4f4f4;
+				font-family: 'Roboto', sans-serif;
+           		background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
 	        }
 	        .login-box {
 	            width: 300px;
