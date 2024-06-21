@@ -40,7 +40,7 @@ nav #links ul a:hover {
 
 #zona_utente #searchbar-section {
     position: relative; /* Aggiungiamo posizionamento relativo */
-    width: 36%;
+    width: 42%;
     flex-shrink: 10;
 }
 
@@ -59,18 +59,20 @@ nav #links ul a:hover {
     background-image: url("../img/search_icon.png");
     background-repeat: no-repeat;
     background-position: right 10px center;
-    background-size: 28px;
+    background-size: 26px;
     color: grey;
     border: 2px solid #ccc;
   	border-radius: 7px;
   	outline: none;
-  	font-size: 19px;
+  	font-size: 17px;
+  	padding: 12px 8px;
+	box-sizing: border-box;
 }
 
 #zona_utente input::placeholder{
     color: rgba(57, 56, 56, 0.533);
-    font-size: 19px;
-    transform: translateY(1.8px);
+    font-size: 17.5px;
+    transform: translateY(1.6px);
 }
 
 .risultati {

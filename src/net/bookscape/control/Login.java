@@ -2,6 +2,7 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,13 +37,22 @@ public class Login extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-		boolean checkLogin = false;
-		String error = "";
-	
+		
 		if(id == null || password == null) {
 			response.sendRedirect("login-form.jsp");
 			return;
 		}
+		
+		String errorMessage = validateInputs(id, password);
+
+        if (errorMessage != null) {
+            request.setAttribute("error", errorMessage);
+            request.getRequestDispatcher("/login-form.jsp").forward(request, response);
+            return;
+        }
+	        
+		boolean checkLogin = false;
+		String error = "";
 		
 		try {
 			checkLogin =  checkLogin(id, password, request);
@@ -58,6 +68,10 @@ public class Login extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
 
 	private boolean checkLogin(String id, String password, HttpServletRequest request) throws Exception{
 		
@@ -65,7 +79,7 @@ public class Login extends HttpServlet {
 		cliente = model.doRetrieveByKey(id);
 		
 		if(cliente == null) {
-			throw new Exception("username o password errati!");
+			throw new Exception("Username o password errata!");
 		} else {
 			if((id.equals(cliente.getEmail()) || id.equals(cliente.getUsername())) && model.toHash(password).equals(cliente.getPassword())) {
 				Cart cart = new Cart();
@@ -85,14 +99,32 @@ public class Login extends HttpServlet {
 				}
 				return true;
 			} else {
-				throw new Exception("username o password errati!");
+				throw new Exception("Username o password errata!");
 			}
 		}
 	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request, response);
+	
+	private String validateInputs(String id, String password) {
+		 if (id.contains("@")) {
+             if (!validateEmail(id) || password.length() < 8) {
+                 return "Email o password errata!";
+             }
+         } else {
+             if (!validateUsername(id) || password.length() < 8) {
+              	 return "Username o password errata!";
+             }
+         }
+        return null;
+    }
+	
+	private boolean validateEmail(String email) {
+        String regex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+        return Pattern.compile(regex).matcher(email).matches();
 	}
+
+    private boolean validateUsername(String username) {
+        String regex = "^[a-zA-Z0-9_.]{3,}$";
+        return Pattern.compile(regex).matcher(username).matches();
+    }
 	
 }

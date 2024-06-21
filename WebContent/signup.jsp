@@ -6,9 +6,8 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <title>Registrazione Cliente</title>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	    
 	    <style>
-	        @charset "UTF-8";
-	
 	        html, body {
 	            margin: 0;
 	            padding: 0;
@@ -25,26 +24,26 @@
 	            width: 90%;
 	            max-width: 600px;
 	            text-align: center;
-	           	margin: 0 auto;
+	           	margin: 0.5% auto 2% auto;
 	        }
 	
 	        h2 {
 	            color: #333;
-	            margin-bottom: 20px;
+	          	margin: 0 auto 11px auto;
 	        }
 	
 	        label {
 	            display: block;
 	            font-weight: bold;
-	            margin-bottom: 8px;
 	            text-align: left;
 	            color: #555;
+	            margin-bottom: 8px;
 	        }
 	
-	        input[type="text"],
-	        input[type="email"],
-	        input[type="password"],
-	        input[type="date"] {
+	        .container input[type="text"],
+	        .container input[type="email"],
+	        .container input[type="password"],
+	        .container input[type="date"] {
 	            width: 100%;
 	            padding: 12px;
 	            margin-bottom: 20px;
@@ -53,7 +52,7 @@
 	            box-sizing: border-box;
 	            font-size: 16px;
 	        }
-	
+	        
 	        .error-message {
 	            color: #e74c3c;
 	            font-size: 0.9em;
@@ -86,11 +85,38 @@
 	        .form-group .fa {
 	            position: absolute;
 	            right: 10px;
-	            top: 50px;
+	            top: 48px;
 	            transform: translateY(-50%);
 	            color: #999;
 	        }
 	
+	        .tab-container {
+	            display: flex;
+	            justify-content: space-around;
+	            margin-bottom: 24px;
+	          	font-size: 1.1em;
+	        }
+	
+	       .tab {
+			    padding: 10px 20px;
+			    cursor: pointer;
+			}
+			
+			.tab a{
+				padding: 10px 10px;
+			}
+		
+			.tab.non-active{
+				border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+			    opacity: 0.5;
+			    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
+			}
+	
+	        .tab.active {
+	            border-bottom: 2px solid #1abc9c;
+	            color: #1abc9c;
+	        }
+	        
 	        @media (max-width: 768px) {
 	            .container {
 	                padding: 30px;
@@ -107,6 +133,12 @@
 	    <%@ include file="template/navbar.jsp" %>
 	
 	    <div class="container">
+	    
+	        <div class="tab-container">
+	            <div id="login-tab" class="tab non-active"><a href="login-form.jsp" style="text-decoration: none; color: inherit;">Login</a></div>
+	            <div id="signup-tab" class="tab active"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Registrazione</a></div>
+	        </div>
+        
 	        <h2>Registrazione Cliente</h2>
 	     
 	     	<%
