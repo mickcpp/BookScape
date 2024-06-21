@@ -86,7 +86,9 @@ public class Registration extends HttpServlet {
             return "Inserisci un'email valida.";
         }
         if (!validateUsername(username)) {
-            if (username.length() < 3) {
+        	if (username.length() > 20) {
+        		return "L'username può essere lungo al massimo 20 caratteri";
+        	} else if (username.length() < 3) {
                 return "L'username deve essere lungo almeno 3 caratteri";
             } else {
                 return "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.";
@@ -96,23 +98,37 @@ public class Registration extends HttpServlet {
             return "La password deve essere lunga almeno 8 caratteri.";
         }
         if (!validateName(nome)) {
-            if (nome.length() < 3) {
+        	if (nome.length() > 50) {
+        		return "Il nome può essere lungo al massimo 50 caratteri";
+        	} else if (nome.length() < 3) {
                 return "Il nome deve essere lungo almeno 3 caratteri";
             } else {
                 return "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)";
             }
         }
         if (!validateAlpha(cognome)) {
-            return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
+        	if (cognome.length() > 50) {
+        		return "Il cognome può essere lungo al massimo 50 caratteri";
+        	} else {
+        		 return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
+        	}
         }
         if (!validateDate(dataNascita)) {
             return "Inserisci una data di nascita valida.";
         }
         if (!validateAlphaNumericWithSpaces(citta)) {
-            return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
+        	if (citta.length() > 50) {
+        		return "La città può essere lunga al massimo 50 caratteri";
+        	} else {
+                return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
+        	}
         }
         if (!validateAlphaNumericWithSpaces(via)) {
-            return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
+        	if (via.length() > 50) {
+        		return "La via può essere lunga al massimo 50 caratteri";
+        	} else {
+                return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
+        	}
         }
         if (!validateCAP(CAP)) {
             return "Inserisci un CAP valido.";
@@ -126,7 +142,7 @@ public class Registration extends HttpServlet {
     }
 
     private boolean validateUsername(String username) {
-        String regex = "^[a-zA-Z0-9_.]{3,}$";
+        String regex = "^[a-zA-Z0-9_.]{3,20}$";
         return Pattern.compile(regex).matcher(username).matches();
     }
 
@@ -142,7 +158,7 @@ public class Registration extends HttpServlet {
     }
 
     private boolean validateAlpha(String input) {
-        String regex = "^[a-zA-Z]{3,}$";
+        String regex = "^[a-zA-Z]{3,50}$";
         return Pattern.compile(regex).matcher(input).matches();
     }
 
@@ -152,14 +168,14 @@ public class Registration extends HttpServlet {
         if (spaceCount > 1) {
             return false;
         } else if (spaceCount == 1) {
-            return trimmedInput.length() >= 7 && trimmedInput.matches("^[a-zA-Z\\s]+$");
+            return trimmedInput.length() >= 7 && trimmedInput.length() <= 50 && trimmedInput.matches("^[a-zA-Z\\s]+$");
         } else {
-            return trimmedInput.length() >= 3 && trimmedInput.matches("^[a-zA-Z]+$");
+            return trimmedInput.length() >= 3 && trimmedInput.length() <= 50 && trimmedInput.matches("^[a-zA-Z]+$");
         }
     }
 
     private boolean validateAlphaNumericWithSpaces(String input) {
-        String regex = "^[a-zA-Z0-9\\s]{3,}$";
+        String regex = "^[a-zA-Z0-9\\s]{3,50}$";
         boolean containsLetter = Pattern.compile("[a-zA-Z]").matcher(input).find();
         return containsLetter && Pattern.compile(regex).matcher(input).matches();
     }

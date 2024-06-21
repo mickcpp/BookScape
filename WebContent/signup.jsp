@@ -245,7 +245,10 @@
 		        }
 		        
 		        if (!validateUsername(username.value)) {
-		        	if (username.value.length < 3) {
+		        	if (username.value.length > 20) {
+			        	showError(username, "L'username può essere lungo al massimo 20 caratteri");
+			            isValid = false;
+		        	} else if (username.value.length < 3) {
 			        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
 			            isValid = false;
 		        	} else{
@@ -260,7 +263,10 @@
 		        }
 		
 		        if (!validateName(nome.value)) {
-		        	if (nome.value.length < 3) {
+		        	if (nome.value.length > 50) {
+			        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
+			            isValid = false;
+		        	} else if (nome.value.length < 3) {
 			        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
 			            isValid = false;
 		        	} else{
@@ -270,8 +276,13 @@
 		        }
 		
 		        if (!validateAlpha(cognome.value)) {
-		            showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
-		            isValid = false;
+		        	if (cognome.value.length > 50) {
+			        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
+			            isValid = false;
+		        	} else{
+		        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
+				        isValid = false;
+		        	}
 		        }
 		
 		        if (!validateDate(dataNascita.value)) {
@@ -280,13 +291,23 @@
 		        }
 		
 		        if (!validateAlphaNumericWithSpaces(citta.value)) {
-		            showError(citta, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
+		        	if (citta.value.length > 50) {
+			        	showError(citta, "La città può essere lunga al massimo 50 caratteri");
+			            isValid = false;
+		        	} else{
+		        		showError(citta, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+			            isValid = false;
+		        	}
 		        }
 		        
 		        if (!validateAlphaNumericWithSpaces(via.value)) {
-		            showError(via, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
+		        	if (via.value.length > 50) {
+			        	showError(via, "La via può essere lunga al massimo 50 caratteri");
+			            isValid = false;
+		        	} else{
+		        		showError(via, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+			            isValid = false;
+		        	}
 		        }
 		
 		        if (!validateCAP(CAP.value)) {
@@ -303,7 +324,7 @@
 	        }
 	       	
 	       	function validateUsername(username) {
-		        const re = /^[a-zA-Z0-9_.]{3,}$/;
+		        const re = /^[a-zA-Z0-9_.]{3,20}$/;
 		        return re.test(String(username));
 		    }
 
@@ -319,7 +340,7 @@
 	        }
 		
 		    function validateAlpha(input) {
-		    	const re = /^[a-zA-Z]{3,}$/;
+		    	const re = /^[a-zA-Z]{3,50}$/;
 		        return re.test(String(input));
 		    }
 		
@@ -333,15 +354,15 @@
 		            return false;
 		        } else if (trimInput.includes(' ')) {
 		            // Se c'è esattamente un solo spazio, verifica che la lunghezza sia almeno 7 caratteri (3 per nome piu lo spazio)
-		            return trimInput.length >= 7 && /^[a-zA-Z\s]+$/.test(trimInput);
+		            return trimInput.length >= 7 && trimInput.length <= 50 && /^[a-zA-Z\s]+$/.test(trimInput);
 		        } else {
 		            // Se non c'è spazio, verifica che la lunghezza sia almeno 3 caratteri
-		            return trimInput.length >= 3 && /^[a-zA-Z]+$/.test(trimInput);
+		            return trimInput.length >= 3 && trimInput.length <= 50 && /^[a-zA-Z]+$/.test(trimInput);
 		        }
 		    }
 		    
 		    function validateAlphaNumericWithSpaces(input) {
-		        const re = /^[a-zA-Z0-9\s]{3,}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
+		        const re = /^[a-zA-Z0-9\s]{3,50}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
 		        const containsLetter = /[a-zA-Z]/.test(input);  // Verifica se c'è almeno una lettera
 		        return containsLetter && re.test(String(input));
 		    }
