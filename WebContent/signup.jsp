@@ -24,9 +24,13 @@
 	            width: 90%;
 	            max-width: 600px;
 	            text-align: center;
-	           	margin: 0.5% auto 2% auto;
+	           	margin: -29px auto 2% auto;
 	        }
 	
+			#zona_utente #searchbar-section{
+				display: none;
+			}
+			
 	        h2 {
 	            color: #333;
 	          	margin: 0 auto 11px auto;

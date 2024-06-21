@@ -14,7 +14,11 @@
             font-family: 'Roboto', sans-serif;
             background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
         }
-
+	
+		#zona_utente #searchbar-section{
+			display: none;
+		}
+		
         .container {
             background-color: #fff;
             border-radius: 10px;
@@ -23,7 +27,7 @@
             width: 90%;
             max-width: 350px;
             text-align: center;
-            margin: 1.8% auto 5% auto;
+            margin: -10px auto 6% auto;
         }
       	
         h2 {
@@ -108,7 +112,7 @@
         .tab-container {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 18px;
+            margin-bottom: 19px;
           	font-size: 1.1em;
         }
 
