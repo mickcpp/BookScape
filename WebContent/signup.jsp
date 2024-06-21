@@ -101,148 +101,8 @@
 	            }
 	        }
 	    </style>
-	
-	    <script>
-		    function validateForm() {
-		        let isValid = true;
-		
-		       	console.log("ciao1");
-		        const email = document.getElementById('email');
-		        const username = document.getElementById('username');
-		        const password = document.getElementById('password');
-		        const nome = document.getElementById('nome');
-		        const cognome = document.getElementById('cognome');
-		        const dataNascita = document.getElementById('dataNascita');
-		        const citta = document.getElementById('citta');
-		        const via = document.getElementById('via');
-		        const CAP = document.getElementById('CAP');
-		        
-		        resetErrors();
-		
-		        if (!validateEmail(email.value)) {
-		            showError(email, "Inserisci un'email valida.");
-		            isValid = false;
-		        }
-		        
-		        if (!validateUsername(username.value)) {
-		        	if (username.value.length < 3) {
-			        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(username, "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.");
-			            isValid = false;
-		        	}
-		        }
-		
-		        if (password.value.length < 8) {
-		            showError(password, "La password deve essere lunga almeno 8 caratteri.");
-		            isValid = false;
-		        }
-		
-		        if (!validateName(nome.value)) {
-		        	if (nome.value.length < 3) {
-			        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
-			            isValid = false;
-		        	}
-		        }
-		
-		        if (!validateAlpha(cognome.value)) {
-		            showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
-		            isValid = false;
-		        }
-		
-		        if (!validateDate(dataNascita.value)) {
-		            showError(dataNascita, "Inserisci una data di nascita valida.");
-		            isValid = false;
-		        }
-		
-		        if (!validateAlphaNumericWithSpaces(citta.value)) {
-		            showError(citta, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-		        }
-		        
-		        if (!validateAlphaNumericWithSpaces(via.value)) {
-		            showError(via, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-		        }
-		
-		        if (!validateCAP(CAP.value)) {
-		            showError(CAP, "Inserisci un CAP valido.");
-		            isValid = false;
-		        }
-		
-		        return isValid;
-		    }
-		
-	       	function validateEmail(email) {
-	            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	            return re.test(String(email).toLowerCase());
-	        }
-	       	
-	       	function validateUsername(username) {
-		        const re = /^[a-zA-Z0-9_.]{3,}$/;
-		        return re.test(String(username));
-		    }
-
-	        function validateDate(date) {
-	            const currentDate = new Date();
-	            const inputDate = new Date(date);
-	            return inputDate < currentDate;
-	        }
-
-	        function validateCAP(cap) {
-	            const re = /^\d{5}$/;
-	            return re.test(String(cap));
-	        }
-		
-		    function validateAlpha(input) {
-		    	const re = /^[a-zA-Z]{3,}$/;
-		        return re.test(String(input));
-		    }
-		
-		    function validateName(input) {
-		        const trimmedInput = input.trim();
-
-		        // Conta il numero di spazi nella stringa
-		        const spaceCount = trimmedInput.split(' ').length - 1;
-
-		        if (spaceCount > 1) {
-		            // Se ci sono più di un solo spazio, ritorna false
-		            return false;
-		        } else if (trimmedInput.includes(' ')) {
-		            // Se c'è esattamente un solo spazio, verifica che la lunghezza sia almeno 6 caratteri
-		            return trimmedInput.length >= 7 && /^[a-zA-Z\s]+$/.test(trimmedInput);
-		        } else {
-		            // Se non c'è spazio, verifica che la lunghezza sia almeno 3 caratteri
-		            return trimmedInput.length >= 3 && /^[a-zA-Z]+$/.test(trimmedInput);
-		        }
-		    }
-		    
-		    function validateAlphaNumericWithSpaces(input) {
-		        const re = /^[a-zA-Z0-9\s]{3,}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
-		        const containsLetter = /[a-zA-Z]/.test(input);  // Verifica se c'è almeno una lettera
-		        return containsLetter && re.test(String(input));
-		    }
-		
-	        function showError(input, message) {
-	            const errorElement = input.parentElement.querySelector('.error-message');
-	            errorElement.textContent = message;
-	            errorElement.style.display = 'block';
-	        }
-	        
-		    function resetErrors() {
-		        const errorMessages = document.querySelectorAll('.error-message');
-		        errorMessages.forEach(function (error) {
-		            error.style.display = 'none';
-		            error.textContent = '';
-		        });
-		    }
-	
-	    </script>
 	</head>
+	
 	<body>
 	    <%@ include file="template/navbar.jsp" %>
 	
@@ -326,5 +186,144 @@
 	    </div>
 	
 	    <%@ include file="template/footer.html" %>
+	    
+	    <script>
+    		function validateForm() {
+		        let isValid = true;
+		
+		        const email = document.getElementById('email');
+		        const username = document.getElementById('username');
+		        const password = document.getElementById('password');
+		        const nome = document.getElementById('nome');
+		        const cognome = document.getElementById('cognome');
+		        const dataNascita = document.getElementById('dataNascita');
+		        const citta = document.getElementById('citta');
+		        const via = document.getElementById('via');
+		        const CAP = document.getElementById('CAP');
+		        
+		        resetErrors();
+		
+		        if (!validateEmail(email.value)) {
+		            showError(email, "Inserisci un'email valida.");
+		            isValid = false;
+		        }
+		        
+		        if (!validateUsername(username.value)) {
+		        	if (username.value.length < 3) {
+			        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
+			            isValid = false;
+		        	} else{
+		        		showError(username, "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.");
+			            isValid = false;
+		        	}
+		        }
+		
+		        if (password.value.length < 8) {
+		            showError(password, "La password deve essere lunga almeno 8 caratteri.");
+		            isValid = false;
+		        }
+		
+		        if (!validateName(nome.value)) {
+		        	if (nome.value.length < 3) {
+			        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
+			            isValid = false;
+		        	} else{
+		        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
+			            isValid = false;
+		        	}
+		        }
+		
+		        if (!validateAlpha(cognome.value)) {
+		            showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
+		            isValid = false;
+		        }
+		
+		        if (!validateDate(dataNascita.value)) {
+		            showError(dataNascita, "Inserisci una data di nascita valida.");
+		            isValid = false;
+		        }
+		
+		        if (!validateAlphaNumericWithSpaces(citta.value)) {
+		            showError(citta, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+		        }
+		        
+		        if (!validateAlphaNumericWithSpaces(via.value)) {
+		            showError(via, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+		        }
+		
+		        if (!validateCAP(CAP.value)) {
+		            showError(CAP, "Inserisci un CAP valido.");
+		            isValid = false;
+		        }
+		
+		        return isValid;
+		   	}	
+		
+	       	function validateEmail(email) {
+	            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	            return re.test(String(email).toLowerCase());
+	        }
+	       	
+	       	function validateUsername(username) {
+		        const re = /^[a-zA-Z0-9_.]{3,}$/;
+		        return re.test(String(username));
+		    }
+
+	        function validateDate(date) {
+	            const currentDate = new Date();
+	            const inputDate = new Date(date);
+	            return inputDate < currentDate;
+	        }
+
+	        function validateCAP(cap) {
+	            const re = /^\d{5}$/;
+	            return re.test(String(cap));
+	        }
+		
+		    function validateAlpha(input) {
+		    	const re = /^[a-zA-Z]{3,}$/;
+		        return re.test(String(input));
+		    }
+		
+		    function validateName(input) {
+		        const trimInput = input.trim();
+
+		        // Conta il numero di spazi nella stringa
+		        const numeroSpazi = trimInput.split(' ').length - 1;
+
+		        if (numeroSpazi > 1) {
+		            return false;
+		        } else if (trimInput.includes(' ')) {
+		            // Se c'è esattamente un solo spazio, verifica che la lunghezza sia almeno 7 caratteri (3 per nome piu lo spazio)
+		            return trimInput.length >= 7 && /^[a-zA-Z\s]+$/.test(trimInput);
+		        } else {
+		            // Se non c'è spazio, verifica che la lunghezza sia almeno 3 caratteri
+		            return trimInput.length >= 3 && /^[a-zA-Z]+$/.test(trimInput);
+		        }
+		    }
+		    
+		    function validateAlphaNumericWithSpaces(input) {
+		        const re = /^[a-zA-Z0-9\s]{3,}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
+		        const containsLetter = /[a-zA-Z]/.test(input);  // Verifica se c'è almeno una lettera
+		        return containsLetter && re.test(String(input));
+		    }
+		
+	        function showError(input, message) {
+	            const errorElement = input.parentElement.querySelector('.error-message');
+	            errorElement.textContent = message;
+	            errorElement.style.display = 'block';
+	        }
+	        
+		    function resetErrors() {
+		        const errorMessages = document.querySelectorAll('.error-message');
+		        errorMessages.forEach(function (error) {
+		            error.style.display = 'none';
+		            error.textContent = '';
+		        });
+		    }
+	    </script>
+	    
 	</body>
 </html>
