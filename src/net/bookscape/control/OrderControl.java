@@ -64,6 +64,8 @@ public class OrderControl extends HttpServlet {
                     default:
                         response.sendRedirect("error404.jsp");
                 }
+            } else {
+            	response.sendRedirect("./");
             }
             
         } catch (SQLException e) {
@@ -116,6 +118,10 @@ public class OrderControl extends HttpServlet {
             ordine.setCAP(cap);
                 
             request.setAttribute("fatturazioneCheckbox", false);
+        } else {
+        	ordine.setVia(cliente.getVia());
+            ordine.setCitta(cliente.getCitta());
+            ordine.setCAP(cliente.getCAP());
         }
        
         ordine.setCliente(cliente.getEmail());
