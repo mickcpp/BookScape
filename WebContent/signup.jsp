@@ -136,6 +136,14 @@
 	<body>
 	    <%@ include file="template/navbar.jsp" %>
 	
+		<%
+			String clienteId = (String) request.getSession().getAttribute("cliente");
+		    if(clienteId != null){
+		        response.sendRedirect("./");
+		        return;
+		    }
+	    %>
+	    
 	    <div class="container">
 	    
 	        <div class="tab-container">
@@ -318,55 +326,6 @@
 		        return isValid;
 		   	}	
 		
-	       	function validateEmail(email) {
-	            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	            return re.test(String(email).toLowerCase());
-	        }
-	       	
-	       	function validateUsername(username) {
-		        const re = /^[a-zA-Z0-9_.]{3,20}$/;
-		        return re.test(String(username));
-		    }
-
-	        function validateDate(date) {
-	            const currentDate = new Date();
-	            const inputDate = new Date(date);
-	            return inputDate < currentDate;
-	        }
-
-	        function validateCAP(cap) {
-	            const re = /^\d{5}$/;
-	            return re.test(String(cap));
-	        }
-		
-		    function validateAlpha(input) {
-		    	const re = /^[a-zA-Z]{3,50}$/;
-		        return re.test(String(input));
-		    }
-		
-		    function validateName(input) {
-		        const trimInput = input.trim();
-
-		        // Conta il numero di spazi nella stringa
-		        const numeroSpazi = trimInput.split(' ').length - 1;
-
-		        if (numeroSpazi > 1) {
-		            return false;
-		        } else if (trimInput.includes(' ')) {
-		            // Se c'è esattamente un solo spazio, verifica che la lunghezza sia almeno 7 caratteri (3 per nome piu lo spazio)
-		            return trimInput.length >= 7 && trimInput.length <= 50 && /^[a-zA-Z\s]+$/.test(trimInput);
-		        } else {
-		            // Se non c'è spazio, verifica che la lunghezza sia almeno 3 caratteri
-		            return trimInput.length >= 3 && trimInput.length <= 50 && /^[a-zA-Z]+$/.test(trimInput);
-		        }
-		    }
-		    
-		    function validateAlphaNumericWithSpaces(input) {
-		        const re = /^[a-zA-Z0-9\s]{3,50}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
-		        const containsLetter = /[a-zA-Z]/.test(input);  // Verifica se c'è almeno una lettera
-		        return containsLetter && re.test(String(input));
-		    }
-		
 	        function showError(input, message) {
 	            const errorElement = input.parentElement.querySelector('.error-message');
 	            errorElement.textContent = message;
@@ -382,5 +341,6 @@
 		    }
 	    </script>
 	    
+	    <script src="js/ValidationLibraryCliente.js"></script>
 	</body>
 </html>

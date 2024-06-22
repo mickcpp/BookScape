@@ -2,7 +2,6 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +16,7 @@ import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.Wishlist;
 import net.bookscape.model.WishlistModelDM;
+import utility.ValidationLibraryCliente;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -106,25 +106,14 @@ public class Login extends HttpServlet {
 	
 	private String validateInputs(String id, String password) {
 		 if (id.contains("@")) {
-             if (!validateEmail(id) || password.length() < 8) {
+             if (!ValidationLibraryCliente.validateEmail(id) || password.length() < 8) {
                  return "Email o password errata!";
              }
          } else {
-             if (!validateUsername(id) || password.length() < 8) {
+             if (!ValidationLibraryCliente.validateUsername(id) || password.length() < 8) {
               	 return "Username o password errata!";
              }
          }
         return null;
     }
-	
-	private boolean validateEmail(String email) {
-        String regex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
-        return Pattern.compile(regex).matcher(email).matches();
-	}
-
-    private boolean validateUsername(String username) {
-        String regex = "^[a-zA-Z0-9_.]{3,}$";
-        return Pattern.compile(regex).matcher(username).matches();
-    }
-	
 }

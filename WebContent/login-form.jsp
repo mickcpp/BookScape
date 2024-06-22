@@ -140,7 +140,15 @@
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>
-
+    
+    <%
+	    String clienteId = (String) request.getSession().getAttribute("cliente");
+	    if(clienteId != null){
+	        response.sendRedirect("./");
+	        return;
+	    }
+    %>
+    
     <div class="container">
         <div class="tab-container">
             <div id="login-tab" class="tab active"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Login</a></div>
@@ -203,16 +211,6 @@
             return isValid;
         }
 
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(String(email).toLowerCase());
-        }
-        
-        function validateUsername(username) {
-            const re = /^[a-zA-Z0-9_.]{3,}$/;
-            return re.test(String(username));
-        }
-
         function showError(message) {
             const errorElement = document.getElementById('error-message');
             errorElement.textContent = message;
@@ -225,5 +223,7 @@
             errorElement.style.display = 'none';
         }
     </script>
+    
+    <script src="js/ValidationLibraryCliente.js"></script>
 </body>
 </html>

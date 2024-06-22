@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="css/style.css">
+   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ 
     <title>Profilo Cliente</title>
     <style>
         body {
@@ -93,6 +95,10 @@
             box-sizing: border-box;  
         }
         
+        .payment-form input{
+        	width: 100%;
+        }
+        
         .payment-form label,
         #edit-form label,
         #edit-form-address label {
@@ -104,8 +110,8 @@
         
         #edit-form-address input{
             display: inline-block;
-            width: calc(100% - 150px);
-            padding: 6.7px;
+            width: calc(100% - 70px);
+            padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -124,6 +130,9 @@
             transition: background-color 0.3s ease;
         }
        
+        #edit-form-address button{
+           padding: 10px 12px;
+        }
         button:hover {
             background-color: #218838;
         }
@@ -202,6 +211,38 @@
 		    color: #444;
 		}
 		
+		.form-group {
+            position: relative;
+	     }    
+	   
+	 	.form-group .fa {
+            position: absolute;
+            right: 18px;
+            top: 23px;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+	    .payment-form .fa{
+        	right: 14px;
+        } 
+        
+      	.fa-cc-visa, .fa-cc-mastercard{
+      		position: absolute;
+            right: 12px;
+            top: 23px;
+            transform: translateY(-50%);
+          	font-size: 1.3em;
+      	}
+      	
+	    .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+          	margin: -10px 8px 1.55% auto;
+            text-align: right;
+            display: none;
+        }
+	
 		/* Responsive table */
 		@media screen and (max-width: 600px) {
 		    table, th, td {
@@ -236,9 +277,15 @@
         }
     %>
     <%
+	   	String clienteId = (String) request.getSession().getAttribute("cliente");
+	    if(clienteId == null){
+	        response.sendRedirect("login-form.jsp");
+	        return;
+	    }
+    
         Cliente cliente = (Cliente) request.getAttribute("cliente");
         if(cliente == null){
-            response.sendRedirect("login-form.jsp");
+            response.sendRedirect("UserControl");
             return;
         }
         
@@ -269,17 +316,31 @@
         </div>
         <div id="edit-form" style="display: none;">
             <h2>Modifica Dati Personali</h2>
-            <form action="UpdateUser" method="post">
+            <form action="UpdateUser" method="post" onsubmit="return validateFormData()">
                 <input type="hidden" name="action" value="updateDatiPersonali">
                 <input type="hidden" name="redirect" value="UserControl">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="${cliente.getUsername()}" required><br>
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="${cliente.getNome()}" required><br>
-                <label for="cognome">Cognome:</label>
-                <input type="text" id="cognome" name="cognome" value="${cliente.getCognome()}" required><br>
-                <label for="dataNascita">Data di Nascita:</label>
-               
+                
+                <div class="form-group">
+                	<label for="username">Username:</label>
+	                <input type="text" id="username" name="username" value="${cliente.getUsername()}" required>
+	                <i class="fa fa-user"></i>
+	                <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                	<label for="nome">Nome:</label>
+                	<input type="text" id="nome" name="nome" value="${cliente.getNome()}" required><br>
+	                <i class="fa fa-id-card"></i>
+	                <div class="error-message"></div>
+                </div>
+                
+            	<div class="form-group">
+                	<label for="cognome">Cognome:</label>
+                	<input type="text" id="cognome" name="cognome" value="${cliente.getCognome()}" required><br>
+	                <i class="fa fa-id-card"></i>
+	                <div class="error-message"></div>
+                </div>
+                
                <%
 	               GregorianCalendar dataNascita = cliente.getDataNascita();
 	
@@ -291,7 +352,13 @@
 	               // Formatta la data nel formato YYYY-MM-DD
 	               String formattedDate = String.format("%04d-%02d-%02d", year, month, day);
                %>
-                <input type="date" id="dataNascita" name="dataNascita" value="<%= formattedDate %>"required><br>
+                
+                <div class="form-group">
+                	<label for="dataNascita">Data di Nascita:</label>
+                	<input type="date" id="dataNascita" name="dataNascita" value="<%= formattedDate %>"required><br>
+	                <div class="error-message"></div>
+                </div>
+                
                 <button type="submit">Salva Modifiche</button>
             </form>
         </div>
@@ -306,11 +373,15 @@
          
         <div id="edit-form-address" style="display: none">
             <h2>Modifica Indirizzo</h2>
-            <form action="UpdateUser" method="post">
+            <form action="UpdateUser" method="post" onsubmit="return validateFormAddress()">
              	<input type="hidden" name="action" value="updateIndirizzo">
                 <input type="hidden" name="redirect" value="UserControl">
-                <input type="text" name="indirizzo" placeholder="Via, Città, CAP" required>
-                <button type="submit">Salva</button>
+                
+                <div class="form-group">
+                	<input type="text" id="indirizzo" name="indirizzo" placeholder="Via, Città, CAP" required>
+                	<button type="submit">Salva</button>
+	                <div class="error-message" style="text-align: left"></div>
+                </div>
             </form>
         </div>
         <div class="checkout-payment-info">
@@ -330,14 +401,30 @@
                     <button id="eliminaCarta" type="submit">Elimina</button>
                 </form>
             <% } %>
-            <div id="payment-form" class="payment-form">
+            <div id="payment-form" class="payment-form" onsubmit="return validateFormPayment()">
                 <form action="UpdateUser" method="post">
                     <input type="hidden" name="action" value="updatePagamento">
                     <input type="hidden" name="redirect" value="UserControl">
-                    <input type="text" name="nomeCarta" placeholder="Nome sulla Carta" required>
-                    <input type="text" name="numeroCarta" placeholder="Numero della Carta" required>
-                    <input type="month" name="dataScadenza" required>
-                    <input type="text" name="cvv" placeholder="CVV" required>
+                    <div class="form-group">
+	                	<input type="text" id="nomeCarta" name="nomeCarta" placeholder="Nome sulla Carta" required>
+		                <i class="fa fa-id-card"></i>
+		                <div class="error-message" style="text-align: left"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="text" id="numeroCarta" name="numeroCarta" maxlength="19" autocomplete="cc-number" placeholder="Numero della carta" required>
+		                <i id="cardLogo" class="fa fa-credit-card"></i>
+		                <div class="error-message" style="text-align: left"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="month" id="dataScadenza" name="dataScadenza" required>
+		                <div class="error-message" style="text-align: left"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="4" required>
+		                <i class="fa fa-lock"></i>
+		                <div class="error-message" style="text-align: left"></div>
+                	</div>
+                   
                     <button type="submit">Salva Metodo di Pagamento</button>
                 </form>
             </div>
@@ -381,7 +468,8 @@
     </div>
     
     <%@ include file="template/footer.html" %>
-    <script>
+    
+    <script>    
         function toggleEditFormData() {
             const form = document.getElementById('edit-form');
             form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
@@ -409,7 +497,183 @@
                 }, 80);
             };
         }
+	
+		function validateFormData() {
+	        let isValid = true;
+	        
+	        const username = document.getElementById('username');
+	        const nome = document.getElementById('nome');
+	        const cognome = document.getElementById('cognome');
+	        const dataNascita = document.getElementById('dataNascita');
+	        
+	        resetErrors();
+	        
+	        if (!validateUsername(username.value)) {
+	        	if (username.value.length > 20) {
+		        	showError(username, "L'username può essere lungo al massimo 20 caratteri");
+		            isValid = false;
+	        	} else if (username.value.length < 3) {
+		        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(username, "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.");
+		            isValid = false;
+	        	}
+	        }
+	
+	        if (!validateName(nome.value)) {
+	        	if (nome.value.length > 50) {
+		        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
+		            isValid = false;
+	        	} else if (nome.value.length < 3) {
+		        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
+		            isValid = false;
+	        	}
+	        }
+	
+	        if (!validateAlpha(cognome.value)) {
+	        	if (cognome.value.length > 50) {
+		        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
+			        isValid = false;
+	        	}
+	        }
+	
+	        if (!validateDate(dataNascita.value)) {
+	            showError(dataNascita, "Inserisci una data di nascita valida.");
+	            isValid = false;
+	        }
+	
+	        return isValid;
+	   	}	
+		
+		function validateFormAddress() {
+	        let isValid = true;
+	     
+	     	const indirizzo = document.getElementById('indirizzo');
+	     	const parti = indirizzo.value.split(',');
+	     	
+	     	if(parti.length != 3){
+	     		showError(indirizzo, "Inserisci un indirizzo valido, rispettando il formato.");
+	            isValid = false;
+	            return isValid;
+			}
+	     	
+		    const via = parti[0].trim();
+		    const citta = parti[1].trim();
+		    const CAP = parti[2].trim();
+	        
+	        resetErrors();
+	        
+	        if (!validateCAP(CAP)) {
+	            showError(indirizzo, "Inserisci un CAP valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateAlphaNumericWithSpaces(citta)) {
+	        	if (citta.length > 50) {
+		        	showError(indirizzo, "La città può essere lunga al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(indirizzo, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+	        	}
+	        }
+	        
+	        if (!validateAlphaNumericWithSpaces(via)) {
+	        	if (via.length > 50) {
+		        	showError(indirizzo, "La via può essere lunga al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(indirizzo, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+	        	}
+	        }
+	        return isValid;
+	   	}	
 
+		function validateFormPayment() {
+	        let isValid = true;
+	     
+	     	const nomeCarta = document.getElementById('nomeCarta');
+	     	const numeroCarta = document.getElementById('numeroCarta');
+	     	const dataScadenza = document.getElementById('dataScadenza');
+	     	const cvv = document.getElementById('cvv');
+	     	
+	        resetErrors();
+	        
+	        if (!validateName(nomeCarta.value)) {
+	            showError(nomeCarta, "Inserisci un nome valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!isValidCardNumber(numeroCarta.value)) {
+	        	showError(numeroCarta, "Inserisci un numero di carta valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateDataScadenza(dataScadenza.value)) {
+	        	showError(dataScadenza, "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateCvv(cvv.value)) {
+	        	showError(cvv, "Inserisci un cvv valido.");
+	            isValid = false;
+	        }
+
+	        return isValid;
+	   	}	
+	    
+        function showError(input, message) {
+            const errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+	    function resetErrors() {
+	        const errorMessages = document.querySelectorAll('.error-message');
+	        errorMessages.forEach(function (error) {
+	            error.style.display = 'none';
+	            error.textContent = '';
+	        });
+	    }
+	    
+	    document.getElementById('numeroCarta').addEventListener('input', function (e) {
+	        let input = e.target.value;
+	        input = input.replace(/\D/g, '');
+	        input = input.substring(0, 16);
+	        input = input.replace(/(\d{4})(?=\d)/g, '$1 ');
+	        e.target.value = input;
+	    });
+	    
+	    document.getElementById('numeroCarta').addEventListener('keyup', function() {
+	        var cardNumber = this.value.replace(/\D/g, ''); // Rimuovi caratteri non numerici
+	        var cardType = detectCreditCardType(cardNumber.substring(0, 4)); // Controlla solo le prime 4 cifre
+	
+	        // Ottieni l'elemento del logo della carta di credito
+	        var logoElement = document.getElementById('cardLogo');
+	
+	        // Rimuovi tutte le classi fa-cc-* prima di aggiungere la nuova classe
+	        logoElement.className = 'fab';
+	
+	        if (cardType === 'visa') {
+	            logoElement.classList.add('fa-cc-visa');
+	        } else if (cardType === 'mastercard') {
+	            logoElement.classList.add('fa-cc-mastercard');
+	        } else {
+	            logoElement.classList.add('fa-credit-card');
+	            logoElement.classList.add('fa');
+	        }
+	    });
     </script>
+    
+    <script src="js/ValidationLibraryCliente.js"></script>
+    <script src="js/cardPaymentDetect.js"></script>
 </body>
 </html>

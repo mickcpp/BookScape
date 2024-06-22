@@ -7,7 +7,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
+import utility.ValidationLibraryCliente;
 
 @WebServlet("/Registration")
 public class Registration extends HttpServlet {
@@ -34,6 +34,7 @@ public class Registration extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -82,10 +83,10 @@ public class Registration extends HttpServlet {
     }
 
     private String validateInputs(String email, String username, String password, String nome, String cognome, String dataNascita, String citta, String via, String CAP) {
-        if (!validateEmail(email)) {
+        if (!ValidationLibraryCliente.validateEmail(email)) {
             return "Inserisci un'email valida.";
         }
-        if (!validateUsername(username)) {
+        if (!ValidationLibraryCliente.validateUsername(username)) {
         	if (username.length() > 20) {
         		return "L'username può essere lungo al massimo 20 caratteri";
         	} else if (username.length() < 3) {
@@ -97,7 +98,7 @@ public class Registration extends HttpServlet {
         if (password.length() < 8) {
             return "La password deve essere lunga almeno 8 caratteri.";
         }
-        if (!validateName(nome)) {
+        if (!ValidationLibraryCliente.validateName(nome)) {
         	if (nome.length() > 50) {
         		return "Il nome può essere lungo al massimo 50 caratteri";
         	} else if (nome.length() < 3) {
@@ -106,77 +107,33 @@ public class Registration extends HttpServlet {
                 return "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)";
             }
         }
-        if (!validateAlpha(cognome)) {
+        if (!ValidationLibraryCliente.validateAlpha(cognome)) {
         	if (cognome.length() > 50) {
         		return "Il cognome può essere lungo al massimo 50 caratteri";
         	} else {
         		 return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
         	}
         }
-        if (!validateDate(dataNascita)) {
+        if (!ValidationLibraryCliente.validateDate(dataNascita)) {
             return "Inserisci una data di nascita valida.";
         }
-        if (!validateAlphaNumericWithSpaces(citta)) {
+        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(citta)) {
         	if (citta.length() > 50) {
         		return "La città può essere lunga al massimo 50 caratteri";
         	} else {
                 return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
         	}
         }
-        if (!validateAlphaNumericWithSpaces(via)) {
+        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(via)) {
         	if (via.length() > 50) {
         		return "La via può essere lunga al massimo 50 caratteri";
         	} else {
                 return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
         	}
         }
-        if (!validateCAP(CAP)) {
+        if (!ValidationLibraryCliente.validateCAP(CAP)) {
             return "Inserisci un CAP valido.";
         }
         return null;
-    }
-
-    private boolean validateEmail(String email) {
-        String regex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
-        return Pattern.compile(regex).matcher(email).matches();
-    }
-
-    private boolean validateUsername(String username) {
-        String regex = "^[a-zA-Z0-9_.]{3,20}$";
-        return Pattern.compile(regex).matcher(username).matches();
-    }
-
-    private boolean validateDate(String date) {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate inputDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return inputDate.isBefore(currentDate);
-    }
-
-    private boolean validateCAP(String cap) {
-        String regex = "^\\d{5}$";
-        return Pattern.compile(regex).matcher(cap).matches();
-    }
-
-    private boolean validateAlpha(String input) {
-        String regex = "^[a-zA-Z]{3,50}$";
-        return Pattern.compile(regex).matcher(input).matches();
-    }
-
-    private boolean validateName(String input) {
-        String trimmedInput = input.trim();
-        long spaceCount = trimmedInput.chars().filter(ch -> ch == ' ').count();
-        if (spaceCount > 1) {
-            return false;
-        } else if (spaceCount == 1) {
-            return trimmedInput.length() >= 7 && trimmedInput.length() <= 50 && trimmedInput.matches("^[a-zA-Z\\s]+$");
-        } else {
-            return trimmedInput.length() >= 3 && trimmedInput.length() <= 50 && trimmedInput.matches("^[a-zA-Z]+$");
-        }
-    }
-
-    private boolean validateAlphaNumericWithSpaces(String input) {
-        String regex = "^[a-zA-Z0-9\\s]{3,50}$";
-        boolean containsLetter = Pattern.compile("[a-zA-Z]").matcher(input).find();
-        return containsLetter && Pattern.compile(regex).matcher(input).matches();
     }
 }

@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +18,7 @@
 
         .checkout-container {
             width: 60%;
-            margin: 20px auto;
+            margin: -5px auto 20px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
@@ -87,12 +89,14 @@
         }
 		
         .payment-form input, #checkout-billing-form input, #shipping-form input {
-            display: block;
+            display: inline-block;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 9px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
+            font-size: 15px;
+            box-sizing: border-box;  
         }
 
         button:disabled {
@@ -105,40 +109,39 @@
         #searchbar-section{
 	    	display: none;
 	    }
-    </style>
-    <script>
-	    function togglePaymentForm() {
-	        var form = document.getElementById('payment-form');
-	        if (form.style.display === 'none' || form.style.display === '') {
-	            form.style.display = 'block';
-	        } else {
-	            form.style.display = 'none';
-	        }
-	    }
-		
-	    function toggleBillingForm() {
-	        var checkbox = document.getElementById('useShippingForBilling');
-	        var form = document.getElementById('checkout-billing-form');
-	        
-	        if (checkbox.checked) {
-	            form.style.display = 'none';
-	         	
-	         	var nomeCliente = document.getElementById("nomeCliente").innerHTML;
-	         	var nomeConsegna = document.getElementById("nomeConsegna").innerHTML;
-	         	var cognomeCliente = document.getElementById("cognomeCliente").innerHTML;
-	         	var cognomeConsegna = document.getElementById("cognomeConsegna").innerHTML;
-	         	var indirizzoCliente = document.getElementById("indirizzoCliente").textContent.trim().replace(/^Indirizzo di fatturazione:\s*/, '');
-	         	var indirizzoConsegna = document.getElementById("indirizzoConsegna").textContent.trim().replace(/^Indirizzo di Spedizione:\s*/, '');
-	         	
-	            if(nomeCliente != nomeConsegna || cognomeCliente != cognomeConsegna || indirizzoCliente != indirizzoConsegna){
-	            	checkbox.form.submit();
-	            }
-	        } else {
-	            form.style.display = 'block';
-	        }
-	    }
 	    
-    </script>
+	    .form-group {
+            position: relative;
+	     }    
+	   
+	 	.form-group .fa {
+            position: absolute;
+            right: 13px;
+            top: 20px;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        #payment-form .fa{
+    		right: 10px;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+          	margin: -10px 8px 1.55% auto;
+            text-align: left;
+            display: none;
+        }
+        
+        .fa-cc-visa, .fa-cc-mastercard{
+      		position: absolute;
+            right: 8px;
+            top: 19px;
+            transform: translateY(-50%);
+          	font-size: 1.3em;
+      	}
+    </style>
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>
@@ -213,12 +216,28 @@
         
         <div id="checkout-billing-form">
             <h2>Inserisci Dati di Spedizione</h2>
-            <form action="OrderControl" method="post">
+            <form action="OrderControl" method="post" onsubmit="return validateFormShipping()">
                 <input type="hidden" name="action" value="checkout">
                 <input type="hidden" name="option" value="updateSpedizione">
-                <input type="text" name="nomeSpedizione" placeholder="Nome" required>
-                <input type="text" name="cognomeSpedizione" placeholder="Cognome" required>
-                <input type="text" name="indirizzoSpedizione" placeholder="Via, Città, CAP" required>
+                
+                <div class="form-group">
+                	<input type="text" id="nomeSpedizione" name="nomeSpedizione" placeholder="Nome" required><br>
+	                <i class="fa fa-id-card"></i>
+	                <div class="error-message"></div>
+                </div>
+                
+            	<div class="form-group">
+                	<input type="text" id="cognomeSpedizione" name="cognomeSpedizione" placeholder="Cognome" required><br>
+	                <i class="fa fa-id-card"></i>
+	                <div class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                	<input type="text" id="indirizzoSpedizione" name="indirizzoSpedizione" placeholder="Via, Città, CAP" required><br>
+	                <i class="fa fa-city"></i>
+	                <div class="error-message"></div>
+                </div>
+               	
                 <button type="submit">Salva dati di spedizione</button>
             </form>
         </div>
@@ -243,13 +262,30 @@
 			%>
 			
 			<div id="payment-form" class="payment-form">
-                <form action="UpdateUser" method="post">
+                <form action="UpdateUser" method="post" onsubmit="return validateFormPayment()">
                     <input type="hidden" name="action" value="updatePagamento">
                     <input type="hidden" name="redirect" value="checkout.jsp">
-                    <input type="text" name="nomeCarta" placeholder="Nome sulla Carta" required>
-                    <input type="text" name="numeroCarta" placeholder="Numero della Carta" required>
-                    <input type="month" name="dataScadenza" required>
-                    <input type="text" name="cvv" placeholder="CVV" required>
+                   	
+                   	<div class="form-group">
+	                	<input type="text" id="nomeCarta" name="nomeCarta" placeholder="Nome sulla Carta" required>
+		                <i class="fa fa-id-card"></i>
+		                <div class="error-message"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="text" id="numeroCarta" name="numeroCarta" maxlength="19" autocomplete="cc-number" placeholder="Numero della carta" required>
+		                <i id="cardLogo" class="fa fa-credit-card"></i>
+		                <div class="error-message"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="month" id="dataScadenza" name="dataScadenza" required>
+		                <div class="error-message"></div>
+                	</div>
+                	<div class="form-group">
+	                	<input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="4" required>
+		                <i class="fa fa-lock"></i>
+		                <div class="error-message"></div>
+                	</div>
+                	
                     <button type="submit">Salva Metodo di Pagamento</button>
                 </form>
             </div>
@@ -271,5 +307,189 @@
     </div>
 
     <%@ include file="template/footer.html" %>
+    
+    <script>
+	    function togglePaymentForm() {
+	        var form = document.getElementById('payment-form');
+	        if (form.style.display === 'none' || form.style.display === '') {
+	            form.style.display = 'block';
+	        } else {
+	            form.style.display = 'none';
+	        }
+	    }
+		
+	    function toggleBillingForm() {
+	        var checkbox = document.getElementById('useShippingForBilling');
+	        var form = document.getElementById('checkout-billing-form');
+	        
+	        if (checkbox.checked) {
+	            form.style.display = 'none';
+	         	
+	         	var nomeCliente = document.getElementById("nomeCliente").innerHTML;
+	         	var nomeConsegna = document.getElementById("nomeConsegna").innerHTML;
+	         	var cognomeCliente = document.getElementById("cognomeCliente").innerHTML;
+	         	var cognomeConsegna = document.getElementById("cognomeConsegna").innerHTML;
+	         	var indirizzoCliente = document.getElementById("indirizzoCliente").textContent.trim().replace(/^Indirizzo di fatturazione:\s*/, '');
+	         	var indirizzoConsegna = document.getElementById("indirizzoConsegna").textContent.trim().replace(/^Indirizzo di Spedizione:\s*/, '');
+	         	
+	            if(nomeCliente != nomeConsegna || cognomeCliente != cognomeConsegna || indirizzoCliente != indirizzoConsegna){
+	            	checkbox.form.submit();
+	            }
+	        } else {
+	            form.style.display = 'block';
+	        }
+	    }
+	    
+		function validateFormPayment() {
+	        let isValid = true;
+	     
+	     	const nomeCarta = document.getElementById('nomeCarta');
+	     	const numeroCarta = document.getElementById('numeroCarta');
+	     	const dataScadenza = document.getElementById('dataScadenza');
+	     	const cvv = document.getElementById('cvv');
+	     	
+	        resetErrors();
+	        
+	        if (!validateName(nomeCarta.value)) {
+	            showError(nomeCarta, "Inserisci un nome valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!isValidCardNumber(numeroCarta.value)) {
+	        	showError(numeroCarta, "Inserisci un numero di carta valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateDataScadenza(dataScadenza.value)) {
+	        	showError(dataScadenza, "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateCvv(cvv.value)) {
+	        	showError(cvv, "Inserisci un cvv valido.");
+	            isValid = false;
+	        }
+
+	        return isValid;
+	   	}	
+	    
+		function validateFormShipping() {
+	        let isValid = true;
+	     
+	        const nome = document.getElementById('nomeSpedizione');
+	        const cognome = document.getElementById('cognomeSpedizione');
+	     	const indirizzo = document.getElementById('indirizzoSpedizione');
+	     	const parti = indirizzo.value.split(',');
+	     	var via = "";
+		    var citta = "";
+		    var CAP = "";
+	        
+	        resetErrors();
+				
+	        if (!validateName(nome.value)) {
+	        	if (nome.value.length > 50) {
+		        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
+		            isValid = false;
+	        	} else if (nome.value.length < 3) {
+		        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
+		            isValid = false;
+	        	}
+	        }
+	
+	        if (!validateAlpha(cognome.value)) {
+	        	if (cognome.value.length > 50) {
+		        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
+			        isValid = false;
+	        	}
+	        }
+	        
+	        if(parti.length == 3){
+				via = parti[0].trim();
+			    citta = parti[1].trim();
+			    CAP = parti[2].trim();
+			} else {
+				showError(indirizzo, "Inserisci un indirizzo valido, rispettando il formato.");
+	            isValid = false;
+	            return isValid;
+			}
+	        
+	        if (!validateCAP(CAP)) {
+	            showError(indirizzo, "Inserisci un CAP valido.");
+	            isValid = false;
+	        }
+	        
+	        if (!validateAlphaNumericWithSpaces(citta)) {
+	        	if (citta.length > 50) {
+		        	showError(indirizzo, "La città può essere lunga al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(indirizzo, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+	        	}
+	        }
+	        
+	        if (!validateAlphaNumericWithSpaces(via)) {
+	        	if (via.length > 50) {
+		        	showError(indirizzo, "La via può essere lunga al massimo 50 caratteri");
+		            isValid = false;
+	        	} else{
+	        		showError(indirizzo, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
+		            isValid = false;
+	        	}
+	        }
+	        return isValid;
+	   	}	
+		
+        function showError(input, message) {
+            const errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+	    function resetErrors() {
+	        const errorMessages = document.querySelectorAll('.error-message');
+	        errorMessages.forEach(function (error) {
+	            error.style.display = 'none';
+	            error.textContent = '';
+	        });
+	    }
+	    
+	    document.getElementById('numeroCarta').addEventListener('input', function (e) {
+	        let input = e.target.value;
+	        input = input.replace(/\D/g, '');
+	        input = input.substring(0, 16);
+	        input = input.replace(/(\d{4})(?=\d)/g, '$1 ');
+	        e.target.value = input;
+	    });
+	    
+	    document.getElementById('numeroCarta').addEventListener('keyup', function() {
+	        var cardNumber = this.value.replace(/\D/g, ''); // Rimuovi caratteri non numerici
+	        var cardType = detectCreditCardType(cardNumber.substring(0, 4)); // Controlla solo le prime 4 cifre
+	
+	        // Ottieni l'elemento del logo della carta di credito
+	        var logoElement = document.getElementById('cardLogo');
+	
+	        // Rimuovi tutte le classi fa-cc-* prima di aggiungere la nuova classe
+	        logoElement.className = 'fab';
+	
+	        if (cardType === 'visa') {
+	            logoElement.classList.add('fa-cc-visa');
+	        } else if (cardType === 'mastercard') {
+	            logoElement.classList.add('fa-cc-mastercard');
+	        } else {
+	            logoElement.classList.add('fa-credit-card');
+	            logoElement.classList.add('fa');
+	        }
+	    });
+    </script>
+    
+	<script src="js/ValidationLibraryCliente.js"></script>
+    <script src="js/cardPaymentDetect.js"></script>
 </body>
 </html>
