@@ -43,7 +43,6 @@
             return false;
         }
     }
-
     
     function validateAlphaNumericWithSpaces(input) {
         const re = /^[a-zA-Z0-9\s]{3,50}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
@@ -55,8 +54,8 @@
         // Rimuove gli spazi dal numero della carta di credito
         let cleanedNumber = input.replace(/\s+/g, '');
 
-        // Verifica che il numero abbia da 13 a 16 cifre
-        if (!/^\d{13,16}$/.test(cleanedNumber)) {
+        // Verifica che il numero abbia 16 cifre
+        if (!/^\d{16}$/.test(cleanedNumber)) {
             return false;
         }
         

@@ -61,8 +61,8 @@ public interface ValidationLibraryCliente {
         // Rimuove gli spazi dal numero della carta di credito
         String cleanedNumber = input.replaceAll("\\s+", "");
 
-        // Verifica che il numero abbia da 13 a 16 cifre
-        if (!cleanedNumber.matches("^\\d{13,16}$")) {
+        // Verifica che il numero abbia 16 cifre
+        if (!cleanedNumber.matches("^\\d{16}$")) {
             return false;
         }
 
