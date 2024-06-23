@@ -26,10 +26,13 @@ pageEncoding="UTF-8"%>
 				box-sizing: border-box;
 			}
 			
-			#logout{
-				margin-left: 5%;
-				font-size: 18px;
-			}
+			#logout {
+	            position: absolute;
+	            margin-left: 3%;
+	            top: 130px;
+	            margin-bottom: 20px;
+	            font-size: 18px;
+	        }
 			
 			.product img#productImage{
 	            width: 220px;
