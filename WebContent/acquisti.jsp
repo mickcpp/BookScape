@@ -104,7 +104,7 @@
                 List<Ordine> ordiniList = new ArrayList<Ordine>(ordini);
 				ListIterator<Ordine> listIterator = ordiniList.listIterator(ordini.size());
 	
-				int index = ordini.size() - 1;
+				int index = ordini.size();
 				
 				String csrfToken = UUID.randomUUID().toString();
 				session.setAttribute("csrfToken", csrfToken);
@@ -116,7 +116,8 @@
                 <h2 style="margin-bottom: 0.5%">Ordine ID: <%= index %></h2>
            		<form id="scaricaFattura<%= index %>" method="post" action="FatturaDownload">
            			<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
-        			<input type="hidden" name="orderId" value="<%= index %>">
+        			<input type="hidden" name="orderId" value="<%= ordine.getId() %>">
+        			<input type="hidden" name="fatturaId" value="<%= index %>">
            			<input type="hidden" name="dataAcquisto" value="<%= dateFormatter.format(ordine.getDataOrdine().getTime())%>">
            			<input type="hidden" name="nomeCompletoConsegna" value="<%= ordine.getNomeConsegna() + " " + ordine.getCognomeConsegna()%>">
            			<input type="hidden" name="viaConsegna" value="<%= ordine.getVia()%>">

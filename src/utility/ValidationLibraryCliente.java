@@ -70,6 +70,11 @@ public interface ValidationLibraryCliente {
         if (cleanedNumber.matches("^(\\d)\\1{15}$")) {
             return false;
         }
+        
+        if (CardPaymentDetect.detectCreditCardType(cleanedNumber).equalsIgnoreCase("unknown")) {
+            return false;
+        }
+        
         return true;
     }
 

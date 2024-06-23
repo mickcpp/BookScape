@@ -220,7 +220,7 @@
 	
 	            <div class="form-group">
 	                <label for="CAP">CAP:</label>
-	                <input type="text" id="CAP" name="CAP" required>
+	                <input type="text" id="CAP" name="CAP" maxlength="5" required>
 	                <i class="fa fa-mail-bulk"></i>
 	                <div class="error-message"></div>
 	            </div>

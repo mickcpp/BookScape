@@ -281,7 +281,7 @@
 		                <div class="error-message"></div>
                 	</div>
                 	<div class="form-group">
-	                	<input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="4" required>
+	                	<input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="3" required>
 		                <i class="fa fa-lock"></i>
 		                <div class="error-message"></div>
                 	</div>
@@ -356,7 +356,7 @@
 	        }
 	        
 	        if (!isValidCardNumber(numeroCarta.value)) {
-	        	showError(numeroCarta, "Inserisci un numero di carta valido.");
+	        	showError(numeroCarta, "Inserisci un numero di carta valido (Visa/Mastercard).");
 	            isValid = false;
 	        }
 	        

@@ -179,8 +179,10 @@ public class UpdateUser extends HttpServlet {
 				return;
 			}
 			response.sendRedirect(redirect);
+			return;
 		} else {
 			response.sendRedirect("./");
+			return;
 		}
 	}
 	
@@ -248,7 +250,7 @@ public class UpdateUser extends HttpServlet {
         	return "Inserisci un nome valido.";
         }
         if (!ValidationLibraryCliente.isValidCardNumber(numeroCarta)) {
-        	return "Inserisci un numero di carta valido.";
+        	return "Inserisci un numero di carta valido (Visa/Mastercard).";
         }
         if (!ValidationLibraryCliente.validateDataScadenza(dataScadenza)) {
         	return "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.";

@@ -63,6 +63,10 @@
         if (/^(\d)\1{15}$/.test(cleanedNumber)) {
             return false;
         }	
+        
+        if (detectCreditCardType(cleanedNumber) == "unknown"){
+            return false;
+        }
 /*
         // Applica l'algoritmo di Luhn
         let sum = 0;

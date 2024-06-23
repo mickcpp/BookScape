@@ -20,6 +20,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import net.bookscape.model.Cliente;
 import net.bookscape.model.OrderModelDM;
+import utility.CardPaymentDetect;
 
 /**
  * Servlet implementation class FatturaDownload
@@ -70,9 +71,12 @@ public class FatturaDownload extends HttpServlet {
 			e.printStackTrace();
 		}
         
+
+        int fatturaId = Integer.parseInt(request.getParameter("fatturaId"));
+        
         // Imposta il tipo di contenuto come PDF
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=\"fattura" + "-" + orderId  + "-" + dataAcquisto + ".pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"fattura" + "-" + fatturaId  + "-" + dataAcquisto + ".pdf\"");
         
         // Percorso dell'immagine del logo
         String percorsoLogo = getServletContext().getRealPath("/img/logo.png");
@@ -166,7 +170,16 @@ public class FatturaDownload extends HttpServlet {
                 contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 12);
                 contentStream.beginText();
                 contentStream.newLineAtOffset(margin, startY);
-                contentStream.showText("Carta di Credito (Visa)");
+                
+                String cardType = CardPaymentDetect.detectCreditCardType(clienteFatturazione.getCarta().getNumeroCarta());
+                if(cardType.equalsIgnoreCase("visa")) {
+                	contentStream.showText("Carta di Credito (Visa)");
+                } else if(cardType.equalsIgnoreCase("mastercard")){
+                	contentStream.showText("Carta di Credito (Mastercard)");
+                } else {
+                	contentStream.showText("Carta di Credito (Sconosciuta)");
+                }
+  
                 contentStream.newLine();
                 contentStream.showText(clienteFatturazione.getCarta().getNomeCarta() + " (**** **** **** " + clienteFatturazione.getCarta().getNumeroCarta().substring(clienteFatturazione.getCarta().getNumeroCarta().length() - 4) + ")");
                 contentStream.newLine();
@@ -266,5 +279,4 @@ public class FatturaDownload extends HttpServlet {
             e.printStackTrace();
         }
     }
-  
 }
