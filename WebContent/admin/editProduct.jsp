@@ -6,9 +6,8 @@
 	<head>
 	    <meta charset="UTF-8">
 	    <title>Modifica prodotto</title>
-	    <link rel="stylesheet" href="../css/style.css">
-	    <link rel="stylesheet" href="../css/navStyle.css">
-	    <link rel="stylesheet" href="../css/footerStyle.css">
+	    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+
 	    <style>
 	        html, body {
 	            margin: 0;
@@ -33,6 +32,7 @@
 	            padding: 20px;
 	            border: 1px solid #ccc;
 	            border-radius: 5px;
+	         	margin: 1% 0;
 	        }
 	
 	        .form-group {
@@ -70,10 +70,21 @@
 	            cursor: pointer;
 	        }
 	        
-	         #logout{
-	            margin-left: 5%;
-	            padding-bottom: 10px;
+       		#logout {
+	            position: absolute;
+	            margin-left: 3%;
+	            top: 130px;
+	            margin-bottom: 20px;
 	            font-size: 18px;
+	        }
+	        
+	   		.error-message {
+	            color: #e74c3c;
+	            font-size: 0.9em;
+	            margin-top: 0.4%;
+	            margin-bottom: 1.55%;
+	            text-align: left;
+	            display: none;
 	        }
 	    </style>
 	</head>
@@ -102,6 +113,9 @@
 	  	if(action != null){
 	  		if(action.equalsIgnoreCase("insert")) action = "inserisci";
 	  		else if(action.equalsIgnoreCase("edit")) action = "modifica";
+	  	} else{
+	  		response.sendRedirect("admin/dashboard.jsp");
+	  		return;
 	  	}
 	%>
 	
@@ -110,29 +124,41 @@
 			<div class="form-container">
 			
 		        <h2><%=action.equals("modifica") ? "Modifica" : "Inserisci"%> prodotto</h2>
-		        <form action="FileUpload" method="post" enctype="multipart/form-data">
+		        
+	<% 			String serverError = (String) request.getAttribute("errorMessage");
+	     		if(serverError != null){
+	     			%>
+	     				<div class="error-message" style="display: block; margin: 4% auto; margin: -1% auto 2% auto"><%= serverError %></div>
+	     			<%
+	     		}
+	%>
+		        <form action="FileUpload" method="post" enctype="multipart/form-data" onsubmit="<%= (prodotto instanceof Libro) ? "return validateLibro()" : (prodotto instanceof Musica) ? "return validateMusica()" : "return validateGadget()" %>">
 		            <input type="hidden" name="action" value="<%=action%>">
 		            <input type="hidden" name="productId" id="productId" value="<%= prodotto.getId() %>">
 		            <input type="hidden" name="productImageURL" id="productImageURL" value="<%= prodotto.getImgURL() %>">
 		
 		            <div class="form-group">
 		                <label for="nome">Nome:</label>
-		                <input type="text" id="nome" name="nome" value="${prodotto.getNome()}">
+		                <input type="text" id="nome" name="nome" value="${prodotto.getNome()}" required>
+		                <div class="error-message"></div>
 		            </div>
 		            
 		            <div class="form-group">
 		                <label for="descrizione">Descrizione:</label>
-		                <textarea id="descrizione" rows="5" cols="25" name="descrizione">${prodotto.getDescrizione()}</textarea>
+		                <textarea id="descrizione" rows="5" cols="25" name="descrizione" required>${prodotto.getDescrizione()}</textarea>
+		                <div class="error-message"></div>
 		            </div>
 		            
 		            <div class="form-group">
 		                <label for="prezzo">Prezzo:</label>
-		                <input type="number" id="prezzo" name="prezzo" value="${prodotto.getPrezzo()}" step="any">
+		                <input type="number" id="prezzo" name="prezzo" value="${prodotto.getPrezzo()}" step="any" required>
+		                <div class="error-message"></div>
 		            </div>
 		
 		            <div class="form-group">
 		                <label for="quantity">Quantità:</label>
-		                <input type="number" id="quantity" name="quantity" value="${prodotto.getQuantita()}">
+		                <input type="number" id="quantity" name="quantity" value="${prodotto.getQuantita()}" required>
+		                <div class="error-message"></div>
 		            </div>
 		
 		            <div class="form-group">
@@ -148,7 +174,8 @@
 	                	
 	                    <div class="form-group">
 	                        <label for="genere">Genere:</label>
-	                        <input type="text" id="genere" name="genere" value="<%= l.getGenere()%>">
+	                        <input type="text" id="genere" name="genere" value="<%= l.getGenere()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	              		<%
@@ -158,30 +185,35 @@
 						
 	                    <div class="form-group">
 						    <label for="formato">Formato:</label>
-						    <select id="formato" name="formato">
+						    <select id="formato" name="formato" required>
 						        <option value="Cartaceo" <% if (formatoName.equals("Cartaceo")) { %>selected<% } %>>Cartaceo</option>
 						        <option value="Digitale" <% if (formatoName.equals("Digitale")) { %>selected<% } %>>Digitale</option>
 						    </select>
+						    <div class="error-message"></div>
 						</div>
 						
 	                    <div class="form-group">
 	                        <label for="anno">Anno:</label>
-	                        <input type="number" id="anno" name="anno" value="<%=l.getAnno() %>">
+	                        <input type="number" id="anno" name="anno" value="<%=l.getAnno() %>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="ISBN">ISBN:</label>
-	                        <input type="text" id="ISBN" name="ISBN" value="<%=l.getISBN()%>">
+	                        <input type="text" id="ISBN" name="ISBN" value="<%=l.getISBN()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="autore">Autore:</label>
-	                        <input type="text" id="autore" name="autore" value="<%=l.getAutore()%>">
+	                        <input type="text" id="autore" name="autore" value="<%=l.getAutore()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="numeroPagine">Numero pagine:</label>
-	                        <input type="number" id="numeroPagine" name="numeroPagine" value="<%=l.getNumeroPagine()%>">
+	                        <input type="number" id="numeroPagine" name="numeroPagine" value="<%=l.getNumeroPagine()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 				<%  } else if (prodotto instanceof Musica) {
@@ -191,7 +223,8 @@
 	            		
 	                    <div class="form-group">
 	                        <label for="genere">Genere:</label>
-	                        <input type="text" id="genere" name="genere" value="<%=m.getGenere()%>">
+	                        <input type="text" id="genere" name="genere" value="<%=m.getGenere()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 		                  	
 	                  	<%
@@ -201,25 +234,29 @@
 						
 	                    <div class="form-group">
 						    <label for="formato">Formato:</label>
-						    <select id="formato" name="formato">
+						    <select id="formato" name="formato" required>
 						        <option value="Vinile" <% if (formatoName.equals("Vinile")) { %>selected<% } %>>Vinile</option>
 						        <option value="CD" <% if (formatoName.equals("CD")) { %>selected<% } %>>CD</option>
 						    </select>
+						    <div class="error-message"></div>
 						</div>
 						
 	                    <div class="form-group">
 	                        <label for="artista">Artista:</label>
-	                        <input type="text" id="artista" name="artista" value="<%=m.getArtista() %>">
+	                        <input type="text" id="artista" name="artista" value="<%=m.getArtista() %>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="anno">Anno:</label>
-	                        <input type="number" id="anno" name="anno" value="<%=m.getAnno()%>">
+	                        <input type="number" id="anno" name="anno" value="<%=m.getAnno()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="numeroTracce">Numero tracce:</label>
-	                        <input type="number" id="numeroTracce" name="numeroTracce" value="<%=m.getNumeroTracce()%>">
+	                        <input type="number" id="numeroTracce" name="numeroTracce" value="<%=m.getNumeroTracce()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 				<%  } else if (prodotto instanceof Gadget) { 
@@ -229,22 +266,26 @@
 						
 	                    <div class="form-group">
 	                        <label for="materiale">Materiale:</label>
-	                        <input type="text" id="materiale" name="materiale" value="<%=g.getMateriale()%>">
+	                        <input type="text" id="materiale" name="materiale" value="<%=g.getMateriale()%>" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="altezza">Altezza:</label>
-	                        <input type="number" id="altezza" name="altezza" value="<%=g.getAltezza()%>" step="any">
+	                        <input type="number" id="altezza" name="altezza" value="<%=g.getAltezza()%>" step="any" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="lunghezza">Lunghezza:</label>
-	                        <input type="number" id="lunghezza" name="lunghezza" value="<%=g.getLunghezza()%>" step="any">
+	                        <input type="number" id="lunghezza" name="lunghezza" value="<%=g.getLunghezza()%>" step="any" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                        <label for="larghezza">Larghezza:</label>
-	                        <input type="number" id="larghezza" name="larghezza" value="<%=g.getLarghezza()%>" step="any">
+	                        <input type="number" id="larghezza" name="larghezza" value="<%=g.getLarghezza()%>" step="any" required>
+	                        <div class="error-message"></div>
 	                    </div>
 	                    
 		 		<% } %>
@@ -255,6 +296,25 @@
 		</div>
 		
 		<%@ include file="/template/footer.html" %>
+		
+		<script>
+			function showError(input, message) {
+	            const errorElement = input.parentElement.querySelector('.error-message');
+	            errorElement.textContent = message;
+	            errorElement.style.display = 'block';
+	        }
+	        
+		    function resetErrors() {
+		        const errorMessages = document.querySelectorAll('.error-message');
+		        errorMessages.forEach(function (error) {
+		            error.style.display = 'none';
+		            error.textContent = '';
+		        });
+		    }
+		</script>
+		
+		<script src="js/ValidationUtilsProduct.js"></script>
+		<script src="js/ValidationLibraryProduct.js"></script>
 	</body>
 </html>
 					        

@@ -16,6 +16,8 @@ import net.bookscape.model.Libro;
 import net.bookscape.model.Musica;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
+import net.bookscape.model.TABLE;
+import utility.ValidationUtilsProduct;
 
 /**
  * Servlet implementation class ProductControl
@@ -37,178 +39,268 @@ public class ProductControl extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int productId = 0;
-		if(request.getParameter("productId") != null) {
-			productId = Integer.parseInt(request.getParameter("productId"));
-		}
-		
+		int productId = getProductId(request);
 		String action = request.getParameter("action");
 		
 		try {
-	
-			if(action.equalsIgnoreCase("rimuovi")) {
-				model.doDelete(productId);
-				
-			} else if(action.equalsIgnoreCase("viewEdit")) {
-				
-				Product prodotto = model.doRetrieveByKeyGeneral(productId);
-				request.setAttribute("prodotto", prodotto);
-				request.setAttribute("action", "edit");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("admin/editProduct.jsp");
-				dispatcher.forward(request, response);
-				return;
-				
-			} else if(action.equalsIgnoreCase("modifica")) {
-				Product p = null;
-				String type = request.getParameter("type");
-				
-				Libro l = new Libro();
-				l.setId(productId);
-				l.setNome(request.getParameter("nome"));
-				l.setDescrizione(request.getParameter("descrizione"));
-				l.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-				l.setQuantita(Integer.parseInt(request.getParameter("quantity")));
-				if(request.getAttribute("fileName") != null && !request.getAttribute("fileName").equals("")) {
-					l.setImgURL((String) request.getAttribute("fileName"));
-				} else {
-					String fullURL = request.getParameter("productImageURL");
-					String fileName = fullURL.substring(fullURL.lastIndexOf("/") + 1);
-					l.setImgURL(fileName); // Imposta solo il nome del file
-				}
-				
-				if(type.equalsIgnoreCase("libro")) {
-					l.setGenere(request.getParameter("genere"));
-					l.setFormato(FormatoLibro.valueOf(request.getParameter("formato")));
-					l.setAnno(Integer.parseInt(request.getParameter("anno")));
-					l.setISBN(request.getParameter("ISBN"));
-					l.setAutore(request.getParameter("autore"));
-					l.setNumeroPagine(Integer.parseInt(request.getParameter("numeroPagine")));
-					p = l;
-					
-					model.doUpdate(p);
+			switch (action.toLowerCase()) {
+				case "rimuovi":
+					removeProduct(productId);
 					response.sendRedirect("admin/dashboard.jsp");
+					break;
+				case "viewedit":
+					viewEditProduct(request, response, productId);
 					return;
-				}
-				
-				if(type.equalsIgnoreCase("musica")) {
-					Musica m = new Musica();
-					m.setGenere(request.getParameter("genere"));
-					m.setFormato(FormatoMusica.valueOf(request.getParameter("formato")));
-					m.setArtista(request.getParameter("artista"));
-					m.setAnno(Integer.parseInt(request.getParameter("anno")));
-					m.setNumeroTracce(Integer.parseInt(request.getParameter("numeroTracce")));
-					p = m;
-				}
-				
-				if(type.equalsIgnoreCase("gadget")) {
-					Gadget g = new Gadget();
-					g.setMateriale(request.getParameter("materiale"));
-					g.setAltezza(Double.parseDouble(request.getParameter("altezza")));
-					g.setLunghezza(Double.parseDouble(request.getParameter("lunghezza")));
-					g.setLarghezza(Double.parseDouble(request.getParameter("larghezza")));
-					p = g;
-				}
-				
-				p.setId(l.getId());
-				p.setNome(l.getNome());
-				p.setDescrizione(l.getDescrizione());
-				p.setPrezzo(l.getPrezzo());
-				p.setQuantita(l.getQuantita());
-				p.setImgURL(l.getImgURL());
-				
-				model.doUpdate(p);
-				
-			} else if(action.equalsIgnoreCase("viewInsert")){
-				
-				String type = request.getParameter("type");
-				Product prodotto = null;
-				
-				if(type.equals("libro")) {
-					Libro l = new Libro();
-					prodotto = l;
-				}
-				
-				if(type.equals("musica")) {
-					Musica m = new Musica();
-					prodotto = m;
-				}
-				
-				if(type.equals("gadget")) {
-					Gadget g = new Gadget();
-					prodotto = g;
-				}
-				
-				request.setAttribute("prodotto", prodotto);
-				request.setAttribute("action", "insert");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("admin/editProduct.jsp");
-				dispatcher.forward(request, response);
-				return;
-				
-			} else if(action.equalsIgnoreCase("inserisci")) {
-				String type = request.getParameter("type");
-				
-				Product prodotto = null;
-				
-				Libro l = new Libro();
-				l.setId(productId);
-				l.setNome(request.getParameter("nome"));
-				l.setDescrizione(request.getParameter("descrizione"));
-				l.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-				l.setQuantita(Integer.parseInt(request.getParameter("quantity")));
-				l.setImgURL((String) request.getAttribute("fileName"));
-				
-				if(type.equalsIgnoreCase("libro")) {
-					l.setGenere(request.getParameter("genere"));
-					l.setFormato(FormatoLibro.valueOf(request.getParameter("formato")));
-					l.setAnno(Integer.parseInt(request.getParameter("anno")));
-					l.setISBN(request.getParameter("ISBN"));
-					l.setAutore(request.getParameter("autore"));
-					l.setNumeroPagine(Integer.parseInt(request.getParameter("numeroPagine")));
-					prodotto = l;
-					
-					model.doSave(prodotto);
+				case "modifica":
+					modifyProduct(request, response, productId);
+					break;
+				case "viewinsert":
+					viewInsertProduct(request, response);
+					return;
+				case "inserisci":
+					insertProduct(request, response, productId);
+					break;
+				default:
 					response.sendRedirect("admin/dashboard.jsp");
-					return;
-				}
-				
-				if(type.equalsIgnoreCase("musica")) {
-					Musica m = new Musica();
-					m.setGenere(request.getParameter("genere"));
-					m.setFormato(FormatoMusica.valueOf(request.getParameter("formato")));
-					m.setArtista(request.getParameter("artista"));
-					m.setAnno(Integer.parseInt(request.getParameter("anno")));
-					m.setNumeroTracce(Integer.parseInt(request.getParameter("numeroTracce")));
-					prodotto = m;
-				}
-				
-				if(type.equalsIgnoreCase("gadget")) {
-					Gadget g = new Gadget();
-					g.setMateriale(request.getParameter("materiale"));
-					g.setAltezza(Double.parseDouble(request.getParameter("altezza")));
-					g.setLunghezza(Double.parseDouble(request.getParameter("lunghezza")));
-					g.setLarghezza(Double.parseDouble(request.getParameter("larghezza")));
-					prodotto = g;
-				}
-				
-				prodotto.setId(l.getId());
-				prodotto.setNome(l.getNome());
-				prodotto.setDescrizione(l.getDescrizione());
-				prodotto.setPrezzo(l.getPrezzo());
-				prodotto.setQuantita(l.getQuantita());
-				prodotto.setImgURL(l.getImgURL());
-				
-				model.doSave(prodotto);
+					break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		response.sendRedirect("admin/dashboard.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
+	
+	private int getProductId(HttpServletRequest request) {
+		if(request.getParameter("productId") != null) {
+			return Integer.parseInt(request.getParameter("productId"));
+		}
+		return 0;
+	}
+	
+	private void removeProduct(int productId) throws Exception {
+		model.doDelete(productId);
+	}
+	
+	private void viewEditProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
+		Product prodotto = model.doRetrieveByKeyGeneral(productId);
+		request.setAttribute("prodotto", prodotto);
+		request.setAttribute("action", "edit");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("admin/editProduct.jsp");
+		dispatcher.forward(request, response);
+		return;
+	}
+	
+	private void modifyProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
+		Product p = null;
+		String type = request.getParameter("type");
+		
+		if(!validateGeneral(request, response)) return;
+		
+		Libro l = getLibro(request, productId);
+		
+		switch (type.toLowerCase()) {
+			case "libro":
+				setLibroSpecificAttributes(request, l);
+				p = l;
+				break;
+			case "musica":
+				Musica m = getMusica(request, l);
+				p = m;
+				break;
+			case "gadget":
+				Gadget g = getGadget(request, l);
+				p = g;
+				break;
+		}
+		
+		model.doUpdate(p);
+		response.sendRedirect("admin/dashboard.jsp");
+		return;
+	}
+	
+	private void viewInsertProduct(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String type = request.getParameter("type");
+		Product prodotto = null;
+		
+		switch (type.toLowerCase()) {
+			case "libro":
+				prodotto = new Libro();
+				break;
+			case "musica":
+				prodotto = new Musica();
+				break;
+			case "gadget":
+				prodotto = new Gadget();
+				break;
+		}
+		
+		request.setAttribute("prodotto", prodotto);
+		request.setAttribute("action", "insert");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("admin/editProduct.jsp");
+		dispatcher.forward(request, response);
+		return;
+	}
+	
+	private void insertProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
+		String type = request.getParameter("type");
+		Product prodotto = null;
+	
+		if(!validateGeneral(request, response)) return;
+		
+		Libro l = getLibro(request, productId);
+		
+		switch (type.toLowerCase()) {
+			case "libro":
+				setLibroSpecificAttributes(request, l);
+				prodotto = l;
+				break;
+			case "musica":
+				Musica m = getMusica(request, l);
+				prodotto = m;
+				break;
+			case "gadget":
+				Gadget g = getGadget(request, l);
+				prodotto = g;
+				break;
+		}
+		
+		model.doSave(prodotto);
+		response.sendRedirect("admin/dashboard.jsp");
+		return;
+	}
+	
+	private Libro getLibro(HttpServletRequest request, int productId) {
+		Libro l = new Libro();
+		l.setId(productId);
+		l.setNome(request.getParameter("nome"));
+		l.setDescrizione(request.getParameter("descrizione"));
+		l.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+		l.setQuantita(Integer.parseInt(request.getParameter("quantity")));
+		l.setImgURL(getImgURL(request));
+		return l;
+	}
+	
+	private String getImgURL(HttpServletRequest request) {
+		if (request.getAttribute("fileName") != null && !request.getAttribute("fileName").equals("")) {
+			return (String) request.getAttribute("fileName");
+		} else {
+			String fullURL = request.getParameter("productImageURL");
+			return fullURL.substring(fullURL.lastIndexOf("/") + 1);
+		}
+	}
+	
+	private void setLibroSpecificAttributes(HttpServletRequest request, Libro l) {
+		l.setGenere(request.getParameter("genere"));
+		l.setFormato(FormatoLibro.valueOf(request.getParameter("formato")));
+		l.setAnno(Integer.parseInt(request.getParameter("anno")));
+		l.setISBN(request.getParameter("ISBN"));
+		l.setAutore(request.getParameter("autore"));
+		l.setNumeroPagine(Integer.parseInt(request.getParameter("numeroPagine")));
+	}
+	
+	private Musica getMusica(HttpServletRequest request, Libro l) {
+		Musica m = new Musica();
+		m.setId(l.getId());
+		m.setNome(l.getNome());
+		m.setDescrizione(l.getDescrizione());
+		m.setPrezzo(l.getPrezzo());
+		m.setQuantita(l.getQuantita());
+		m.setImgURL(l.getImgURL());
+		m.setGenere(request.getParameter("genere"));
+		m.setFormato(FormatoMusica.valueOf(request.getParameter("formato")));
+		m.setArtista(request.getParameter("artista"));
+		m.setAnno(Integer.parseInt(request.getParameter("anno")));
+		m.setNumeroTracce(Integer.parseInt(request.getParameter("numeroTracce")));
+		return m;
+	}
+	
+	private Gadget getGadget(HttpServletRequest request, Libro l) {
+		Gadget g = new Gadget();
+		g.setId(l.getId());
+		g.setNome(l.getNome());
+		g.setDescrizione(l.getDescrizione());
+		g.setPrezzo(l.getPrezzo());
+		g.setQuantita(l.getQuantita());
+		g.setImgURL(l.getImgURL());
+		g.setMateriale(request.getParameter("materiale"));
+		g.setAltezza(Double.parseDouble(request.getParameter("altezza")));
+		g.setLunghezza(Double.parseDouble(request.getParameter("lunghezza")));
+		g.setLarghezza(Double.parseDouble(request.getParameter("larghezza")));
+		return g;
+	}
+	
+	private boolean validateGeneral(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		String type = request.getParameter("type");
+		String action = request.getParameter("action");
+		int productId = getProductId(request);
+		
+		String error;
+		
+		switch (type.toLowerCase()) {
+		case "libro":
+			error = ValidationUtilsProduct.validateLibro(request.getParameter("nome"), request.getParameter("descrizione"),
+					request.getParameter("prezzo"), request.getParameter("quantity"), request.getParameter("genere"),
+					request.getParameter("formato"), request.getParameter("anno"), request.getParameter("ISBN"),
+					request.getParameter("autore"), request.getParameter("numeroPagine"));
+	        if (error != null) {
+	        	if(action.equalsIgnoreCase("inserisci")) {
+	        		Libro l = new Libro();
+	        		request.setAttribute("prodotto", l);
+	        		request.setAttribute("action", "insert");
+	        	} else {
+	        		Libro l = (Libro) model.doRetrieveByKey(productId, TABLE.libro);
+	        		request.setAttribute("prodotto", l);
+	        		request.setAttribute("action", "edit");
+	        	}
+	            request.setAttribute("errorMessage", error);
+	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	            return false;
+	        }
+			break;
+		case "musica":
+			error = ValidationUtilsProduct.validateMusica(request.getParameter("nome"), request.getParameter("descrizione"),
+					request.getParameter("prezzo"), request.getParameter("quantity"), request.getParameter("genere"),
+					request.getParameter("formato"), request.getParameter("anno"), request.getParameter("artista"),
+					request.getParameter("numeroTracce"));
+	        if (error != null) {
+	        	if(action.equalsIgnoreCase("inserisci")) {
+	        		Musica m = new Musica();
+	        		request.setAttribute("prodotto", m);
+	        		request.setAttribute("action", "insert");
+	        	} else {
+	        		Musica m = (Musica) model.doRetrieveByKey(productId, TABLE.musica);
+	        		request.setAttribute("prodotto", m);
+	        		request.setAttribute("action", "edit");
+	        	}
+	            request.setAttribute("errorMessage", error);
+	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	            return false;
+	        }
+			break;
+		case "gadget":
+			error = ValidationUtilsProduct.validateGadget(request.getParameter("nome"), request.getParameter("descrizione"),
+					request.getParameter("prezzo"), request.getParameter("quantity"), request.getParameter("materiale"),
+					request.getParameter("altezza"), request.getParameter("lunghezza"), request.getParameter("larghezza"));
+	        if (error != null) {
+	        	if(action.equalsIgnoreCase("inserisci")) {
+	        		Gadget g = new Gadget();
+	        		request.setAttribute("prodotto", g);
+	        		request.setAttribute("action", "insert");
+	        	} else {
+	        		Gadget g = (Gadget) model.doRetrieveByKey(productId, TABLE.gadget);
+	        		request.setAttribute("prodotto", g);
+	        		request.setAttribute("action", "edit");
+	        	}
+	            request.setAttribute("errorMessage", error);
+	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	            return false;
+	        }
+			break;
+		}
+		return true;
+	}
 }

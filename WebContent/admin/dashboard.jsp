@@ -115,7 +115,14 @@
             width: auto;
             margin-top: 10px;
         }
-
+		
+		#logout {
+            position: absolute;
+            margin-left: 3%;
+            top: 130px;
+            margin-bottom: 20px;
+            font-size: 18px;
+	    }
     </style>
 </head>
 <body>

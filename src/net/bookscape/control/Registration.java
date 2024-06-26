@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
-import utility.ValidationLibraryCliente;
+import utility.ValidationUtilsCliente;
 
 @WebServlet("/Registration")
 public class Registration extends HttpServlet {
@@ -45,7 +45,7 @@ public class Registration extends HttpServlet {
         String via = request.getParameter("via");
         String CAP = request.getParameter("CAP");
 
-        String errorMessage = validateInputs(email, username, password, nome, cognome, dataNascitaParam, citta, via, CAP);
+        String errorMessage = ValidationUtilsCliente.validateInputsSignup(email, username, password, nome, cognome, dataNascitaParam, citta, via, CAP);
 
         if (errorMessage != null) {
             request.setAttribute("errorMessage", errorMessage);
@@ -80,60 +80,5 @@ public class Registration extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private String validateInputs(String email, String username, String password, String nome, String cognome, String dataNascita, String citta, String via, String CAP) {
-        if (!ValidationLibraryCliente.validateEmail(email)) {
-            return "Inserisci un'email valida.";
-        }
-        if (!ValidationLibraryCliente.validateUsername(username)) {
-        	if (username.length() > 20) {
-        		return "L'username può essere lungo al massimo 20 caratteri";
-        	} else if (username.length() < 3) {
-                return "L'username deve essere lungo almeno 3 caratteri";
-            } else {
-                return "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.";
-            }
-        }
-        if (password.length() < 8) {
-            return "La password deve essere lunga almeno 8 caratteri.";
-        }
-        if (!ValidationLibraryCliente.validateName(nome)) {
-        	if (nome.length() > 50) {
-        		return "Il nome può essere lungo al massimo 50 caratteri";
-        	} else if (nome.length() < 3) {
-                return "Il nome deve essere lungo almeno 3 caratteri";
-            } else {
-                return "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)";
-            }
-        }
-        if (!ValidationLibraryCliente.validateAlpha(cognome)) {
-        	if (cognome.length() > 50) {
-        		return "Il cognome può essere lungo al massimo 50 caratteri";
-        	} else {
-        		 return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateDate(dataNascita)) {
-            return "Inserisci una data di nascita valida.";
-        }
-        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(citta)) {
-        	if (citta.length() > 50) {
-        		return "La città può essere lunga al massimo 50 caratteri";
-        	} else {
-                return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(via)) {
-        	if (via.length() > 50) {
-        		return "La via può essere lunga al massimo 50 caratteri";
-        	} else {
-                return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateCAP(CAP)) {
-            return "Inserisci un CAP valido.";
-        }
-        return null;
     }
 }

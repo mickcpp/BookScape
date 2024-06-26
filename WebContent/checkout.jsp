@@ -339,112 +339,6 @@
 	            form.style.display = 'block';
 	        }
 	    }
-	    
-		function validateFormPayment() {
-	        let isValid = true;
-	     
-	     	const nomeCarta = document.getElementById('nomeCarta');
-	     	const numeroCarta = document.getElementById('numeroCarta');
-	     	const dataScadenza = document.getElementById('dataScadenza');
-	     	const cvv = document.getElementById('cvv');
-	     	
-	        resetErrors();
-	        
-	        if (!validateName(nomeCarta.value)) {
-	            showError(nomeCarta, "Inserisci un nome valido.");
-	            isValid = false;
-	        }
-	        
-	        if (!isValidCardNumber(numeroCarta.value)) {
-	        	showError(numeroCarta, "Inserisci un numero di carta valido (Visa/Mastercard).");
-	            isValid = false;
-	        }
-	        
-	        if (!validateDataScadenza(dataScadenza.value)) {
-	        	showError(dataScadenza, "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.");
-	            isValid = false;
-	        }
-	        
-	        if (!validateCvv(cvv.value)) {
-	        	showError(cvv, "Inserisci un cvv valido.");
-	            isValid = false;
-	        }
-
-	        return isValid;
-	   	}	
-	    
-		function validateFormShipping() {
-	        let isValid = true;
-	     
-	        const nome = document.getElementById('nomeSpedizione');
-	        const cognome = document.getElementById('cognomeSpedizione');
-	     	const indirizzo = document.getElementById('indirizzoSpedizione');
-	     	const parti = indirizzo.value.split(',');
-	     	var via = "";
-		    var citta = "";
-		    var CAP = "";
-	        
-	        resetErrors();
-				
-	        if (!validateName(nome.value)) {
-	        	if (nome.value.length > 50) {
-		        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
-		            isValid = false;
-	        	} else if (nome.value.length < 3) {
-		        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
-		            isValid = false;
-	        	}
-	        }
-	
-	        if (!validateAlpha(cognome.value)) {
-	        	if (cognome.value.length > 50) {
-		        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
-			        isValid = false;
-	        	}
-	        }
-	        
-	        if(parti.length == 3){
-				via = parti[0].trim();
-			    citta = parti[1].trim();
-			    CAP = parti[2].trim();
-			} else {
-				showError(indirizzo, "Inserisci un indirizzo valido, rispettando il formato.");
-	            isValid = false;
-	            return isValid;
-			}
-	        
-	        if (!validateCAP(CAP)) {
-	            showError(indirizzo, "Inserisci un CAP valido.");
-	            isValid = false;
-	        }
-	        
-	        if (!validateAlphaNumericWithSpaces(citta)) {
-	        	if (citta.length > 50) {
-		        	showError(indirizzo, "La città può essere lunga al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(indirizzo, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-	        	}
-	        }
-	        
-	        if (!validateAlphaNumericWithSpaces(via)) {
-	        	if (via.length > 50) {
-		        	showError(indirizzo, "La via può essere lunga al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(indirizzo, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-	        	}
-	        }
-	        return isValid;
-	   	}	
 		
         function showError(input, message) {
             const errorElement = input.parentElement.querySelector('.error-message');
@@ -489,6 +383,7 @@
 	    });
     </script>
     
+    <script src="js/ValidationUtilsCliente.js"></script>
 	<script src="js/ValidationLibraryCliente.js"></script>
     <script src="js/cardPaymentDetect.js"></script>
 </body>

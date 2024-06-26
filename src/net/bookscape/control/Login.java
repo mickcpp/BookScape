@@ -16,7 +16,7 @@ import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.Wishlist;
 import net.bookscape.model.WishlistModelDM;
-import utility.ValidationLibraryCliente;
+import utility.ValidationUtilsCliente;
 
 @WebServlet("/Login")
 public class Login extends HttpServlet {
@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 			return;
 		}
 		
-		String errorMessage = validateInputs(id, password);
+		String errorMessage = ValidationUtilsCliente.validateInputsLogin(id, password);
 
         if (errorMessage != null) {
             request.setAttribute("error", errorMessage);
@@ -103,17 +103,4 @@ public class Login extends HttpServlet {
 			}
 		}
 	}
-	
-	private String validateInputs(String id, String password) {
-		 if (id.contains("@")) {
-             if (!ValidationLibraryCliente.validateEmail(id) || password.length() < 8) {
-                 return "Email o password errata!";
-             }
-         } else {
-             if (!ValidationLibraryCliente.validateUsername(id) || password.length() < 8) {
-              	 return "Username o password errata!";
-             }
-         }
-        return null;
-    }
 }

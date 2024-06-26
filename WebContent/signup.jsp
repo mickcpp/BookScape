@@ -162,7 +162,7 @@
 	     		}
 	     	
 	     	%>
-	        <form action="Registration" method="post" onsubmit="return validateForm()">
+	        <form action="Registration" method="post" onsubmit="return validateSignupForm()">
 	            <div class="form-group">
 	                <label for="email">Email:</label>
 	                <input type="email" id="email" name="email" required>
@@ -232,100 +232,6 @@
 	    <%@ include file="template/footer.html" %>
 	    
 	    <script>
-    		function validateForm() {
-		        let isValid = true;
-		
-		        const email = document.getElementById('email');
-		        const username = document.getElementById('username');
-		        const password = document.getElementById('password');
-		        const nome = document.getElementById('nome');
-		        const cognome = document.getElementById('cognome');
-		        const dataNascita = document.getElementById('dataNascita');
-		        const citta = document.getElementById('citta');
-		        const via = document.getElementById('via');
-		        const CAP = document.getElementById('CAP');
-		        
-		        resetErrors();
-		
-		        if (!validateEmail(email.value)) {
-		            showError(email, "Inserisci un'email valida.");
-		            isValid = false;
-		        }
-		        
-		        if (!validateUsername(username.value)) {
-		        	if (username.value.length > 20) {
-			        	showError(username, "L'username può essere lungo al massimo 20 caratteri");
-			            isValid = false;
-		        	} else if (username.value.length < 3) {
-			        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(username, "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.");
-			            isValid = false;
-		        	}
-		        }
-		
-		        if (password.value.length < 8) {
-		            showError(password, "La password deve essere lunga almeno 8 caratteri.");
-		            isValid = false;
-		        }
-		
-		        if (!validateName(nome.value)) {
-		        	if (nome.value.length > 50) {
-			        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
-			            isValid = false;
-		        	} else if (nome.value.length < 3) {
-			        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
-			            isValid = false;
-		        	}
-		        }
-		
-		        if (!validateAlpha(cognome.value)) {
-		        	if (cognome.value.length > 50) {
-			        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
-				        isValid = false;
-		        	}
-		        }
-		
-		        if (!validateDate(dataNascita.value)) {
-		            showError(dataNascita, "Inserisci una data di nascita valida.");
-		            isValid = false;
-		        }
-		
-		        if (!validateAlphaNumericWithSpaces(citta.value)) {
-		        	if (citta.value.length > 50) {
-			        	showError(citta, "La città può essere lunga al massimo 50 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(citta, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-			            isValid = false;
-		        	}
-		        }
-		        
-		        if (!validateAlphaNumericWithSpaces(via.value)) {
-		        	if (via.value.length > 50) {
-			        	showError(via, "La via può essere lunga al massimo 50 caratteri");
-			            isValid = false;
-		        	} else{
-		        		showError(via, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-			            isValid = false;
-		        	}
-		        }
-		
-		        if (!validateCAP(CAP.value)) {
-		            showError(CAP, "Inserisci un CAP valido.");
-		            isValid = false;
-		        }
-		
-		        return isValid;
-		   	}	
-		
 	        function showError(input, message) {
 	            const errorElement = input.parentElement.querySelector('.error-message');
 	            errorElement.textContent = message;
@@ -341,6 +247,7 @@
 		    }
 	    </script>
 	    
+	    <script src="js/ValidationUtilsCliente.js"></script>
 	    <script src="js/ValidationLibraryCliente.js"></script>
 	</body>
 </html>

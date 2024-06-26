@@ -17,7 +17,7 @@ import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
 import net.bookscape.model.OrderModelDM;
 import net.bookscape.model.Ordine;
-import utility.ValidationLibraryCliente;
+import utility.ValidationUtilsCliente;
 
 @WebServlet("/OrderControl")
 public class OrderControl extends HttpServlet {
@@ -97,7 +97,7 @@ public class OrderControl extends HttpServlet {
             String cognome = request.getParameter("cognomeSpedizione");
             String input = request.getParameter("indirizzoSpedizione");
             
-			String errorMessage = validateFormShipping(nome, cognome, input);
+			String errorMessage = ValidationUtilsCliente.validateFormShipping(nome, cognome, input);
 
 	        if (errorMessage != null) {
 	        	response.sendRedirect("OrderControl?action=checkout");
@@ -168,59 +168,4 @@ public class OrderControl extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("acquisti.jsp");
         dispatcher.forward(request, response);
     }
-    
-    private String validateFormShipping(String nome, String cognome, String indirizzo) {
-        
-    	String[] parti = indirizzo.split(",\\s*");
-     	var via = "";
-	    var citta = "";
-	    var CAP = "";
-			
-        if (!ValidationLibraryCliente.validateName(nome)) {
-        	if (nome.length() > 50) {
-        		return "Il nome può essere lungo al massimo 50 caratteri";
-        	} else if (nome.length() < 3) {
-	        	return "Il nome deve essere lungo almeno 3 caratteri";
-        	} else{
-        		return "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)";
-        	}
-        }
-
-        if (!ValidationLibraryCliente.validateAlpha(cognome)) {
-        	if (cognome.length() > 50) {
-        		return "Il cognome può essere lungo al massimo 50 caratteri";
-        	} else{
-        		return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
-        	}
-        }
-        
-        if(parti.length == 3){
-			via = parti[0].trim();
-		    citta = parti[1].trim();
-		    CAP = parti[2].trim();
-		} else {
-			return "Inserisci un indirizzo valido, rispettando il formato.";
-		}
-        
-        if (!ValidationLibraryCliente.validateCAP(CAP)) {
-            return "Inserisci un CAP valido.";
-        }
-        
-        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(citta)) {
-        	if (citta.length() > 50) {
-	        	return "La città può essere lunga al massimo 50 caratteri";
-        	} else{
-        		return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        
-        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(via)) {
-        	if (via.length() > 50) {
-	        	return "La via può essere lunga al massimo 50 caratteri";
-        	} else{
-        		return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        return null;
-   	}	
 }

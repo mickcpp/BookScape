@@ -316,7 +316,7 @@
         </div>
         <div id="edit-form" style="display: none;">
             <h2>Modifica Dati Personali</h2>
-            <form action="UpdateUser" method="post" onsubmit="return validateFormData()">
+            <form action="UpdateUser" method="post" onsubmit="return validateFormPersonalData()">
                 <input type="hidden" name="action" value="updateDatiPersonali">
                 <input type="hidden" name="redirect" value="UserControl">
                 
@@ -496,139 +496,7 @@
                     newWindow.close();
                 }, 80);
             };
-        }
-	
-		function validateFormData() {
-	        let isValid = true;
-	        
-	        const username = document.getElementById('username');
-	        const nome = document.getElementById('nome');
-	        const cognome = document.getElementById('cognome');
-	        const dataNascita = document.getElementById('dataNascita');
-	        
-	        resetErrors();
-	        
-	        if (!validateUsername(username.value)) {
-	        	if (username.value.length > 20) {
-		        	showError(username, "L'username può essere lungo al massimo 20 caratteri");
-		            isValid = false;
-	        	} else if (username.value.length < 3) {
-		        	showError(username, "L'username deve essere lungo almeno 3 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(username, "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.");
-		            isValid = false;
-	        	}
-	        }
-	
-	        if (!validateName(nome.value)) {
-	        	if (nome.value.length > 50) {
-		        	showError(nome, "Il nome può essere lungo al massimo 50 caratteri");
-		            isValid = false;
-	        	} else if (nome.value.length < 3) {
-		        	showError(nome, "Il nome deve essere lungo almeno 3 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(nome, "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)");
-		            isValid = false;
-	        	}
-	        }
-	
-	        if (!validateAlpha(cognome.value)) {
-	        	if (cognome.value.length > 50) {
-		        	showError(cognome, "Il cognome può essere lungo al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(cognome, "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.");
-			        isValid = false;
-	        	}
-	        }
-	
-	        if (!validateDate(dataNascita.value)) {
-	            showError(dataNascita, "Inserisci una data di nascita valida.");
-	            isValid = false;
-	        }
-	
-	        return isValid;
-	   	}	
-		
-		function validateFormAddress() {
-	        let isValid = true;
-	     
-	     	const indirizzo = document.getElementById('indirizzo');
-	     	const parti = indirizzo.value.split(',');
-	     	
-	     	if(parti.length != 3){
-	     		showError(indirizzo, "Inserisci un indirizzo valido, rispettando il formato.");
-	            isValid = false;
-	            return isValid;
-			}
-	     	
-		    const via = parti[0].trim();
-		    const citta = parti[1].trim();
-		    const CAP = parti[2].trim();
-	        
-	        resetErrors();
-	        
-	        if (!validateCAP(CAP)) {
-	            showError(indirizzo, "Inserisci un CAP valido.");
-	            isValid = false;
-	        }
-	        
-	        if (!validateAlphaNumericWithSpaces(citta)) {
-	        	if (citta.length > 50) {
-		        	showError(indirizzo, "La città può essere lunga al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(indirizzo, "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-	        	}
-	        }
-	        
-	        if (!validateAlphaNumericWithSpaces(via)) {
-	        	if (via.length > 50) {
-		        	showError(indirizzo, "La via può essere lunga al massimo 50 caratteri");
-		            isValid = false;
-	        	} else{
-	        		showError(indirizzo, "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).");
-		            isValid = false;
-	        	}
-	        }
-	        return isValid;
-	   	}	
-
-		function validateFormPayment() {
-	        let isValid = true;
-	     
-	     	const nomeCarta = document.getElementById('nomeCarta');
-	     	const numeroCarta = document.getElementById('numeroCarta');
-	     	const dataScadenza = document.getElementById('dataScadenza');
-	     	const cvv = document.getElementById('cvv');
-	     	
-	        resetErrors();
-	        
-	        if (!validateName(nomeCarta.value)) {
-	            showError(nomeCarta, "Inserisci un nome valido.");
-	            isValid = false;
-	        }
-	        
-	        if (!isValidCardNumber(numeroCarta.value)) {
-	        	showError(numeroCarta, "Inserisci un numero di carta valido (Visa/Mastercard).");
-	            isValid = false;
-	        }
-	        
-	        if (!validateDataScadenza(dataScadenza.value)) {
-	        	showError(dataScadenza, "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.");
-	            isValid = false;
-	        }
-	        
-	        if (!validateCvv(cvv.value)) {
-	        	showError(cvv, "Inserisci un cvv valido.");
-	            isValid = false;
-	        }
-
-	        return isValid;
-	   	}	
+        }	
 	    
         function showError(input, message) {
             const errorElement = input.parentElement.querySelector('.error-message');
@@ -673,6 +541,7 @@
 	    });
     </script>
     
+    <script src="js/ValidationUtilsCliente.js"></script>
     <script src="js/ValidationLibraryCliente.js"></script>
     <script src="js/cardPaymentDetect.js"></script>
 </body>

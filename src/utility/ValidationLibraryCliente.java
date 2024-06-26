@@ -29,7 +29,7 @@ public interface ValidationLibraryCliente {
     }
 
 	public static boolean validateAlpha(String input) {
-        String regex = "^[a-zA-Z]{3,50}$";
+        String regex = "^[a-zA-Z']{3,50}$";
         return Pattern.compile(regex).matcher(input).matches();
     }
 
@@ -38,21 +38,21 @@ public interface ValidationLibraryCliente {
         int numeroSpazi = trimInput.split(" ").length - 1;
 
         if (numeroSpazi == 0) {
-            return trimInput.length() >= 3 && trimInput.length() <= 50 && trimInput.matches("^[a-zA-Z]+$");
+            return trimInput.length() >= 3 && trimInput.length() <= 50 && trimInput.matches("^[a-zA-Z']+$");
         } else if (numeroSpazi == 1) {
             String[] parole = trimInput.split(" ");
             int lunghezzaParola1 = parole[0].length();
             int lunghezzaParola2 = parole[1].length();
 
             // Verifica che entrambe le parole abbiano almeno 3 caratteri
-            return lunghezzaParola1 >= 3 && lunghezzaParola2 >= 3 && trimInput.length() <= 50 && trimInput.matches("^[a-zA-Z\\s]+$");
+            return lunghezzaParola1 >= 3 && lunghezzaParola2 >= 3 && trimInput.length() <= 50 && trimInput.matches("^[a-zA-Z'\\s]+$");
         } else {
             return false;
         }
     }
 
     public static boolean validateAlphaNumericWithSpaces(String input) {
-        String regex = "^[a-zA-Z0-9\\s]{3,50}$";
+        String regex = "^[a-zA-Z0-9'\\s]{3,50}$";
         boolean containsLetter = Pattern.compile("[a-zA-Z]").matcher(input).find();
         return containsLetter && Pattern.compile(regex).matcher(input).matches();
     }

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.bookscape.model.CartaPagamento;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
-import utility.ValidationLibraryCliente;
+import utility.ValidationUtilsCliente;
 
 /**
  * Servlet implementation class UpdateUser
@@ -54,16 +54,16 @@ public class UpdateUser extends HttpServlet {
 			
 			switch (action) {
 				case "updatePagamento":
-					updatePagamento(request, response, cliente);
+					if(!updatePagamento(request, response, cliente)) return;
 					break;
 				case "eliminaPagamento":
 					eliminaPagamento(cliente);
 					break;
 				case "updateDatiPersonali":
-					updateDatiPersonali(request, response, cliente);
+					if(!updateDatiPersonali(request, response, cliente)) return;
 					break;
 				case "updateIndirizzo":
-					updateIndirizzo(request, response, cliente);
+					if(!updateIndirizzo(request, response, cliente)) return;
 					break;
 			}
 			model.doUpdate(cliente);
@@ -75,18 +75,18 @@ public class UpdateUser extends HttpServlet {
 		redirectAfterUpdate(request, response);
 	}
 	
-	private void updatePagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private boolean updatePagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
 	
 		String nome = request.getParameter("nomeCarta");
 		String numero = request.getParameter("numeroCarta");
 		String data = request.getParameter("dataScadenza");
 		String cvv = request.getParameter("cvv");
 		
-		String errorMessage = validatePagamento(nome, numero, data, cvv);
+		String errorMessage = ValidationUtilsCliente.validatePagamento(nome, numero, data, cvv);
 
         if (errorMessage != null) {
         	response.sendRedirect("UserControl");
-        	return;
+        	return false;
         }
         
 		CartaPagamento carta = new CartaPagamento();
@@ -108,24 +108,26 @@ public class UpdateUser extends HttpServlet {
 		carta.setDataScadenza(dataScadenza);
 		carta.setCvv(Integer.parseInt(cvv));
 		cliente.setCarta(carta);
+		
+		return true;
 	}
 
 	private void eliminaPagamento(Cliente cliente) {
 		cliente.setCarta(null);
 	}
 
-	private void updateDatiPersonali(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private boolean updateDatiPersonali(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
 	
 		String username = request.getParameter("username");
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String data = request.getParameter("dataNascita");
 
-		String errorMessage = validateDatiPersonali(username, nome, cognome, data);
+		String errorMessage = ValidationUtilsCliente.validateDatiPersonali(username, nome, cognome, data);
 
         if (errorMessage != null) {
         	response.sendRedirect("UserControl");
-        	return;
+        	return false;
         }
         
 		cliente.setUsername(username);
@@ -146,9 +148,11 @@ public class UpdateUser extends HttpServlet {
 		dataNascita.set(Calendar.SECOND, 0);
 		dataNascita.set(Calendar.MILLISECOND, 0);
 		cliente.setDataNascita(dataNascita);
+		
+		return true;
 	}
 
-	private void updateIndirizzo(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private boolean updateIndirizzo(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
 		String input = request.getParameter("indirizzo");
 		String[] parts = input.split(",\\s*");
 		
@@ -157,17 +161,18 @@ public class UpdateUser extends HttpServlet {
 			String citta = parts[1];
 			String cap = parts[2];
 			
-			String errorMessage = validateIndirizzo(via, citta, cap);
+			String errorMessage = ValidationUtilsCliente.validateIndirizzo(via, citta, cap);
 
 	        if (errorMessage != null) {
 	        	response.sendRedirect("UserControl");
-	        	return;
+	        	return false;
 	        }
 			
 			cliente.setVia(via);
 			cliente.setCitta(citta);
 			cliente.setCAP(cap);
 		}
+		return true;
 	}
 
 	private void redirectAfterUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -185,80 +190,4 @@ public class UpdateUser extends HttpServlet {
 			return;
 		}
 	}
-	
-    private String validateDatiPersonali(String username, String nome, String cognome, String dataNascita) {
-     
-        if (!ValidationLibraryCliente.validateUsername(username)) {
-        	if (username.length() > 20) {
-        		return "L'username può essere lungo al massimo 20 caratteri";
-        	} else if (username.length() < 3) {
-                return "L'username deve essere lungo almeno 3 caratteri";
-            } else {
-                return "L'username può contenere solo lettere, numeri, underscore (_) e punti (.), senza spazi.";
-            }
-        }
-      
-        if (!ValidationLibraryCliente.validateName(nome)) {
-        	if (nome.length() > 50) {
-        		return "Il nome può essere lungo al massimo 50 caratteri";
-        	} else if (nome.length() < 3) {
-                return "Il nome deve essere lungo almeno 3 caratteri";
-            } else {
-                return "Il nome può contenere solo lettere (nel caso di due nomi, entrambi lunghi almeno 3 caratteri)";
-            }
-        }
-        if (!ValidationLibraryCliente.validateAlpha(cognome)) {
-        	if (cognome.length() > 50) {
-        		return "Il cognome può essere lungo al massimo 50 caratteri";
-        	} else {
-        		 return "Il cognome può contenere solo lettere, lungo almeno 3 caratteri, senza spazi.";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateDate(dataNascita)) {
-            return "Inserisci una data di nascita valida.";
-        }
-        
-        return null;
-    }
-    
-    private String validateIndirizzo(String via, String citta, String CAP) {
-    	
-    	if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(citta)) {
-        	if (citta.length() > 50) {
-        		return "La città può essere lunga al massimo 50 caratteri";
-        	} else {
-                return "La città può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateAlphaNumericWithSpaces(via)) {
-        	if (via.length() > 50) {
-        		return "La via può essere lunga al massimo 50 caratteri";
-        	} else {
-                return "La via può contenere solo lettere e numeri, lunga almeno 3 caratteri (non può contenere solo numeri).";
-        	}
-        }
-        if (!ValidationLibraryCliente.validateCAP(CAP)) {
-            return "Inserisci un CAP valido.";
-        }
-        
-        return null;
-    }
-
-    private String validatePagamento(String nomeCarta, String numeroCarta, String dataScadenza, String cvv) {
-    	
-    	if (!ValidationLibraryCliente.validateName(nomeCarta)) {
-        	return "Inserisci un nome valido.";
-        }
-        if (!ValidationLibraryCliente.isValidCardNumber(numeroCarta)) {
-        	return "Inserisci un numero di carta valido (Visa/Mastercard).";
-        }
-        if (!ValidationLibraryCliente.validateDataScadenza(dataScadenza)) {
-        	return "La carta di credito è scaduta o la data di scadenza non è nel formato corretto.";
-        }
-        if (!ValidationLibraryCliente.validateCvv(cvv)) {
-            return "Inserisci un cvv valido.";
-        }
-        
-        return null;
-    }
 }

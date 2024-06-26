@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 				justify-content: center;
 			}
 			
-			div.product{
+			div#contenuto div.product{
 				padding: 20px;
 				width: 20%;
 				border: 1px solid black;

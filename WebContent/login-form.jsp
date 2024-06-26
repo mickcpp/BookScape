@@ -157,7 +157,7 @@
 
         <div id="login-form">
             <h2>Login</h2>
-            <form action="Login" method="post" onsubmit="return validateForm()">
+            <form action="Login" method="post" onsubmit="return validateLoginForm()">
                 <div class="form-group">
                     <label for="login-id">Username o Email:</label>
                     <input type="text" id="login-id" name="id" placeholder="Username o Email" required>
@@ -189,28 +189,6 @@
     <%@ include file="template/footer.html" %>
     
     <script>
-        function validateForm() {
-            let isValid = true;
-            const id = document.getElementById('login-id');
-            const password = document.getElementById('login-password');
-            const errorElement = document.getElementById('error-message');
-
-            resetErrors();
-
-            if (id.value.includes('@')) {
-                if (!validateEmail(id.value) || password.value.length < 8) {
-                    showError("Email o password errate!");
-                    isValid = false;
-                }
-            } else {
-                if (!validateUsername(id.value) || password.value.length < 8) {
-                    showError("Username o password errati!");
-                    isValid = false;
-                }
-            }
-            return isValid;
-        }
-
         function showError(message) {
             const errorElement = document.getElementById('error-message');
             errorElement.textContent = message;
@@ -225,5 +203,6 @@
     </script>
     
     <script src="js/ValidationLibraryCliente.js"></script>
+    <script src="js/ValidationUtilsCliente.js"></script>
 </body>
 </html>
