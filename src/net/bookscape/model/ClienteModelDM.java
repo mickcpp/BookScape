@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import utility.UtilsModel;
 
 public class ClienteModelDM implements ClienteModel<Cliente>{
 
@@ -101,6 +102,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		String selectSQL = null;
 		Cliente cliente = null;
 		
@@ -115,7 +117,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, id);
 	
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
 				cliente = new Cliente();
@@ -163,6 +165,8 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -172,87 +176,91 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 
 	@Override
-	public Collection<Cliente> doRetrieveAll(String order) throws SQLException {
-		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		
-		Collection<Cliente> clienti = new LinkedList<Cliente>();
-		
-		String selectSQL = "SELECT * FROM cliente ";
+	public synchronized Collection<Cliente> doRetrieveAll(String order) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-			
-		try {
-			connection = DriverManagerCP.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
+	    Collection<Cliente> clienti = new LinkedList<>();
+	    String selectSQL = "SELECT * FROM cliente";
 
-			ResultSet rs = preparedStatement.executeQuery();
+	    try {
+	        connection = DriverManagerCP.getConnection();
 
-			while (rs.next()) {
-				Cliente cliente = new Cliente();
-				CartaPagamento carta = new CartaPagamento();
-					
-				//Setto i dati di cliente
-				cliente.setEmail(rs.getString("Email"));
-				cliente.setUsername(rs.getString("Username"));
-				cliente.setPassword(rs.getString("Password"));
-				cliente.setNome(rs.getString("Nome"));
-				cliente.setCognome(rs.getString("Cognome"));
-					
-				Date data = rs.getDate("Data nascita");
-				GregorianCalendar dataNascita = new GregorianCalendar();
-				dataNascita.setTime(data);
-				
-				cliente.setDataNascita(dataNascita);
-					
-				cliente.setCitta(rs.getString("Città"));
-				cliente.setVia(rs.getString("Via"));
-				cliente.setCAP(rs.getString("CAP"));
-					
-				//setto i dati dell'oggetto di tipo CartaPagamento
-				carta.setNomeCarta(rs.getString("Nome carta"));
-				carta.setNumeroCarta(rs.getString("Numero carta"));
-					
-				GregorianCalendar dataScadenza;
-				data = rs.getDate("Data scadenza");
-				if(data != null) {
-					dataScadenza = new GregorianCalendar();
-					dataScadenza.setTime(data);
-				}else {
-					dataScadenza = null;
-				}
-				
-				carta.setDataScadenza(dataScadenza);
-				
-				carta.setCvv(rs.getInt("CVV"));
-				
-				//setto la carta di cliente
-                cliente.setCarta(carta); 
-                
-                //aggiungo il cliente alla lista clienti
-                clienti.add(cliente);
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
 			}
-			
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				DriverManagerCP.releaseConnection(connection);
-			}
-		}
-		
-		return clienti;
+
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        rs = preparedStatement.executeQuery();
+
+	        while (rs.next()) {
+	            Cliente cliente = new Cliente();
+	            CartaPagamento carta = new CartaPagamento();
+
+	            // Setto i dati di cliente
+	            cliente.setEmail(rs.getString("Email"));
+	            cliente.setUsername(rs.getString("Username"));
+	            cliente.setPassword(rs.getString("Password"));
+	            cliente.setNome(rs.getString("Nome"));
+	            cliente.setCognome(rs.getString("Cognome"));
+
+	            Date data = rs.getDate("Data nascita");
+	            GregorianCalendar dataNascita = new GregorianCalendar();
+	            dataNascita.setTime(data);
+
+	            cliente.setDataNascita(dataNascita);
+
+	            cliente.setCitta(rs.getString("Città"));
+	            cliente.setVia(rs.getString("Via"));
+	            cliente.setCAP(rs.getString("CAP"));
+
+	            // Setto i dati dell'oggetto di tipo CartaPagamento
+	            carta.setNomeCarta(rs.getString("Nome carta"));
+	            carta.setNumeroCarta(rs.getString("Numero carta"));
+
+	            GregorianCalendar dataScadenza;
+	            data = rs.getDate("Data scadenza");
+	            if (data != null) {
+	                dataScadenza = new GregorianCalendar();
+	                dataScadenza.setTime(data);
+	            } else {
+	                dataScadenza = null;
+	            }
+
+	            carta.setDataScadenza(dataScadenza);
+	            carta.setCvv(rs.getInt("CVV"));
+
+	            // Setto la carta di cliente
+	            cliente.setCarta(carta);
+
+	            // Aggiungo il cliente alla lista clienti
+	            clienti.add(cliente);
+	        }
+	    } finally {
+	    	try {
+	    		if (preparedStatement != null)  
+	    			preparedStatement.close();
+	    		if (rs != null)
+	    			rs.close();
+	    	} finally {
+	            DriverManagerCP.releaseConnection(connection);
+	    	}
+	    }
+
+	    return clienti;
 	}
+
 
 	@Override
 	public boolean isAdmin(String id) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		String selectSQL = null;
 		
 		selectSQL = "SELECT COUNT(*) FROM amministratore WHERE Email = ?";
@@ -262,7 +270,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, id);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			
 			if(rs.next()) {
 				int count = rs.getInt(1); // Ottieni il valore della prima colonna
@@ -275,6 +283,8 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -313,24 +323,21 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 		}
 	}
 
-	public Collection<String> doRetrieveAllAdmin(String order) throws SQLException {
+	public Collection<String> doRetrieveAllAdmin() throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		
 		Collection<String> listaAdmin = new LinkedList<String>();
 		
 		String selectSQL = "SELECT * FROM amministratore ";
-
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
 			
 		try {
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				String adminEmail = rs.getString("Email");
@@ -341,6 +348,8 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}

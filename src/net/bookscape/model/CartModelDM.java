@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import utility.UtilsModel;
 
 public class CartModelDM implements CartModel<CartItem>{
 	
@@ -130,21 +131,26 @@ public class CartModelDM implements CartModel<CartItem>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ProductModelDM productModel = new ProductModelDM();
+	    ResultSet rs = null;
 		
 		Collection<CartItem> listaItem = new LinkedList<CartItem>();
 
 		String selectSQL = "SELECT * FROM carrello WHERE Cliente = ?";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, clienteId);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			int id = 0;
 
 			while (rs.next()) {
@@ -170,6 +176,8 @@ public class CartModelDM implements CartModel<CartItem>{
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -221,5 +229,4 @@ public class CartModelDM implements CartModel<CartItem>{
 		
 		return result != 0 ? true : false;
 	}
-
 }

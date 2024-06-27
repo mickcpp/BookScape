@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import utility.UtilsModel;
 
 public class ProductModelDM implements ProductModel <Product> {
 	
@@ -144,6 +145,7 @@ public class ProductModelDM implements ProductModel <Product> {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		Product product = null;
 		
 		TABLE_NAME = tabella.name();
@@ -155,7 +157,7 @@ public class ProductModelDM implements ProductModel <Product> {
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, ID);
 	
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 	
 			while (rs.next()) {
 				
@@ -215,6 +217,8 @@ public class ProductModelDM implements ProductModel <Product> {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -227,20 +231,25 @@ public class ProductModelDM implements ProductModel <Product> {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
+		ResultSet rs = null;
+		
 		Collection<Libro> listaLibri = new LinkedList<Libro>();
 
 		String selectSQL = "SELECT * FROM libro ";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Libro libro = new Libro();
@@ -263,6 +272,8 @@ public class ProductModelDM implements ProductModel <Product> {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -276,20 +287,25 @@ public class ProductModelDM implements ProductModel <Product> {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
+		ResultSet rs = null;
+		
 		Collection<Musica> listaMusica = new LinkedList<Musica>();
 
 		String selectSQL = "SELECT * FROM musica ";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Musica musica = new Musica();
@@ -311,6 +327,8 @@ public class ProductModelDM implements ProductModel <Product> {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}
@@ -324,20 +342,25 @@ public class ProductModelDM implements ProductModel <Product> {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
+		ResultSet rs = null;
+		
 		Collection<Gadget> listaGadget = new LinkedList<Gadget>();
 
 		String selectSQL = "SELECT * FROM gadget ";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Gadget gadget = new Gadget();
@@ -357,6 +380,8 @@ public class ProductModelDM implements ProductModel <Product> {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}

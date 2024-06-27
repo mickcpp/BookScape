@@ -121,14 +121,14 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        
 	    } finally {
 	        try {
-	            if (generatedKeys != null) {
-	                generatedKeys.close();
-	            }
 	            if (preparedStatement != null) {
 	                preparedStatement.close();
 	            }
 	            if (preparedStatementProdotti != null) {
 	                preparedStatementProdotti.close();
+	            }
+	            if (generatedKeys != null) {
+	                generatedKeys.close();
 	            }
 	        } finally {
 	            DriverManagerCP.releaseConnection(connection);    
@@ -207,11 +207,11 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        
 	    } finally {
 	        try {
-	            if (resultSet != null) {
-	                resultSet.close();
-	            }
 	            if (preparedStatement != null) {
 	                preparedStatement.close();
+	            }
+	            if (resultSet != null) {
+	                resultSet.close();
 	            }
 	        } finally {
 	            DriverManagerCP.releaseConnection(connection);    
@@ -296,11 +296,11 @@ public class OrderModelDM implements OrderModel <Ordine> {
 
 	    } finally {
 	        try {
-	            if (resultSet != null) {
-	                resultSet.close();
-	            }
 	            if (preparedStatement != null) {
 	                preparedStatement.close();
+	            }
+	            if (resultSet != null) {
+	                resultSet.close();
 	            }
 	        } finally {
 	            DriverManagerCP.releaseConnection(connection);
@@ -355,11 +355,11 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        
 	    } finally {
 	        try {
-	            if (resultSet != null) {
-	                resultSet.close();
-	            }
 	            if (preparedStatement != null) {
 	                preparedStatement.close();
+	            }
+	            if (resultSet != null) {
+	                resultSet.close();
 	            }
 	        } finally {
 	            DriverManagerCP.releaseConnection(connection);

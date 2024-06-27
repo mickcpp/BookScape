@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import utility.UtilsModel;
 
 public class WishlistModelDM implements CartModel<Product>{
 	
@@ -99,22 +100,27 @@ public class WishlistModelDM implements CartModel<Product>{
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
 		ProductModelDM productModel = new ProductModelDM();
 		
 		Collection<Product> listaProdotti = new LinkedList<Product>();
 
 		String selectSQL = "SELECT * FROM wishlist WHERE Cliente = ?";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
-
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order;
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, clienteId);
 
-			ResultSet rs = preparedStatement.executeQuery();
+			rs = preparedStatement.executeQuery();
 			int id = 0;
 
 			while (rs.next()) {
@@ -139,6 +145,8 @@ public class WishlistModelDM implements CartModel<Product>{
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
 			} finally {
 				DriverManagerCP.releaseConnection(connection);
 			}

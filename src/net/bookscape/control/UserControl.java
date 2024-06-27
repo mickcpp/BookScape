@@ -57,7 +57,7 @@ public class UserControl extends HttpServlet {
 				if(checkAdmin != null && checkAdmin.booleanValue()) {
 					Collection<Cliente> clienti = clienteModel.doRetrieveAll(null);
 					Collection<Product> prodotti = productModel.doRetrieveAll(null);
-					Collection<String> listaAdmin = clienteModel.doRetrieveAllAdmin(null);
+					Collection<String> listaAdmin = clienteModel.doRetrieveAllAdmin();
 					ordini = orderModel.doRetrieveAll(null, false);
 					
 					request.setAttribute("clienti", clienti);
