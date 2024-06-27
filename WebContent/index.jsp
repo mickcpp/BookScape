@@ -26,7 +26,7 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 				box-sizing: border-box;
 			}
 		
-			 #logout {
+			#logout {
 	            position: absolute;
 	            margin-left: 3%;
 	            top: 130px;

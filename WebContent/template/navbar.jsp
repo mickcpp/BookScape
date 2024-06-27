@@ -78,6 +78,16 @@
             }
         });
     });
+    
+    $(document).ready(function(){
+        // Funzione per gestire il click al di fuori della searchbar
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#searchbar-section').length) {
+                // Chiude i risultati della ricerca se clicchi fuori dalla searchbar
+                $(".risultati").css({"display" : "none"});
+            }
+        });
+    });
 </script>
 </body>
 </html>
