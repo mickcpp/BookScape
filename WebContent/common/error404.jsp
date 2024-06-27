@@ -26,7 +26,7 @@
 	<%@ include file="/template/navbar.jsp" %>
 	<div class="errorContent">
 		<h1>Errore! Pagina non trovata.</h1>
-		<img src="img/errorBook.png" alt="erroreImg" width="30%" height="30%">
+		<img src="img/errorBook.png" alt="erroreImg" width="30%">
 		<p>
 		Sembra che la pagina che stai cercando non esista,
 		è possible che il contenuto sia stato eliminato o che

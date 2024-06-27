@@ -55,5 +55,13 @@
         <param-name>uploadLocation</param-name>
         <param-value>C:\Users\marco\OneDrive\Desktop\github\BookScape\WebContent\productImages</param-value>
     </context-param>
-	 
+	
+	<session-config>
+		<session-timeout>2900</session-timeout>	
+	    <cookie-config>
+	        <http-only>true</http-only>
+<!--        <secure>true</secure>			non ancora possibile abilitarlo poiché non si sta utilizzando https -->
+	        <max-age>2600000</max-age>
+	    </cookie-config>
+	</session-config>
 </web-app>
