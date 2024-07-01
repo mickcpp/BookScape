@@ -1,5 +1,8 @@
-<%@ page import="net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento, java.util.Calendar" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date, net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection" %>
+<%@ page import="java.util.Collection" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date, java.util.Calendar"%>
+<%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento"%>
+<%@ page import="utility.EscaperHTML"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -306,11 +309,11 @@
        	<h3 style="float: right"><a class="greenlinkunderline" href="OrderControl?action=visualizza">I miei acquisti</a></h3>
         <div>
             <h2>Dati Personali</h2>
-            <p><strong>Email:</strong> ${cliente.getEmail()}</p>
-            <p><strong>Username:</strong> ${cliente.getUsername()}</p>
-            <p><strong>Nome:</strong> ${cliente.getNome()}</p>
-            <p><strong>Cognome:</strong> ${cliente.getCognome()}</p>
-            <p><strong>Data di Nascita:</strong> <%= dateFormatter.format(cliente.getDataNascita().getTime()) %></p>
+            <p><strong>Email:</strong> ${EscaperHTML.escapeHTML(cliente.getEmail())}</p>
+            <p><strong>Username:</strong> ${EscaperHTML.escapeHTML(cliente.getUsername())}</p>
+            <p><strong>Nome:</strong> ${EscaperHTML.escapeHTML(cliente.getNome())}</p>
+            <p><strong>Cognome:</strong> ${EscaperHTML.escapeHTML(cliente.getCognome())}</p>
+            <p><strong>Data di Nascita:</strong> <%= EscaperHTML.escapeHTML(dateFormatter.format(cliente.getDataNascita().getTime())) %></p>         
  			<hr>
             <p><b>Modifica Dati Personali: </b><a class="greenlink" href="javascript:void(0);" onclick="toggleEditFormData()">Modifica</a></p>
         </div>
@@ -364,9 +367,9 @@
         </div>
         <div>
             <h2>Indirizzo</h2>
-            <p><strong>Città:</strong> ${cliente.getCitta()}</p>
-            <p><strong>Via:</strong> ${cliente.getVia()}</p>
-            <p><strong>CAP:</strong> ${cliente.getCAP()}</p>
+            <p><strong>Città:</strong> ${EscaperHTML.escapeHTML(cliente.getCitta())}</p>
+            <p><strong>Via:</strong> ${EscaperHTML.escapeHTML(cliente.getVia())}</p>
+            <p><strong>CAP:</strong> ${EscaperHTML.escapeHTML(cliente.getCAP())}</p>
             <hr>
             <p><b>Modifica Indirizzo: </b><a class="greenlink" href="javascript:void(0);" onclick="toggleEditAddress()">Modifica</a></p>
         </div>
@@ -392,7 +395,7 @@
             %>
                 <p>Aggiungi Metodo di Pagamento: <a class="greenlink" href="javascript:void(0);" onclick="togglePaymentForm()">Aggiungi</a></p>
             <% } else { %>
-                <p>Carta: <%= carta.getNomeCarta() %> (**** **** **** <%= carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4) %>)</p>
+                <p>Carta: <%= EscaperHTML.escapeHTML(carta.getNomeCarta()) %> (**** **** **** <%= EscaperHTML.escapeHTML(carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4)) %>)</p>
                 <p>Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
                 <p><b>Modifica Metodo di Pagamento: </b><a class="greenlink" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
                 <form action="UpdateUser" method="POST">
@@ -449,11 +452,11 @@
 	        for (Ordine ordine : ordini) { %>
 	        <tr>
 	        	<td><%= i %></td>
-	            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
-	            <td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
-	            <td><%= ordine.getCitta() %></td>
-	            <td><%= ordine.getVia() %></td>
-	            <td><%= ordine.getCAP() %></td>
+	            <td><%= EscaperHTML.escapeHTML(dateFormatter.format(ordine.getDataOrdine().getTime())) %></td>
+	            <td><%= EscaperHTML.escapeHTML(dateFormatter.format(ordine.getDataConsegna().getTime())) %></td>
+	            <td><%= EscaperHTML.escapeHTML(ordine.getCitta()) %></td>
+	            <td><%= EscaperHTML.escapeHTML(ordine.getVia()) %></td>
+	            <td><%= EscaperHTML.escapeHTML(ordine.getCAP()) %></td>
 	            <td><%= ordine.getPrezzoTotale() %></td>
 	            <td>
 	          		<a class="greenlinkunderline" href="" onclick="submitFormInNewPage(<%= i %>, event)">scarica</a>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Calendar, net.bookscape.model.CartItem"%>
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento"%>
+<%@ page import="utility.EscaperHTML"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -175,7 +177,7 @@
                         for(CartItem item : ordine.getProdotti()){
                     %>
                         <tr>
-                            <td><%=item.getProduct().getNome() %></td>
+                            <td><%=EscaperHTML.escapeHTML(item.getProduct().getNome()) %></td>
                             <td><%=item.getNumElementi()%></td>
                             <td><%=item.getProduct().getPrezzo()%></td>
                         </tr>
@@ -194,10 +196,10 @@
 
         <div class="checkout-customer-info">
             <h2>Informazioni di fatturazione</h2>
-            <p id="nomeCliente"><strong>Nome: </strong>${cliente.nome}</p>
-            <p id="cognomeCliente"><strong>Cognome: </strong>${cliente.cognome}</p>
+            <p id="nomeCliente"><strong>Nome: </strong>${EscaperHTML.escapeHTML(cliente.nome)}</p>
+            <p id="cognomeCliente"><strong>Cognome: </strong>${EscaperHTML.escapeHTML(cliente.cognome)}</p>
             <p><strong>Email: </strong>${cliente.email}</p>
-            <p id="indirizzoCliente"><strong>Indirizzo di fatturazione: </strong>${cliente.via}, ${cliente.citta}, ${cliente.CAP}</p>
+            <p id="indirizzoCliente"><strong>Indirizzo di fatturazione: </strong>${EscaperHTML.escapeHTML(cliente.via)}, ${EscaperHTML.escapeHTML(cliente.citta)}, ${EscaperHTML.escapeHTML(cliente.CAP)}</p>
         </div>
         
 		<div class="checkout-billing-info">
@@ -209,9 +211,9 @@
           		<input type="checkbox" id="useShippingForBilling" onchange="toggleBillingForm()" <%if(request.getAttribute("fatturazioneCheckbox") == null){ %> checked <% } %>>
        		</form>
 
-       		<p id="nomeConsegna"><strong>Nome: </strong>${ordine.nomeConsegna}</p>
-            <p id="cognomeConsegna"><strong>Cognome: </strong>${ordine.cognomeConsegna}</p>
-            <p id="indirizzoConsegna"><strong>Indirizzo di Spedizione: </strong>${ordine.via}, ${ordine.citta}, ${ordine.CAP}</p>
+       		<p id="nomeConsegna"><strong>Nome: </strong>${EscaperHTML.escapeHTML(ordine.nomeConsegna)}</p>
+            <p id="cognomeConsegna"><strong>Cognome: </strong>${EscaperHTML.escapeHTML(ordine.cognomeConsegna)}</p>
+            <p id="indirizzoConsegna"><strong>Indirizzo di Spedizione: </strong>${EscaperHTML.escapeHTML(ordine.via)}, ${EscaperHTML.escapeHTML(ordine.citta)}, ${EscaperHTML.escapeHTML(ordine.CAP)}</p>
         </div>
         
         <div id="checkout-billing-form">
@@ -254,8 +256,8 @@
 			        String cardNumber = "**** **** **** " + carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4);
 			        String dataScadenza = (carta.getDataScadenza().get(Calendar.MONTH) + 1) + "/" + carta.getDataScadenza().get(Calendar.YEAR);
 			%>
-			    <p>Carta: <%= carta.getNomeCarta() %> (<%= cardNumber %>)</p>
-			    <p>Data Scadenza: <%= dataScadenza %></p>
+			    <p>Carta: <%= EscaperHTML.escapeHTML(carta.getNomeCarta()) %> (<%= EscaperHTML.escapeHTML(cardNumber) %>)</p>
+			    <p>Data Scadenza: <%= EscaperHTML.escapeHTML(dataScadenza) %></p>
 			    <p><strong>Modifica Metodo di Pagamento: </strong><a href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
 			<%
 			    }

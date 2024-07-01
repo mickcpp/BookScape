@@ -1,5 +1,5 @@
-<%@ page import="java.util.Collection, net.bookscape.model.Gadget" language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page import="java.util.Collection" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="net.bookscape.model.Gadget, utility.EscaperHTML"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -68,8 +68,8 @@ pageEncoding="UTF-8"%>
 				for(Gadget g: gadgets) {
 		%>
 					<div class="product">
-						<h2><%= g.getNome() %></h2>
-						<p><%= g.getDescrizione() %></p>
+						<h2><%= EscaperHTML.escapeHTML(g.getNome()) %></h2>
+						<p><%= EscaperHTML.escapeHTML(g.getDescrizione()) %></p>
 						<p>Prezzo: <%= g.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= g.getQuantita() %></p>
 						<a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=g.getImgURL()%>"></a>

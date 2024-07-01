@@ -1,5 +1,6 @@
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection, java.text.SimpleDateFormat" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator, java.util.UUID"%>
+<%@ page import="utility.EscaperHTML" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -143,7 +144,7 @@
            		
         		<% index--; %>
         		
-                <p>Data Ordine: <%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></p>
+                <p>Data Ordine: <%= EscaperHTML.escapeHTML(dateFormatter.format(ordine.getDataOrdine().getTime())) %></p>
                 <p>Prezzo Totale: € <%= ordine.getPrezzoTotale() %></p>
                 <h3>Prodotti:</h3>
                 <ul>
@@ -153,8 +154,8 @@
                             for (CartItem item : prodotti) {
                     %>
                         <li>
-                            <img src="<%= item.getProduct().getImgURL() %>" alt="<%= item.getProduct().getNome() %>" class="product-img">
-                            <p><%= item.getProduct().getNome() %> - Quantità: <%= item.getNumElementi() %> - Prezzo: € <%= item.getProduct().getPrezzo() %></p>
+                            <img src="<%= item.getProduct().getImgURL() %>" alt="<%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %>" class="product-img">
+                            <p><%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %> - Quantità: <%= item.getNumElementi() %> - Prezzo: € <%= item.getProduct().getPrezzo() %></p>
                         </li>
                     <%
                             }

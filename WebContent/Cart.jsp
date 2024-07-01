@@ -1,5 +1,5 @@
-<%@ page import="java.util.Collection, net.bookscape.model.Cart, net.bookscape.model.CartItem" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="java.util.Collection" contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="net.bookscape.model.Cart, net.bookscape.model.CartItem, utility.EscaperHTML"%>
 <html>
 <head>
     <title>Carrello</title>
@@ -109,7 +109,7 @@
             %>
                             <div class="product">
 									<a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>"><img src="<%=item.getProduct().getImgURL()%>"></a>                                <div class="product-info">
-                                    <p><strong>Nome Prodotto:</strong> <%= item.getProduct().getNome() %></p>
+                                    <p><strong>Nome Prodotto:</strong> <%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %></p>
                                     <p><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
                                     <p><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
                                     <hr>

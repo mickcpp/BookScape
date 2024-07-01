@@ -1,8 +1,6 @@
-<%@ page import="net.bookscape.model.Product"%>
-<%@ page import="java.util.Collection, java.util.Iterator"%>
-<%@ page import="net.bookscape.model.Wishlist" %>
+<%@ page import="java.util.Collection, java.util.Iterator" contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page import="net.bookscape.model.Product, net.bookscape.model.Wishlist, utility.EscaperHTML"%>
 
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Wishlist</title>
@@ -134,7 +132,7 @@
         <div class="product">
 			<a href="ProductDetails?productId=<%=product.getId()%>&type=<%=product.getClass().getSimpleName().toLowerCase()%>"><img src="<%=product.getImgURL()%>"></a>                              
             <div class="product-info">
-                <p><strong>Nome Prodotto:</strong> <%= product.getNome() %></p>
+                <p><strong>Nome Prodotto:</strong> <%= EscaperHTML.escapeHTML(product.getNome()) %></p>
                 <p><strong>Prezzo:</strong> <%= product.getPrezzo() %></p>
                 <div class="action-buttons">
                     <form action="CartControl" method="post">

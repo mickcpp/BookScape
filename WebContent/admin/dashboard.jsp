@@ -3,6 +3,7 @@
 <%@ page import="net.bookscape.model.Libro, net.bookscape.model.Ordine" %>
 <%@ page import="net.bookscape.model.Musica, java.text.SimpleDateFormat" %>
 <%@ page import="net.bookscape.model.Gadget, java.util.Date" %>
+<%@ page import="utility.EscaperHTML"%>
 
 <!DOCTYPE html>
 <html>
@@ -190,7 +191,7 @@
 					    %>
 					    <tr>
 					        <td><%= p.getId() %></td>
-					        <td><%= p.getNome() %></td>
+					        <td><%= EscaperHTML.escapeHTML(p.getNome()) %></td>
 					        <td><%= p.getPrezzo() %></td>
 					        <td><%= p.getQuantita() %></td>
 					        <td>
@@ -230,9 +231,9 @@
                         %>
                         <tr>
                             <td><%= userId %></td>
-                            <td><%= cliente.getUsername() %></td>
-                            <td><%= cliente.getEmail() %></td>
-                            <td><%= cliente.getNome() %></td>
+                            <td><%= EscaperHTML.escapeHTML(cliente.getUsername()) %></td>
+                            <td><%= EscaperHTML.escapeHTML(cliente.getEmail()) %></td>
+                            <td><%= EscaperHTML.escapeHTML(cliente.getNome()) %></td>
                             <td>
                                 <%
                                     boolean admin = false;
@@ -295,14 +296,14 @@
                         %>
     					<tr>
                             <td><%= ordine.getId() %></td>
-                            <td><%= ordine.getCliente() %></td>
-                            <td><%= ordine.getNomeConsegna() %></td>
-                            <td><%= ordine.getCognomeConsegna() %></td>
-                            <td><%= dateFormatter.format(ordine.getDataOrdine().getTime()) %></td>
-	            			<td><%= dateFormatter.format(ordine.getDataConsegna().getTime()) %></td>
-                            <td><%= ordine.getCitta()%></td>
-                            <td><%= ordine.getVia()%></td>
-                            <td><%= ordine.getCAP()%></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getCliente()) %></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) %></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %></td>
+                            <td><%= EscaperHTML.escapeHTML(dateFormatter.format(ordine.getDataOrdine().getTime())) %></td>
+	            			<td><%= EscaperHTML.escapeHTML(dateFormatter.format(ordine.getDataConsegna().getTime())) %></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getCitta())%></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getVia())%></td>
+                            <td><%= EscaperHTML.escapeHTML(ordine.getCAP())%></td>
                             <td><%= ordine.getPrezzoTotale()%></td>
                         </tr>
          

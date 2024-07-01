@@ -1,5 +1,5 @@
-<%@ page import="java.util.Collection, net.bookscape.model.Musica" language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page import="java.util.Collection" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="net.bookscape.model.Musica, utility.EscaperHTML"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -69,8 +69,8 @@ pageEncoding="UTF-8"%>
 				for(Musica m: musics) {
 		%>
 					<div class="product">
-						<h2><%= m.getNome() %></h2>
-						<p><%= m.getDescrizione() %></p>
+						<h2><%= EscaperHTML.escapeHTML(m.getNome()) %></h2>
+						<p><%= EscaperHTML.escapeHTML(m.getDescrizione()) %></p>
 						<p>Prezzo: <%= m.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= m.getQuantita() %></p>
 						<a href="ProductDetails?productId=<%=m.getId()%>&type=<%=m.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=m.getImgURL()%>"></a>

@@ -1,5 +1,5 @@
-<%@ page import="java.util.*, net.bookscape.model.Product, net.bookscape.model.Libro" language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="net.bookscape.model.Product, net.bookscape.model.Libro, utility.EscaperHTML"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -68,8 +68,8 @@ pageEncoding="UTF-8"%>
 				for(Libro l: libri) {
 		%>
 					<div class="product">
-						<h2><%= l.getNome() %></h2>
-						<p><%= l.getDescrizione() %></p>
+						<h2><%= EscaperHTML.escapeHTML(l.getNome()) %></h2>
+						<p><%= EscaperHTML.escapeHTML(l.getDescrizione()) %></p>
 						<p>Prezzo: <%= l.getPrezzo() %> EUR</p>
 						<p>Quantità disponibile: <%= l.getQuantita() %></p>
 						<a href="ProductDetails?productId=<%=l.getId()%>&type=<%=l.getClass().getSimpleName().toLowerCase()%>"><img id="productImage" src="<%=l.getImgURL()%>"></a>
