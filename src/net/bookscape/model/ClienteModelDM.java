@@ -84,7 +84,7 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 			preparedStatement.setString(1, email);
 
 			result = preparedStatement.executeUpdate();
-			connection.commit();
+//			connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
