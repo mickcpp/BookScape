@@ -33,11 +33,21 @@ public class DeleteUser extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String email = (String) request.getSession().getAttribute("cliente");
+		if(email == null) {
+			response.sendRedirect("./");
+			return;
+		}
 		
-		try {
-			model.doDelete(email);
-			request.getSession().invalidate();
-			response.sendRedirect("HomePage");
+		try{
+			boolean check = model.doDelete(email);
+			if(check) {
+				request.getSession().invalidate();
+				response.sendRedirect("HomePage");
+				return;
+			} else {
+				response.sendRedirect("UserControl");
+				return;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,4 +1,5 @@
 package net.bookscape.control;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import net.bookscape.model.ProductModelDM;
 
 @WebServlet("/RicercaProdotto")
 public class RicercaProdotto extends HttpServlet {
+	
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +26,11 @@ public class RicercaProdotto extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         String query = request.getParameter("query");
-
+        if(query == null) {
+        	response.sendRedirect("./");
+        	return;
+        }
+        
         Collection<Product> risultato = new ArrayList<>();
         ProductModelDM model = new ProductModelDM();
         Collection<Product> prodotti;

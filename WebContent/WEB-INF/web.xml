@@ -51,6 +51,11 @@
 	    <url-pattern>/FileUpload</url-pattern>
 	</filter-mapping>
 	
+	<filter-mapping>
+	    <filter-name>AdminFilter</filter-name>
+	    <url-pattern>/ProductSearchAdmin</url-pattern>
+	</filter-mapping>
+	
 	<context-param>
         <param-name>uploadLocation</param-name>
         <param-value>C:\Users\marco\OneDrive\Desktop\github\BookScape\WebContent\productImages</param-value>

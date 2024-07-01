@@ -35,9 +35,23 @@ public class RecensioneControl extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String cliente = (String) request.getSession().getAttribute("cliente");
-		int prodotto = Integer.parseInt(request.getParameter("productId"));
+		if(cliente == null) {
+			response.sendRedirect("Login");
+			return;
+		}
+		
+		int prodotto = 0;
+		int rating = 0;
+		
+		if(request.getParameter("productId") != null) {
+			prodotto = Integer.parseInt(request.getParameter("productId"));
+		}
+		
+		if(request.getParameter("rating") != null) {
+			rating = Integer.parseInt(request.getParameter("rating"));
+		}
+		
 		String recensione = request.getParameter("recensione");
-		int rating = Integer.parseInt(request.getParameter("rating"));
 		String tableName = request.getParameter("type");
 
 		if(prodotto == 0) {
@@ -45,8 +59,8 @@ public class RecensioneControl extends HttpServlet{
 			return;
 		}
 
-		if(recensione == null || rating == 0 ) {
-			response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+		if(recensione == null || rating == 0 || tableName == null) {
+			response.sendRedirect("./");
 			return;
 		}
 
