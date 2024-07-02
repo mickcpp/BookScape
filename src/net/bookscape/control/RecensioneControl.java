@@ -40,16 +40,14 @@ public class RecensioneControl extends HttpServlet{
 			return;
 		}
 		
-		int prodotto = 0;
-		int rating = 0;
-		
-		if(request.getParameter("productId") != null) {
-			prodotto = Integer.parseInt(request.getParameter("productId"));
+		String action = request.getParameter("action");
+		if(action == null) {
+			response.sendRedirect("./");
+			return;
 		}
 		
-		if(request.getParameter("rating") != null) {
-			rating = Integer.parseInt(request.getParameter("rating"));
-		}
+		int prodotto = getProdotto(request);
+		int rating = getValutazione(request);
 		
 		String recensione = request.getParameter("recensione");
 		String tableName = request.getParameter("type");
@@ -63,6 +61,28 @@ public class RecensioneControl extends HttpServlet{
 			response.sendRedirect("./");
 			return;
 		}
+		
+		switch(action) {
+			case "insert":
+				insertRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				break;
+			case "delete":
+				deleteRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				break;
+			case "update":
+				updateRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				break;
+			default:
+				response.sendRedirect("./");
+				break;
+		}
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+	
+	private void insertRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
 
 		Recensione r = new Recensione(cliente, prodotto, recensione, rating);
 		
@@ -74,9 +94,32 @@ public class RecensioneControl extends HttpServlet{
 		}
 		
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+		return;
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	private void deleteRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+		return;	
+	}
+	
+	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+		return;	
+	}
+	
+	private int getProdotto(HttpServletRequest request) throws IOException {
+		int prodotto = 0;
+		if(request.getParameter("productId") != null) {
+			prodotto = Integer.parseInt(request.getParameter("productId"));
+		}
+		return prodotto;
+	}
+	
+	private int getValutazione(HttpServletRequest request) throws IOException {
+		int prodotto = 0;
+		if(request.getParameter("rating") != null) {
+			prodotto = Integer.parseInt(request.getParameter("rating"));
+		}
+		return prodotto;
 	}
 }

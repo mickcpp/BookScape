@@ -197,6 +197,7 @@
 	    <div class="review-section">
 	        <h3>Scrivi una Recensione</h3>
 	        <form action="RecensioneControl" method="post">
+	        	<input type="hidden" name="action" value="insert">   
 	        	<input type="hidden" name="productId" value="${prodotto.getId()}">   
 	        	<input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">         
 	        	<div class="rating">
