@@ -2,7 +2,9 @@ package net.bookscape.control;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.*;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,6 +74,9 @@ public class RecensioneControl extends HttpServlet{
 			case "update":
 				updateRecensione(response, cliente, prodotto, recensione, rating, tableName);
 				break;
+			case "visualizza":
+				ShowRecensione(request,response,prodotto,tableName);
+				break;
 			default:
 				response.sendRedirect("./");
 				break;
@@ -105,7 +110,20 @@ public class RecensioneControl extends HttpServlet{
 	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 		return;	
-	}
+	}	
+	private void ShowRecensione(HttpServletRequest request,HttpServletResponse response, int prodotto, String tableName) throws ServletException, IOException {
+		Collection<Recensione> recensioni = null;
+		try {
+			recensioni=model.doRetrieveAll(prodotto,TABLE.valueOf(tableName));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("recensioni", recensioni);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Recensioni.jsp");
+		dispatcher.forward(request, response);
+	}	
+	
 	
 	private int getProdotto(HttpServletRequest request) throws IOException {
 		int prodotto = 0;

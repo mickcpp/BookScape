@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="net.bookscape.model.*"%>
+<%@ page import="java.util.*" %>
+
 <%@ page import="utility.EscaperHTML"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +20,43 @@
 	            margin: 0;
 	            padding: 0;
 	        }
+	        
+	        .review-display {
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    text-align: left;
+}
+
+.review-display .review {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.review-display .review:last-child {
+    border-bottom: none;
+}
+
+.review-display .review h4 {
+    margin: 0 0 5px;
+    font-size: 20px;
+    color: #333;
+}
+
+.review-display .review p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.review-display .review .rating {
+    color: #f5a623;
+    font-size: 18px;
+}
+	        
 	        .container {
 	            display: flex;
 	            justify-content: center;
@@ -146,6 +186,38 @@
 	        .review-section button:hover {
 	            background-color: #45a049;
 	        }
+
+	        /* Stile per la visualizzazione delle recensioni */
+	        .review-display {
+	            width: 80%;
+	            max-width: 800px;
+	            background-color: #fff;
+	            padding: 20px;
+	            border-radius: 10px;
+	            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	            margin: 20px auto;
+	            text-align: left;
+	        }
+	        .review-display .review {
+	            border-bottom: 1px solid #eee;
+	            padding: 10px 0;
+	        }
+	        .review-display .review:last-child {
+	            border-bottom: none;
+	        }
+	        .review-display .review h4 {
+	            margin: 0 0 5px;
+	            font-size: 20px;
+	            color: #333;
+	        }
+	        .review-display .review p {
+	            margin: 5px 0;
+	            color: #666;
+	        }
+	        .review-display .review .rating {
+	            color: #f5a623;
+	            font-size: 18px;
+	        }
 	    </style>
 	</head>
 	<body>
@@ -216,6 +288,9 @@
 	            <button type="submit">Invia Recensione</button>
 	        </form>
 	    </div>
+	    
+<h3 style="float: right"><a class="greenlinkunderline" href="RecensioneControl?action=visualizza">Leggi tutte le recensioni</a></h3>
+
 	
 	    <%@ include file="template/footer.html" %>
 	</body>

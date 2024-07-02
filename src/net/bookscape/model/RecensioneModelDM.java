@@ -78,7 +78,7 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 		
 		Collection<Recensione> listaRecensioni = new LinkedList<Recensione>();
 	
-		String selectSQL = "SELECT * FROM " + tabella +  " WHERE Gadget = ?";
+		String selectSQL = "SELECT * FROM " + tabella +  " WHERE " + table.name()+ "= ?";
 	
 		try {
 			connection = DriverManagerCP.getConnection();
