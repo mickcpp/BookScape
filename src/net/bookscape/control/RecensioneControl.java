@@ -63,19 +63,27 @@ public class RecensioneControl extends HttpServlet{
 			return;
 		}
 
-		if(rating == 0 && !action.equals("visualizza")) {
+		if(rating == 0 && !action.equals("visualizza") && !action.equals("delete")) {
 			response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 			return;
 		}
 		
 		switch(action) {
 			case "insert":
+				if(validate(recensione, rating) != null) {
+					response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+					return;
+				}
 				insertRecensione(response, cliente, prodotto, recensione, rating, tableName);
 				break;
 			case "delete":
-				deleteRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				deleteRecensione(response, cliente, prodotto, tableName);
 				break;
 			case "update":
+				if(validate(recensione, rating) != null) {
+					response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+					return;
+				}
 				updateRecensione(response, cliente, prodotto, recensione, rating, tableName);
 				break;
 			case "visualizza":
@@ -106,7 +114,13 @@ public class RecensioneControl extends HttpServlet{
 		return;
 	}
 	
-	private void deleteRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+	private void deleteRecensione(HttpServletResponse response, String cliente, int prodotto, String tableName) throws ServletException, IOException {
+		try {
+			model.doDelete(cliente, prodotto, TABLE.valueOf(tableName));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 		return;	
 	}
@@ -148,5 +162,16 @@ public class RecensioneControl extends HttpServlet{
 			prodotto = Integer.parseInt(request.getParameter("rating"));
 		}
 		return prodotto;
+	}
+
+	private String validate(String recensione, int valutazione) {
+		
+		if(valutazione < 1 || valutazione > 5) {
+			return "Errore nell'inserimento della valutazione!";
+		}
+		if(recensione.length() > 1000) {
+			return "La recensione può essere lunga al massimo 1000 caratteri.";
+		}	
+		return null;
 	}
 }

@@ -193,6 +193,13 @@
             color: #f5a623;
             font-size: 18px;
         }
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+          	margin: -10px 8px 1.55% auto;
+            text-align: right;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -213,6 +220,24 @@
     
     	@SuppressWarnings("unchecked")
    		List<Recensione> recensioni = (List<Recensione>) request.getAttribute("recensioni");
+    	
+    	// Se il cliente è autenticato, ordino le recensioni mettendo quella del cliente in cima
+        if (id != null && !id.isEmpty()) {
+            // Trovo la recensione del cliente e la sposto in cima alla lista
+            Recensione clienteReview = null;
+            Iterator<Recensione> iter = recensioni.iterator();
+            while (iter.hasNext()) {
+                Recensione recensione = iter.next();
+                if (recensione.getCliente().equals(id)) {
+                    clienteReview = recensione;
+                    iter.remove(); // Rimuovo la recensione dal suo posto originale
+                    break;
+                }
+            }
+            if (clienteReview != null) {
+                recensioni.add(0, clienteReview); // Aggiungo la recensione del cliente in cima
+            }
+        }
     %>
     <div class="container">
         <div class="product-container">
@@ -242,7 +267,7 @@
     </div>
     <div class="review-section">
         <h3>Scrivi una Recensione</h3>
-        <form action="RecensioneControl" method="post">
+        <form action="RecensioneControl" method="post" onsubmit="return validateForm()">
             <input type="hidden" name="action" value="insert">   
             <input type="hidden" name="productId" value="${prodotto.getId()}">   
             <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">         
@@ -257,8 +282,13 @@
                 <label for="star2" class="fas fa-star"></label>
                 <input type="radio" name="rating" id="star1" value="1">
                 <label for="star1" class="fas fa-star"></label>
+                <div class="error-message"></div>
             </div>
-            <textarea id="Recensione" name="recensione" placeholder="Scrivi qui la tua recensione..."></textarea>
+            <div class="descrizione">
+	            <textarea id="recensione" name="recensione" placeholder="Scrivi qui la tua recensione..."></textarea>
+	            <div class="error-message" style="text-align: left"></div>
+            </div>
+            
             <button type="submit">Invia Recensione</button>
         </form>
     </div>
@@ -274,7 +304,7 @@
                     <div class="review">
                         <div class="avatar" data-email="<%= email %>"><%= initials %></div>
                         <div class="review-content">
-                            <h4><%= EscaperHTML.escapeHTML(email) %></h4>
+                            <h4><%= email.equals(id) ? "Tu" : EscaperHTML.escapeHTML(email) %></h4>
                             <div class="rating">
                                 <% 
                                     for (int i = 0; i < recensione.getValutazione(); i++) { 
@@ -285,6 +315,18 @@
                                 %>
                             </div>
                             <p><%= EscaperHTML.escapeHTML(recensione.getRecensione()) %></p>
+                      	<% 
+                             	if (email.equals(id)) { // Mostra il pulsante solo se è la recensione del cliente autenticato
+                        %>
+	                                <form action="RecensioneControl" method="post" style="float: right">
+	                                    <input type="hidden" name="action" value="delete">
+	                                    <input type="hidden" name="productId" value="${prodotto.getId()}">
+	                                    <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
+	                                    <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">Elimina Recensione</button>
+	                                </form>
+                       	<%
+                                }
+                      	%>
                         </div>
                     </div>
         <%
@@ -310,12 +352,45 @@
         	}
             return color;
         }
-
+        
         document.querySelectorAll('.avatar').forEach(function(avatar) {
             let email = avatar.getAttribute('data-email');
             let color = stringToColor(email);
             avatar.style.backgroundColor = color;
         });
+        
+        function validateForm() {
+      		let isValid = true;
+            let ratingChecked = document.querySelector('.rating input:checked');
+           	let recensione = document.querySelector('#recensione');
+           	
+            resetErrors();
+          
+            if (!ratingChecked) {
+            	showError(document.querySelector('.rating input'), "Per favore, seleziona almeno una valutazione");
+                isValid = false;
+            }
+            
+         	if(recensione.value.length > 1000){
+         		showError(recensione, "Puoi inserire al massimo 1000 caratteri.");
+         		isValid = false;
+         	}
+            return isValid;
+        }
+        
+        function showError(input, message) {
+            const errorElement = input.parentElement.querySelector('.error-message');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+	    function resetErrors() {
+	        const errorMessages = document.querySelectorAll('.error-message');
+	        errorMessages.forEach(function (error) {
+	            error.style.display = 'none';
+	            error.textContent = '';
+	        });
+	    }
     </script>
 </body>
 </html>

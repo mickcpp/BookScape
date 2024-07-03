@@ -183,7 +183,9 @@
             </div>
 
             <div class="product-details">
-                <img src="<%= EscaperHTML.escapeHTML(prodotto.getImgURL()) %>" alt="<%= EscaperHTML.escapeHTML(prodotto.getNome()) %>">
+            	<a href="ProductDetails?productId=<%=prodotto.getId()%>&type=<%=prodotto.getClass().getSimpleName().toLowerCase()%>">
+            		<img src="<%= EscaperHTML.escapeHTML(prodotto.getImgURL()) %>" alt="<%= EscaperHTML.escapeHTML(prodotto.getNome())%>">
+            	</a>
                 <h2><%= EscaperHTML.escapeHTML(prodotto.getNome()) %></h2>
                 <p>ID: <%= prodotto.getId() %></p>
             </div>
