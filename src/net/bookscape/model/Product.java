@@ -78,5 +78,4 @@ public abstract class Product implements Serializable {
 	public String toString() {
 		return nome + " (" + ID + "), " + descrizione + " " + prezzo + ". " + quantita;
     }
-    
 }

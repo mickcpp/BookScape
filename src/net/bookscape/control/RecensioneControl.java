@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.bookscape.model.Product;
+import net.bookscape.model.ProductModelDM;
 import net.bookscape.model.Recensione;
 import net.bookscape.model.RecensioneModelDM;
 import net.bookscape.model.TABLE;
@@ -29,9 +31,11 @@ public class RecensioneControl extends HttpServlet{
     }
     
 	private static RecensioneModelDM model;
+	private static ProductModelDM modelProduct;
 	
 	static {
 		model = new RecensioneModelDM();
+		modelProduct = new ProductModelDM();
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,13 +58,13 @@ public class RecensioneControl extends HttpServlet{
 		String recensione = request.getParameter("recensione");
 		String tableName = request.getParameter("type");
 
-		if(prodotto == 0) {
+		if(prodotto == 0 || tableName == null) {
 			response.sendRedirect("./");
 			return;
 		}
 
-		if(recensione == null || rating == 0 || tableName == null) {
-			response.sendRedirect("./");
+		if(rating == 0 && !action.equals("visualizza")) {
+			response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 			return;
 		}
 		
@@ -75,7 +79,7 @@ public class RecensioneControl extends HttpServlet{
 				updateRecensione(response, cliente, prodotto, recensione, rating, tableName);
 				break;
 			case "visualizza":
-				ShowRecensione(request,response,prodotto,tableName);
+				showRecensioni(request, response, prodotto, tableName);
 				break;
 			default:
 				response.sendRedirect("./");
@@ -110,20 +114,25 @@ public class RecensioneControl extends HttpServlet{
 	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 		return;	
-	}	
-	private void ShowRecensione(HttpServletRequest request,HttpServletResponse response, int prodotto, String tableName) throws ServletException, IOException {
+	}
+	
+	private void showRecensioni(HttpServletRequest request,HttpServletResponse response, int productId, String tableName) throws ServletException, IOException {
 		Collection<Recensione> recensioni = null;
+		Product product = null;
+		
 		try {
-			recensioni=model.doRetrieveAll(prodotto,TABLE.valueOf(tableName));
+			recensioni = model.doRetrieveAll(productId,TABLE.valueOf(tableName));
+			product = modelProduct.doRetrieveByKey(productId, TABLE.valueOf(tableName));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		request.setAttribute("recensioni", recensioni);
+		request.setAttribute("prodotto", product);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Recensioni.jsp");
 		dispatcher.forward(request, response);
-	}	
-	
+	}
 	
 	private int getProdotto(HttpServletRequest request) throws IOException {
 		int prodotto = 0;

@@ -91,7 +91,7 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 				Recensione r = new Recensione();
 				r.setCliente(rs.getString("Cliente"));
 				r.setProdotto(rs.getInt(table.name()));
-				r.setRecensione(rs.getString("Recensione"));
+				r.setRecensione(rs.getString("Descrizione"));
 				r.setValutazione(rs.getInt("Valutazione"));
 				listaRecensioni.add(r);
 			}
