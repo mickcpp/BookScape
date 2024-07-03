@@ -54,7 +54,7 @@ public class UserControl extends HttpServlet {
 				
 				Boolean checkAdmin = (Boolean) request.getSession().getAttribute("adminRole");
 			
-				if(checkAdmin != null && checkAdmin.booleanValue()) {
+				if(checkAdmin != null && checkAdmin.booleanValue() && (request.getParameter("personalAreaAdmin") == null)) {
 					Collection<Cliente> clienti = clienteModel.doRetrieveAll(null);
 					Collection<Product> prodotti = productModel.doRetrieveAll(null);
 					Collection<String> listaAdmin = clienteModel.doRetrieveAllAdmin();
