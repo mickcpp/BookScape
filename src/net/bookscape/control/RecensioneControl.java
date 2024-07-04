@@ -70,14 +70,17 @@ public class RecensioneControl extends HttpServlet{
 		
 		switch(action) {
 			case "insert":
-				if(validate(recensione, rating) != null) {
-					response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+				String error = validate(recensione, rating);
+				if(error != null) {
+					request.setAttribute("errorMessage", error);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
+					dispatcher.forward(request, response);
 					return;
 				}
-				insertRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				insertRecensione(request, response, cliente, prodotto, recensione, rating, tableName);
 				break;
 			case "delete":
-				deleteRecensione(response, cliente, prodotto, tableName);
+				deleteRecensione(request, response, cliente, prodotto, tableName);
 				break;
 			case "update":
 				if(validate(recensione, rating) != null) {
@@ -99,24 +102,33 @@ public class RecensioneControl extends HttpServlet{
 		doGet(request, response);
 	}
 	
-	private void insertRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+	private void insertRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
 
 		Recensione r = new Recensione(cliente, prodotto, recensione, rating);
 		
 		try {
 			model.doSave(r, TABLE.valueOf(tableName));
+			request.setAttribute("feedback", "Recensione effettuata!");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
+			dispatcher.forward(request, response);
+			return;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
-		return;
+		return;	
 	}
 	
-	private void deleteRecensione(HttpServletResponse response, String cliente, int prodotto, String tableName) throws ServletException, IOException {
+	private void deleteRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String tableName) throws ServletException, IOException {
 		try {
-			model.doDelete(cliente, prodotto, TABLE.valueOf(tableName));
+			boolean check = model.doDelete(cliente, prodotto, TABLE.valueOf(tableName));
+			if(check) {
+				request.setAttribute("feedback", "Recensione eliminata!");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
+				dispatcher.forward(request, response);
+				return;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

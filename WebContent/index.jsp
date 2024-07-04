@@ -7,6 +7,7 @@
 		<meta charset="UTF-8">
 		<title>BookScape</title>
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/feedback.css">
 		
 		<style>
 			div#contenuto{
@@ -40,7 +41,6 @@
 	            height: 225px;
 	            border-radius: 8px;
 	        }
-	       
 		</style>
 	</head>
 	<body>
@@ -53,15 +53,20 @@
 				<a id="logout" href="Logout">Logout</a>
 				<%
 			}
+			
+			String feedback = (String) request.getAttribute("feedback");
+	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 		%>
 		
 		<%!String nomeTabella = "";%>
+		
+		<%@ include file="template/feedbackSection.jsp" %>
 		
 		<div id="contenuto">
 		<%
 			@SuppressWarnings("unchecked")
 			Collection<Product> prodotti = (Collection<Product>) request.getAttribute("prodotti");
-		
+			
 			if(prodotti == null || prodotti.isEmpty()) {
 				response.sendRedirect("HomePage");
 				return;
@@ -78,7 +83,7 @@
 							<input type="hidden" name="productId" value="<%= p.getId() %>">
 							<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
 							<input type="hidden" name="action" value="aggiungi">
-							<input type="hidden" name="redirect" value="index.jsp">
+							<input type="hidden" name="redirect" value="HomePage">
 							<input type="submit" value="Aggiungi al carrello">
 						</form>
 						<hr>
@@ -86,7 +91,7 @@
 							<input type="hidden" name="productId" value="<%= p.getId() %>">
 							<input type="hidden" name="type" value="<%=p.getClass().getSimpleName().toLowerCase()%>">
 							<input type="hidden" name="action" value="aggiungi">
-							<input type="hidden" name="redirect" value="index.jsp">
+							<input type="hidden" name="redirect" value="HomePage">
 							<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
 						</form>
 					</div>
@@ -97,5 +102,7 @@
 		</div>
 		
 		<%@ include file="template/footer.html" %>
+		
+		<script src="js/scriptFeedback.js"></script>
 	</body>
 </html>

@@ -18,14 +18,16 @@ public class Wishlist {
 		}
 	}
 	
-	public void deleteItem(Product item) {
+	public boolean deleteItem(Product item) {
 	    Iterator<Product> iterator = items.iterator();
 	    while (iterator.hasNext()) {
 	    	Product p = iterator.next();
 	        if (item.getId() == p.getId()) {
 	        	iterator.remove();
+	        	return true;
 	        }
 	    }
+	    return false;
 	}
 	
 	public Collection<Product> getItems() {

@@ -12,6 +12,7 @@
 	    <title>Dettagli Prodotto</title>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	    <link rel="stylesheet" href="css/style.css">
+	    <link rel="stylesheet" href="css/feedback.css">
 	    <style>
 		 	body {
 	            font-family: Arial, sans-serif;
@@ -226,6 +227,10 @@
 	            return;
 	        }
 	    
+	 		String errorMessage = (String) request.getAttribute("errorMessage");
+	 		String feedback = (String) request.getAttribute("feedback");
+	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+	    
 	        @SuppressWarnings("unchecked")
 	        List<Recensione> recensioni = (List<Recensione>) request.getAttribute("recensioni");
 	        
@@ -277,7 +282,9 @@
 		        }
 		    }
 	 	%>
-	 	
+	 
+	 	<%@ include file="template/feedbackSection.jsp" %>
+
 	    <div class="container">
 	        <div class="product-container">
 	            <img src="${prodotto.imgURL}" alt="Immagine Prodotto" class="product-image">
@@ -298,7 +305,7 @@
 	                    <input type="hidden" name="productId" value="${prodotto.getId()}">
 	                    <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
 	                    <input type="hidden" name="action" value="aggiungi">
-	                    <input type="hidden" name="redirect" value="ProductView.jsp">
+	                    <input type="hidden" name="redirect" value="ProductDetails?productId=${prodotto.getId()}&type=${prodotto.getClass().getSimpleName().toLowerCase()}">
 	                    <button class="bookmark" type="submit"><i class="far fa-bookmark"></i> Aggiungi alla lista desideri</button>
 	                </form>
 	            </div>
@@ -306,6 +313,7 @@
 	    </div>
 	    <div class="review-section">
 	        <h3>Scrivi una Recensione</h3>
+	        <div style="display: block; margin:0" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
 	        <form action="RecensioneControl" method="post" onsubmit="return validateForm()">
 	            <input type="hidden" name="action" value="insert">   
 	            <input type="hidden" name="productId" value="${prodotto.getId()}">   
@@ -435,5 +443,7 @@
 	        });
 	    }
     </script>
+    
+  	<script src="js/scriptFeedback.js"></script>
 </body>
 </html>

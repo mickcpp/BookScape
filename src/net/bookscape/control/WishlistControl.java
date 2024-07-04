@@ -3,6 +3,7 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +40,8 @@ public class WishlistControl extends HttpServlet {
 		
         String userId = (String) request.getSession().getAttribute("cliente");
         Wishlist wishlist = (Wishlist)request.getSession().getAttribute("wishlist");
+		String redirect = (String)request.getParameter("redirect");
+
         int id = 0;
         
         if(userId != null && !userId.equals("")) {
@@ -69,26 +72,32 @@ public class WishlistControl extends HttpServlet {
 				if (action.equalsIgnoreCase("Aggiungi")) {
 					Product product = productModel.doRetrieveByKey(id, TABLE.valueOf(tableName));
 					if(wishlist.isInWishlist(product)) {
-						System.out.println("Prodotto già presente nella wishlist!");
+						forward(request, response, redirect, "Prodotto già presente nella wishlist!", true);
+						return;
 					} else {
 						wishlist.addItem(product);
 						wishlistModel.doSave(product, userId);
+						
+						forward(request, response, redirect, "Prodotto aggiunto nella wishlist!", false);
+						return;
 					}
 					
 				} else if (action.equalsIgnoreCase("Rimuovi")) {
 					Product product = productModel.doRetrieveByKey(id, TABLE.valueOf(tableName));
 					wishlist.deleteItem(product);
+					boolean check = wishlistModel.doDelete(id, userId);
 					
-					wishlistModel.doDelete(id, userId);
+					if(check) {
+						forward(request, response, redirect, "Prodotto rimosso dalla wishlist!", false);
+						return;
+					}
 				}
 			}	
 			
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-		
-		String redirect = (String)request.getParameter("redirect");
-		
+				
 		if(redirect != null && !redirect.equals("")) {
 			response.sendRedirect(redirect);
 		}else {
@@ -102,4 +111,10 @@ public class WishlistControl extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
+	}
 }

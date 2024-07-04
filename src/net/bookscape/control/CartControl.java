@@ -3,6 +3,7 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,6 +40,12 @@ public class CartControl extends HttpServlet {
 		
         String userId = (String) request.getSession().getAttribute("cliente");
         Cart cart = (Cart)request.getSession().getAttribute("cart");
+        String redirect = (String)request.getParameter("redirect");
+        
+        if(redirect == null) {
+        	redirect = "./";
+		}
+        
         int id = 0;
         
         if(request.getParameter("productId") != null){
@@ -64,7 +71,7 @@ public class CartControl extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		String tableName = request.getParameter("type");
-		
+	
 		try {
 			if (action != null) {
 				
@@ -76,39 +83,57 @@ public class CartControl extends HttpServlet {
 							if(userId != null && !userId.equals("")) {
 								cartModel.doUpdate(cart.getItem(id), userId);
 							}
+							forward(request, response, redirect, "Prodotto aggiunto al carrello!", false);
+							return;
 						} else {
-							System.out.println("Raggiunto numero limite del prodotto nel carrello!");
+							forward(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
+							return;
 						}
 					} else {
 						cart.addItem(item);
 						if(userId != null && !userId.equals("")) {
 							cartModel.doSave(cart.getItem(id), userId);
 						}
+						forward(request, response, redirect, "Prodotto aggiunto al carrello!", false);
+						return;
 					}
 					
 				} else if (action.equalsIgnoreCase("Rimuovi")) {
 					CartItem item = new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
-					cart.deleteItem(item);
+					boolean check1 = cart.deleteItem(item);
+					boolean check2 = false;
 					
 					if(userId != null && !userId.equals("")) {
-						cartModel.doDelete(id, userId);
+						check2 = cartModel.doDelete(id, userId);
+					}
+					
+					if(check1 || check2) {
+						forward(request, response, redirect, "Prodotto rimosso dal carrello!", false);
+						return;
 					}
 					
 				} else if (action.equalsIgnoreCase("Aggiorna")) {
 					CartItem item = new CartItem(productModel.doRetrieveByKey(id, TABLE.valueOf(tableName)));
 					int num = Integer.parseInt(request.getParameter("quantity"));
+					
+					if(num > 10) {
+						forward(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
+						return;
+					}
+					
 					cart.updateItemNum(item, num);
 					
 					if(userId != null && !userId.equals("")) {
 						cartModel.doUpdate(cart.getItem(id), userId);
 					}
+					
+					forward(request, response, redirect, "Aggiornato numero di prodotti!", false);
+					return;
 				}
 			}	
 		} catch (SQLException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-		
-		String redirect = (String)request.getParameter("redirect");
 		
 		if(redirect != null && !redirect.equals("")) {
 			response.sendRedirect(redirect);
@@ -123,4 +148,10 @@ public class CartControl extends HttpServlet {
 		doGet(request, response);
 	}
 
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
+	}
 }

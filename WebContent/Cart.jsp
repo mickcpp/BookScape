@@ -4,7 +4,8 @@
 <head>
     <title>Carrello</title>
     <link rel="stylesheet" href="css/style.css">
-    
+    <link rel="stylesheet" href="css/feedback.css">
+    <link rel="stylesheet" href="css/feedback.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,8 +94,13 @@
 			<a id="logout" href="Logout">Logout</a>
 			<%
 		}
+		
+		String feedback = (String) request.getAttribute("feedback");
+ 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 	%>
 		
+	<%@ include file="template/feedbackSection.jsp" %>
+	
     <div class="container">
       	<h1>Prodotti nel Carrello</h1>
         <div id="cart-items">
@@ -148,5 +154,7 @@
     </div>
     
     <%@ include file="template/footer.html" %>
+    
+    <script src="js/scriptFeedback.js"></script>
 </body>
 </html>

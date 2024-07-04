@@ -6,7 +6,7 @@
 		<meta charset="UTF-8">
 		<title>BookScape</title>
 		<link rel="stylesheet" href="css/style.css">
-		
+		<link rel="stylesheet" href="css/feedback.css">
 		<style>
 			div#contenuto{
 				display: flex;
@@ -54,7 +54,12 @@
 				<a id="logout" href="Logout">Logout</a>
 				<%
 			}
+			
+			String feedback = (String) request.getAttribute("feedback");
+	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 		%>
+		
+		<%@ include file="template/feedbackSection.jsp" %>
 		
 		<div id="contenuto">
 		<%
@@ -77,7 +82,7 @@
 							<input type="hidden" name="productId" value="<%= l.getId() %>">
 							<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
 							<input type="hidden" name="action" value="aggiungi">
-							<input type="hidden" name="redirect" value="bookCatalog.jsp">
+							<input type="hidden" name="redirect" value="BookCatalog">
 							<input type="submit" value="Aggiungi al carrello">
 						</form>
 						<hr>
@@ -85,7 +90,7 @@
 							<input type="hidden" name="productId" value="<%= l.getId() %>">
 							<input type="hidden" name="type" value="<%=l.getClass().getSimpleName().toLowerCase()%>">
 							<input type="hidden" name="action" value="aggiungi">
-							<input type="hidden" name="redirect" value="bookCatalog.jsp">
+							<input type="hidden" name="redirect" value="BookCatalog">
 							<button class="bookmark" type=submit><img src="img/bookmark.png"></button>
 						</form>
 					</div>
@@ -96,5 +101,7 @@
 		</div>
 		
 		<%@ include file="template/footer.html" %>
+		
+		<script src="js/scriptFeedback.js"></script>
 	</body>
 </html>

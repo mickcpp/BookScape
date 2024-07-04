@@ -27,14 +27,16 @@ public class Cart {
 	    }
 	}
 	
-	public void deleteItem(CartItem item) {
+	public boolean deleteItem(CartItem item) {
 	    Iterator<CartItem> iterator = items.iterator();
 	    while (iterator.hasNext()) {
 	        CartItem i = iterator.next();
 	        if (item.getProduct().getId() == i.getProduct().getId()) {
 	        	iterator.remove();
+	        	return true;
 	        }
 	    }
+	    return false;
 	}
 	
 	public Collection<CartItem> getItems() {
