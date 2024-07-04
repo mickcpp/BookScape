@@ -22,6 +22,8 @@
             max-width: 400px;
             overflow: hidden;
             background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            opacity: 0; /* Inizialmente nascosto */
+    		transition: opacity 0.2s ease;
         }
         #modalOverlay {
             position: fixed;
@@ -30,8 +32,10 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 999; /* Ensures it is below the modal but above other elements */
             display: none; /* Hidden by default */
+            z-index: 1000;
+            opacity: 0; /* Inizialmente nascosto */
+    		transition: opacity 0.5s ease; /* Aggiunge una transizione graduale */
         }
         
         body.blurred #zona_utente, 
@@ -47,16 +51,23 @@
             align-items: center;
         }
         .modal-section {
-            flex: 1;
-            text-align: center;
-            padding: 20px;
-            transition: background-color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #007bff; /* Cambia il colore delle icone */
-        }
+		    flex: 1;
+		    text-align: center;
+		    padding: 20px;
+		    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Aggiunta transizione per box-shadow */
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		    justify-content: center;
+		    color: #007bff; /* Cambia il colore delle icone */
+		    background-color: #f8f9fa; /* Colore di sfondo base */
+		}
+		.modal-section:hover {
+		    background-color: #dce4eb; /* Colore di sfondo al passaggio del mouse */
+		    border-radius: 12px; /* Aumentato il raggio per bordi più arrotondati */
+		    cursor: pointer;
+		    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Effetto di ombra al passaggio del mouse */
+		}
         .modal-section i {
             font-size: 50px;
             margin-bottom: 10px;
@@ -71,10 +82,6 @@
             height: 80px;
             width: 2px;
             background-color: #ccc;
-        }
-        .modal-section:hover {
-            background-color: #f0f0f0;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -181,14 +188,41 @@
         });
 
         function showModal() {
-            $("body").addClass("blurred");
-            $("#modalOverlay, #choiceModal").show();
+            document.body.classList.add("blurred");
+            var modalOverlay = document.getElementById("modalOverlay");
+            var choiceModal = document.getElementById("choiceModal");
+
+            modalOverlay.style.display = "block";
+            choiceModal.style.display = "block";
+
+            setTimeout(function() {
+                modalOverlay.style.opacity = "1";
+                choiceModal.style.opacity = "1";
+            }, 10); // Ritardo minimo per assicurarsi che le transizioni siano applicate correttamente
         }
 
         function hideModal() {
-            $("body").removeClass("blurred");
-            $("#modalOverlay, #choiceModal").hide();
+            document.body.classList.remove("blurred");
+            var modalOverlay = document.getElementById("modalOverlay");
+            var choiceModal = document.getElementById("choiceModal");
+
+            choiceModal.style.opacity = "0";
+
+            setTimeout(function() {
+                modalOverlay.style.opacity = "0";
+            }, 10); // Ritardo minimo per assicurarsi che le transizioni siano applicate correttamente
+
+            setTimeout(function() {
+                choiceModal.style.display = "none";
+                modalOverlay.style.display = "none";
+            }, 300); // Chiusura più veloce, quindi ritardo minore
         }
+
+        // Gestione del click sull'overlay per chiudere il modal
+        document.getElementById("modalOverlay").addEventListener("click", function() {
+            hideModal();
+        });
+
 
         // Funzione per gestire il click sull'overlay per chiudere il modale
         $(document).on('click', '#modalOverlay', function() {
