@@ -135,7 +135,7 @@ public class RecensioneControl extends HttpServlet{
 		Product product = null;
 		
 		try {
-			recensioni = model.doRetrieveAll(productId,TABLE.valueOf(tableName));
+			recensioni = model.doRetrieveAll(productId,TABLE.valueOf(tableName), "Data");
 			product = modelProduct.doRetrieveByKey(productId, TABLE.valueOf(tableName));
 		} catch (SQLException e) {
 			e.printStackTrace();

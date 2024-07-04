@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.Calendar;
 import java.util.LinkedList;
 
+import utility.UtilsModel;
+
 public class RecensioneModelDM implements RecensioneModel<Recensione>{
 	
 	public synchronized void doSave(Recensione recensione, TABLE table) throws SQLException {
@@ -71,7 +73,7 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 	}
 
 	@Override
-	public Collection<Recensione> doRetrieveAll(int prodotto, TABLE table) throws SQLException {
+	public Collection<Recensione> doRetrieveAll(int prodotto, TABLE table, String order) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -84,6 +86,14 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 	
 		try {
 			connection = DriverManagerCP.getConnection();
+			
+			if (order != null && !order.equals("")) {
+		        if (UtilsModel.validateColumn(connection, preparedStatement, rs, selectSQL, order))
+		            selectSQL += " ORDER BY " + order + " DESC";
+		        else
+		            throw new SQLException("Colonna di ordinamento non valida: " + order);
+			}
+			
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, prodotto);
 			

@@ -9,7 +9,7 @@ public interface RecensioneModel <T>{
 
 	public boolean doDelete(String cliente ,int prodotto, TABLE table) throws SQLException;
 
-	public Collection<Recensione> doRetrieveAll(int prodotto, TABLE table) throws SQLException;
+	public Collection<Recensione> doRetrieveAll(int prodotto, TABLE table, String order) throws SQLException;
 
 	public void doUpdate(T product, TABLE table) throws SQLException;
 }
