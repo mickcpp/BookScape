@@ -1,11 +1,14 @@
 package net.bookscape.model;
 
+import java.util.Calendar;
+
 public class Recensione {
 
 	private String cliente;
 	private int prodotto;
 	private String recensione;
 	private int valutazione;
+	private Calendar data;
 
 	public Recensione(String cliente, int prodotto, String recensione, int valutazione) {
 		setCliente(cliente);
@@ -45,5 +48,13 @@ public class Recensione {
 	
 	public void setValutazione(int valutazione) {
 		this.valutazione = valutazione;
+	}
+
+	public Calendar getData() {
+		return data;
+	}
+
+	public void setData(Calendar data) {
+		this.data = data;
 	}
 }

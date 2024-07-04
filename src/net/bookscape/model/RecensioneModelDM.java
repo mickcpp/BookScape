@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 public class RecensioneModelDM implements RecensioneModel<Recensione>{
@@ -84,7 +86,7 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 			connection = DriverManagerCP.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, prodotto);
-	
+			
 			rs = preparedStatement.executeQuery();
 	
 			while (rs.next()) {
@@ -93,6 +95,17 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 				r.setProdotto(rs.getInt(table.name()));
 				r.setRecensione(rs.getString("Descrizione"));
 				r.setValutazione(rs.getInt("Valutazione"));
+				
+                Timestamp timestamp = rs.getTimestamp("Data");
+                
+                if (timestamp != null) {
+                	Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(timestamp.getTime());
+                    r.setData(calendar);
+                } else {
+                    r.setData(null);
+                }
+                
 				listaRecensioni.add(r);
 			}
 		} finally {

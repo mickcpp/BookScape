@@ -1,6 +1,8 @@
 <%@ page import="net.bookscape.model.Recensione, net.bookscape.model.*, java.util.*, java.text.SimpleDateFormat" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator, java.util.UUID"%>
 <%@ page import="utility.EscaperHTML" %>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.concurrent.TimeUnit"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -124,6 +126,13 @@
             padding-bottom: 10px;
             font-size: 18px;
         }
+        
+        .review-display .review-content small {
+	        color: #999;
+	        font-size: 14px;
+	        margin-top: 5px;
+	        display: inline-block;
+	    }
     </style>
 </head>
 <body>
@@ -145,6 +154,36 @@
     		return;
        	}
     %>
+    
+   	<%!
+	 // funzione per formattare la data
+    	String formatTimeAgo(Calendar date) {
+	        long durationInMillis = new Date().getTime() - date.getTimeInMillis();
+	        long minutes = TimeUnit.MILLISECONDS.toMinutes(durationInMillis);
+	        long hours = TimeUnit.MILLISECONDS.toHours(durationInMillis);
+	        long days = TimeUnit.MILLISECONDS.toDays(durationInMillis);
+	        
+	        if (minutes < 60) {
+	        	if(minutes == 1){
+	        		return minutes + " minuto fa";
+	        	}
+	            return minutes + " minuti fa";
+	        } else if (hours < 24) {
+	        	if(hours == 1){
+	        		return hours + " ora fa";
+	        	}
+	            return hours + " ore fa";
+	        } else if (days < 7) {
+	        	if(days == 1){
+	        		return days + " giorno fa";
+	        	}
+	            return days + " giorni fa";
+	        } else {
+	            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	            return sdf.format(date.getTime());
+	        }
+	    }
+ 	%>
 
     <div class="container">
         <div class="content">
@@ -170,6 +209,7 @@
                                         %>
                                     </div>
                                     <p><%= EscaperHTML.escapeHTML(recensione.getRecensione()) %></p>
+                                    <small><%= formatTimeAgo(recensione.getData()) %></small>
                                 </div>
                             </div>
                 <%

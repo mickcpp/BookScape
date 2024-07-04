@@ -100,7 +100,7 @@ public class UpdateUser extends HttpServlet {
 			Date date = dateFormat.parse(data);
 			dataScadenza.setTime(date);
 			int month = dataScadenza.get(GregorianCalendar.MONTH);
-			dataScadenza.set(GregorianCalendar.MONTH, month + 1);
+			dataScadenza.set(GregorianCalendar.MONTH, month);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
