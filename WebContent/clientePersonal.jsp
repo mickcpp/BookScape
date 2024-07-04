@@ -301,6 +301,8 @@
 	            return;
 	        }
 	        
+	     	Boolean admin = (Boolean) request.getSession().getAttribute("adminRole");
+		    
 	        @SuppressWarnings("unchecked")
 			Collection<Ordine> ordini = (Collection<Ordine>) request.getAttribute("ordini");
 			if(ordini == null){
@@ -311,6 +313,7 @@
 		
 		<%
 	        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
+	    	String redirectUrl = admin != null && admin ? "UserControl?personalAreaAdmin=true" : "UserControl"; 
 	    %>
 	    
 	    <div class="container">
@@ -330,7 +333,7 @@
 	            <h2>Modifica Dati Personali</h2>
 	            <form action="UpdateUser" method="post" onsubmit="return validateFormPersonalData()">
 	                <input type="hidden" name="action" value="updateDatiPersonali">
-	                <input type="hidden" name="redirect" value="UserControl">
+	                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 	                
 	                <div class="form-group">
 	                	<label for="username">Username:</label>
@@ -387,7 +390,7 @@
 	            <h2>Modifica Indirizzo</h2>
 	            <form action="UpdateUser" method="post" onsubmit="return validateFormAddress()">
 	             	<input type="hidden" name="action" value="updateIndirizzo">
-	                <input type="hidden" name="redirect" value="UserControl">
+	                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 	                
 	                <div class="form-group">
 	                	<input type="text" id="indirizzo" name="indirizzo" placeholder="Via, Città, CAP" required>
@@ -416,7 +419,7 @@
 	            <div id="payment-form" class="payment-form" onsubmit="return validateFormPayment()">
 	                <form action="UpdateUser" method="post">
 	                    <input type="hidden" name="action" value="updatePagamento">
-	                    <input type="hidden" name="redirect" value="UserControl">
+	                    <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 	                    <div class="form-group">
 		                	<input type="text" id="nomeCarta" name="nomeCarta" placeholder="Nome sulla Carta" required>
 			                <i class="fa fa-id-card"></i>
