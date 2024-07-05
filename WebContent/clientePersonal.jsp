@@ -252,6 +252,7 @@
 	            text-align: right;
 	            display: none;
 	        }
+	        
 	        #formDelete{
 	        	text-align : right;
 	        }
@@ -276,7 +277,70 @@
 			        margin-bottom: 15px;
 			    }
 			}
-		   			  
+		   		
+		  	.deleteModal {
+		        display: none; /* Modal nascosto di default */
+		        position: fixed;
+		        z-index: 1;
+		        left: 0;
+		        top: 0;
+		        width: 100%;
+		        height: 100%;
+		        overflow: auto;
+		        background-color: rgba(0,0,0,0.5); /* Sfondo semitrasparente */
+		    }
+		
+		    .modal-content-delete {
+		        background-color: #fefefe;
+		        margin: 15% auto;
+		        padding: 20px;
+		        border: 1px solid #888;
+		        width: 50%;
+		        border-radius: 10px;
+		        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+		        position: relative;
+		    }
+		
+		    .close {
+		        color: #aaa;
+		        float: right;
+		        font-size: 28px;
+		        font-weight: bold;
+		     	margin-right: 3%;
+		    }
+		
+		    .close:hover,
+		    .close:focus {
+		        color: black;
+		        text-decoration: none;
+		        cursor: pointer;
+		    }
+		
+		    /* Stili per il campo di input nel modal */
+		    .modal-content-delete input[type=text] {
+		        width: 84%;;
+		        padding: 10px 18px;
+		        box-sizing: border-box;
+		        border: 1px solid #ccc;
+		        border-radius: 4px;
+		    }
+		
+		    /* Stili per il bottone nel modal */
+		    .modal-content-delete button {
+		        background-color: #4CAF50;
+		        color: white;
+		        padding: 10px 18px;
+		        border: none;
+		        border-radius: 4px;
+		        cursor: pointer;
+		        float: right;
+		     	width: 15%;
+		     	box-sizing: border-box;
+		    }
+		
+		    .modal-content-delete button:hover {
+		        background-color: #45a049;
+		    }	  
 	    </style>
 	</head>
 	<body>
@@ -459,9 +523,9 @@
 	        
 	       	<hr>
 	       	
-	       	<form id = "formDelete" method ="post" action ="DeleteUser" >
-	       		<button type="submit" id="deleteButton"> Elimina account </button>
-	       	</form>
+	     	<form id="formDelete" action="DeleteUser" method="post">
+	    		<button type="button" id="deleteButton" onclick="openModal()">Elimina account</button>
+	     	</form>
 	       	
        		<hr>
 		    
@@ -498,6 +562,17 @@
 		        
 		        %>
 		    </table>
+		    
+		    <!-- Modal -->
+			<div id="deleteModal" class="deleteModal">
+			    <div class="modal-content-delete">
+			        <span class="close" onclick="closeModal()">&times;</span>
+			        <p>Per favore, inserisci "ELIMINA" nel campo di testo per confermare l'eliminazione dell'account:</p>
+			        <input type="text" id="deleteConfirmationInput">
+			        <button onclick="deleteAccount()">Conferma</button>
+			    </div>
+			</div>
+		    
 	    </div>
 	    
 	    <%@ include file="template/footer.html" %>
@@ -572,6 +647,28 @@
 		            logoElement.classList.add('fa');
 		        }
 		    });
+		    
+		    // Funzione per aprire il modal di eliminazione account
+		    function openModal() {
+		        var modal = document.getElementById('deleteModal');
+		        modal.style.display = 'block';
+		    }
+
+		    // Funzione per chiudere il modal di eliminazione account
+		    function closeModal() {
+		        var modal = document.getElementById('deleteModal');
+		        modal.style.display = 'none';
+		    }
+
+		    // Funzione per eliminare l'account
+		    function deleteAccount() {
+		        var userInput = document.getElementById('deleteConfirmationInput').value.trim();
+		        if (userInput === 'ELIMINA') {
+		            document.getElementById('formDelete').submit(); // Invia il modulo per eliminare l'account
+		        } else {
+		            alert('Inserisci correttamente "ELIMINA" per confermare la cancellazione.');
+		        }
+		    }
 	    </script>
 	    
 	    <script src="js/ValidationUtilsCliente.js"></script>

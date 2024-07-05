@@ -3,6 +3,7 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,19 +39,38 @@ public class DeleteUser extends HttpServlet {
 			return;
 		}
 		
+		String redirect = "";
+		if(request.getSession().getAttribute("adminRole") != null) {
+			redirect = "UserControl?personalAreaAdmin=true";
+		} else {
+			redirect = "UserControl";
+		}
+		
 		try{
 			boolean check = model.doDelete(email);
 			if(check) {
 				request.getSession().invalidate();
-				response.sendRedirect("HomePage");
+				forward(request, response, "HomePage", "Account eliminato correttamente!", false);
 				return;
 			} else {
-				response.sendRedirect("UserControl");
+				forward(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
 				return;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			if(redirect.equals("UserControl")) {
+				forward(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
+				return;
+			} else {
+				forward(request, response, redirect, "Errore nell'eliminazione dell'account; per motivi di sicurezza, devi cambiare il tuo ruolo in 'CLIENTE' prima di poter eliminare il tuo account!", true);
+				return;
+			}
 		}
+	}
+	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
 	}
 }
