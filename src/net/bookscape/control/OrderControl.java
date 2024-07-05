@@ -82,6 +82,11 @@ public class OrderControl extends HttpServlet {
             throws ServletException, IOException, SQLException {
         
         Cart cart = (Cart) request.getSession().getAttribute("cart");
+        if(cart == null) {
+        	response.sendRedirect("Cart.jsp");
+        	return;
+        }
+        
         Cliente cliente = model.doRetrieveByKey(clienteId);
         
         Ordine ordine = new Ordine();
@@ -144,6 +149,10 @@ public class OrderControl extends HttpServlet {
             throws ServletException, IOException {
         
         Cart cart = (Cart) request.getSession().getAttribute("cart");
+        if(cart == null) {
+        	response.sendRedirect("OrderControl?action=visualizza");
+        	return;
+        }
         
         Ordine ordine = new Ordine();
         ordine.setProdotti(cart.getItems());
