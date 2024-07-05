@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,34 +49,36 @@ public class UpdateUser extends HttpServlet {
 		
 		String action = request.getParameter("action");
 		Cliente cliente = null;
+		
+		String redirect = request.getParameter("redirect");
+		if (redirect == null) {
+			redirect = "./";
+		}
 	
 		try {
 			cliente = model.doRetrieveByKey(clienteId);
 			
 			switch (action) {
 				case "updatePagamento":
-					if(!updatePagamento(request, response, cliente)) return;
+					updatePagamento(request, response, cliente, redirect);
 					break;
 				case "eliminaPagamento":
-					eliminaPagamento(cliente);
+					eliminaPagamento(request, response, cliente, redirect);
 					break;
 				case "updateDatiPersonali":
-					if(!updateDatiPersonali(request, response, cliente)) return;
+					updateDatiPersonali(request, response, cliente, redirect);
 					break;
 				case "updateIndirizzo":
-					if(!updateIndirizzo(request, response, cliente)) return;
+					updateIndirizzo(request, response, cliente, redirect);
 					break;
 			}
-			model.doUpdate(cliente);
-			
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		redirectAfterUpdate(request, response);
 	}
 	
-	private boolean updatePagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private void updatePagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente, String redirect) throws ServletException, IOException, SQLException {
 	
 		String nome = request.getParameter("nomeCarta");
 		String numero = request.getParameter("numeroCarta");
@@ -85,8 +88,10 @@ public class UpdateUser extends HttpServlet {
 		String errorMessage = ValidationUtilsCliente.validatePagamento(nome, numero, data, cvv);
 
         if (errorMessage != null) {
-        	response.sendRedirect("UserControl");
-        	return false;
+        	request.setAttribute("errorMessage", errorMessage);
+    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+    		dispatcher.forward(request, response);
+        	return;
         }
         
 		CartaPagamento carta = new CartaPagamento();
@@ -108,15 +113,28 @@ public class UpdateUser extends HttpServlet {
 		carta.setDataScadenza(dataScadenza);
 		carta.setCvv(Integer.parseInt(cvv));
 		cliente.setCarta(carta);
-		
-		return true;
+	
+		if(model.doUpdate(cliente) > 0) {
+			forward(request, response, redirect, "Metodo di pagamento aggiunto!", false);
+			return;
+		} else {
+			forward(request, response, redirect, "Errore nell'aggiunta del metodo di pagamento!", true);
+			return;
+		}
 	}
 
-	private void eliminaPagamento(Cliente cliente) {
+	private void eliminaPagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente, String redirect) throws SQLException, ServletException, IOException {
 		cliente.setCarta(null);
+		if(model.doUpdate(cliente) > 0) {
+			forward(request, response, redirect, "Metodo di pagamento eliminato!", false);
+			return;
+		} else {
+			forward(request, response, redirect, "Errore nell'eliminazione del metodo di pagamento!", true);
+			return;
+		}
 	}
 
-	private boolean updateDatiPersonali(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private void updateDatiPersonali(HttpServletRequest request, HttpServletResponse response, Cliente cliente, String redirect) throws ServletException, IOException, SQLException {
 	
 		String username = request.getParameter("username");
 		String nome = request.getParameter("nome");
@@ -126,8 +144,10 @@ public class UpdateUser extends HttpServlet {
 		String errorMessage = ValidationUtilsCliente.validateDatiPersonali(username, nome, cognome, data);
 
         if (errorMessage != null) {
-        	response.sendRedirect("UserControl");
-        	return false;
+        	request.setAttribute("errorMessage", errorMessage);
+    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+    		dispatcher.forward(request, response);
+        	return;
         }
         
 		cliente.setUsername(username);
@@ -149,10 +169,16 @@ public class UpdateUser extends HttpServlet {
 		dataNascita.set(Calendar.MILLISECOND, 0);
 		cliente.setDataNascita(dataNascita);
 		
-		return true;
+		if(model.doUpdate(cliente) > 0) {
+			forward(request, response, redirect, "Dati aggiornati correttamente!", false);
+			return;
+		} else {
+			forward(request, response, redirect, "Errore nell'aggiornamento dei dati!", true);
+			return;
+		}
 	}
 
-	private boolean updateIndirizzo(HttpServletRequest request, HttpServletResponse response, Cliente cliente) throws ServletException, IOException {
+	private void updateIndirizzo(HttpServletRequest request, HttpServletResponse response, Cliente cliente, String redirect) throws ServletException, IOException, SQLException {
 		String input = request.getParameter("indirizzo");
 		String[] parts = input.split(",\\s*");
 		
@@ -164,30 +190,35 @@ public class UpdateUser extends HttpServlet {
 			String errorMessage = ValidationUtilsCliente.validateIndirizzo(via, citta, cap);
 
 	        if (errorMessage != null) {
-	        	response.sendRedirect("UserControl");
-	        	return false;
+	        	request.setAttribute("errorMessage", errorMessage);
+	    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+	    		dispatcher.forward(request, response);
+	        	return;
 	        }
 			
 			cliente.setVia(via);
 			cliente.setCitta(citta);
 			cliente.setCAP(cap);
+		} else {
+			request.setAttribute("errorMessage", "Inserisci un indirizzo valido, rispettando il formato.");
+    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+    		dispatcher.forward(request, response);
+        	return;
 		}
-		return true;
-	}
-
-	private void redirectAfterUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String redirect = request.getParameter("redirect");
 		
-		if (redirect != null && !redirect.equals("")) {
-			if (redirect.equals("checkout.jsp")) {
-				response.sendRedirect("OrderControl?action=checkout");
-				return;
-			}
-			response.sendRedirect(redirect);
+		if(model.doUpdate(cliente) > 0) {
+			forward(request, response, redirect, "Indirizzo aggiornato correttamente!", false);
 			return;
 		} else {
-			response.sendRedirect("./");
+			forward(request, response, redirect, "Errore nell'aggiornamento dell'indirizzo!", true);
 			return;
 		}
+	}
+	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
 	}
 }

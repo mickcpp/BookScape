@@ -7,6 +7,7 @@
 	    <meta charset="UTF-8">
 	    <title>Modifica prodotto</title>
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+	    <link rel="stylesheet" href="css/feedback.css">
 
 	    <style>
 	        html, body {
@@ -105,7 +106,7 @@
 	    Product prodotto = (Product) request.getAttribute("prodotto");
 	    if(prodotto == null){
 	    	System.out.println("prodotto nullo");
-	        response.sendRedirect("../");
+	        response.sendRedirect("./");
 	        return;
 	    }
 	    
@@ -117,8 +118,13 @@
 	  		response.sendRedirect("admin/dashboard.jsp");
 	  		return;
 	  	}
+	  	
+	  	String feedback = (String) request.getAttribute("feedback");
+ 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 	%>
 	
+		<%@ include file="/template/feedbackSection.jsp" %>
+		
 		<div class="container">
 		
 			<div class="form-container">
@@ -315,6 +321,7 @@
 		
 		<script src="js/ValidationUtilsProduct.js"></script>
 		<script src="js/ValidationLibraryProduct.js"></script>
+		<script src="js/scriptFeedback.js"></script>
 	</body>
 </html>
 					        

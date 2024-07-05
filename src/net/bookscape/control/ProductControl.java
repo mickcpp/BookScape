@@ -45,7 +45,7 @@ public class ProductControl extends HttpServlet {
 		try {
 			switch (action.toLowerCase()) {
 				case "rimuovi":
-					removeProduct(productId);
+					removeProduct(request, response, productId);
 					response.sendRedirect("admin/dashboard.jsp");
 					break;
 				case "viewedit":
@@ -80,8 +80,14 @@ public class ProductControl extends HttpServlet {
 		return 0;
 	}
 	
-	private void removeProduct(int productId) throws Exception {
-		model.doDelete(productId);
+	private void removeProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
+		if(model.doDelete(productId)) {
+			forward(request, response, "UserControl", "Prodotto eliminato correttamente!", false);
+			return;
+		} else {
+			forward(request, response, "UserControl", "Errore nell'eliminazione del prodotto!", true);
+			return;
+		}
 	}
 	
 	private void viewEditProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
@@ -116,9 +122,15 @@ public class ProductControl extends HttpServlet {
 				break;
 		}
 		
-		model.doUpdate(p);
-		response.sendRedirect("admin/dashboard.jsp");
-		return;
+		try {
+			if(model.doUpdate(p)) {
+				forward(request, response, "UserControl", "Prodotto modificato correttamente", false);
+				return;
+			}
+		} catch(Exception e) {
+			forward(request, response, "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type"), "Errore nella modifica del prodotto!", true);
+			return;
+		}
 	}
 	
 	private void viewInsertProduct(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -144,7 +156,7 @@ public class ProductControl extends HttpServlet {
 		return;
 	}
 	
-	private void insertProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
+	private void insertProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception{
 		String type = request.getParameter("type");
 		Product prodotto = null;
 	
@@ -167,9 +179,15 @@ public class ProductControl extends HttpServlet {
 				break;
 		}
 		
-		model.doSave(prodotto);
-		response.sendRedirect("admin/dashboard.jsp");
-		return;
+		try {
+			if(model.doSave(prodotto)) {
+				forward(request, response, "UserControl", "Prodotto salvato correttamente", false);
+				return;
+			}
+		} catch(Exception e) {
+			forward(request, response, "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type"), "Errore nel caricamento del prodotto!", true);
+			return;
+		}
 	}
 	
 	private Libro getLibro(HttpServletRequest request, int productId) {
@@ -302,5 +320,12 @@ public class ProductControl extends HttpServlet {
 			break;
 		}
 		return true;
+	}
+	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
 	}
 }

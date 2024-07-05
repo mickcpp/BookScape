@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/feedback.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
@@ -158,8 +159,14 @@
         }
 
         CartaPagamento carta = cliente.getCarta();
+        
+        String errorMessage = (String) request.getAttribute("errorMessage");
+        String feedback = (String) request.getAttribute("feedback");
+ 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
     %>
 
+	<%@ include file="template/feedbackSection.jsp" %>
+	
     <div class="checkout-container">
         <div class="checkout-summary">
             <h2>Riepilogo dell'ordine</h2>
@@ -218,6 +225,8 @@
         
         <div id="checkout-billing-form">
             <h2>Inserisci Dati di Spedizione</h2>
+            <div style="display: block" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
+            
             <form action="OrderControl" method="post" onsubmit="return validateFormShipping()">
                 <input type="hidden" name="action" value="checkout">
                 <input type="hidden" name="option" value="updateSpedizione">
@@ -264,9 +273,11 @@
 			%>
 			
 			<div id="payment-form" class="payment-form">
+				<div style="display: block" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
+				
                 <form action="UpdateUser" method="post" onsubmit="return validateFormPayment()">
                     <input type="hidden" name="action" value="updatePagamento">
-                    <input type="hidden" name="redirect" value="checkout.jsp">
+                    <input type="hidden" name="redirect" value="OrderControl?action=checkout">
                    	
                    	<div class="form-group">
 	                	<input type="text" id="nomeCarta" name="nomeCarta" placeholder="Nome sulla Carta" required>
@@ -388,5 +399,6 @@
     <script src="js/ValidationUtilsCliente.js"></script>
 	<script src="js/ValidationLibraryCliente.js"></script>
     <script src="js/cardPaymentDetect.js"></script>
+    <script src="js/scriptFeedback.js"></script>
 </body>
 </html>

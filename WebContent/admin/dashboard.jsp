@@ -11,6 +11,7 @@
 	    <meta charset="UTF-8">
 	    <title>Admin Dashboard</title>
 	    <link rel="stylesheet" href="css/style.css">
+	    <link rel="stylesheet" href="css/feedback.css">
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	    
 	    <style>
@@ -177,7 +178,12 @@
 	        <a id="logout" href="Logout">Logout</a>
 	    <%
 	        }
+	        
+	        String feedback = (String) request.getAttribute("feedback");
+	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 	    %>
+	    
+	    <%@ include file="/template/feedbackSection.jsp" %>
 	
 	    <div class="container">
 	        <h1>Admin Dashboard</h1>
@@ -343,5 +349,7 @@
 	    </div>
 	
 	    <%@ include file="/template/footer.html" %>
+	    
+	    <script src="js/scriptFeedback.js"></script>
 	</body>
 </html>

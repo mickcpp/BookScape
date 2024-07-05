@@ -10,6 +10,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 	    <link rel="stylesheet" href="css/style.css">
+	    <link rel="stylesheet" href="css/feedback.css">
 	   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	 
 	    <title>Profilo Cliente</title>
@@ -314,7 +315,13 @@
 		<%
 	        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
 	    	String redirectUrl = admin != null && admin ? "UserControl?personalAreaAdmin=true" : "UserControl"; 
+	    	
+	    	String errorMessage = (String) request.getAttribute("errorMessage");
+	    	String feedback = (String) request.getAttribute("feedback");
+	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
 	    %>
+	    
+	    <%@ include file="template/feedbackSection.jsp" %>
 	    
 	    <div class="container">
 	        <h1>Profilo Cliente</h1>
@@ -331,6 +338,8 @@
 	        </div>
 	        <div id="edit-form" style="display: none;">
 	            <h2>Modifica Dati Personali</h2>
+	           	<div style="display: block" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
+	           	
 	            <form action="UpdateUser" method="post" onsubmit="return validateFormPersonalData()">
 	                <input type="hidden" name="action" value="updateDatiPersonali">
 	                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
@@ -388,6 +397,8 @@
 	         
 	        <div id="edit-form-address" style="display: none">
 	            <h2>Modifica Indirizzo</h2>
+	            <div style="display: block" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
+	            
 	            <form action="UpdateUser" method="post" onsubmit="return validateFormAddress()">
 	             	<input type="hidden" name="action" value="updateIndirizzo">
 	                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
@@ -412,11 +423,12 @@
 	                <p><b>Modifica Metodo di Pagamento: </b><a class="greenlink" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
 	                <form action="UpdateUser" method="POST">
 	                    <input type="hidden" name="action" value="eliminaPagamento">
-	                    <input type="hidden" name="redirect" value="UserControl">
+	                    <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 	                    <button id="eliminaCarta" type="submit">Elimina</button>
 	                </form>
 	            <% } %>
 	            <div id="payment-form" class="payment-form" onsubmit="return validateFormPayment()">
+	            	<div style="display: block" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
 	                <form action="UpdateUser" method="post">
 	                    <input type="hidden" name="action" value="updatePagamento">
 	                    <input type="hidden" name="redirect" value="<%=redirectUrl%>">
@@ -565,5 +577,6 @@
 	    <script src="js/ValidationUtilsCliente.js"></script>
 	    <script src="js/ValidationLibraryCliente.js"></script>
 	    <script src="js/cardPaymentDetect.js"></script>
+	    <script src="js/scriptFeedback.js"></script>
 	</body>
 </html>

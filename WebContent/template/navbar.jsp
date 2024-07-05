@@ -102,7 +102,7 @@
         </div>
 
          <div id="searchbar-section">
-            <input id="searchbar" name="search" type="text" placeholder="cerca nel catalogo...">
+            <input id="searchbar" name="search" type="text" autocomplete="off" placeholder="cerca nel catalogo...">
             
             <div class="risultati"></div>
          </div>

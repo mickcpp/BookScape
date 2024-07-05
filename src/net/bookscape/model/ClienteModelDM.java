@@ -359,9 +359,10 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	}
 	
 	@Override
-	public void doUpdate(Cliente cliente) throws SQLException {
+	public int doUpdate(Cliente cliente) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
+	    int check = 0;
 	    
 	    String updateSQL = "UPDATE " + TABLE_NAME + " SET "
 	                     + "Username = ?, Password = ?, Nome = ?, Cognome = ?, `Data Nascita` = ?, "
@@ -395,8 +396,8 @@ public class ClienteModelDM implements ClienteModel<Cliente>{
 	        
 	        preparedStatement.setString(13, cliente.getEmail());
 	        
-	        preparedStatement.executeUpdate();
-	        
+	        check = preparedStatement.executeUpdate();
+	        return check;
 	    } finally {
 	        try {
 	            if (preparedStatement != null) {

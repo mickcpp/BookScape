@@ -20,16 +20,18 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    PreparedStatement preparedStatementProdotti = null;
-	    ResultSet generatedKeys = null; // Per recuperare l'ID generato
-	    
+	    ResultSet generatedKeys = null;
+
 	    String insertOrder = "INSERT INTO " + TABLE_NAME + " "
 	                      + "(`Nome consegna`, `Cognome consegna`, `Prezzo totale`, `Data consegna`, `Data ordine`, Città, Via, CAP, Cliente) "
 	                      + "VALUES (?,?,?,?,?,?,?,?,?)";
 
 	    try {
 	        connection = DriverManagerCP.getConnection();
-	        preparedStatement = connection.prepareStatement(insertOrder, Statement.RETURN_GENERATED_KEYS);
+	        connection.setAutoCommit(false); // Start transaction
 	        
+	        preparedStatement = connection.prepareStatement(insertOrder, Statement.RETURN_GENERATED_KEYS);
+
 	        preparedStatement.setString(1, order.getNomeConsegna());
 	        preparedStatement.setString(2, order.getCognomeConsegna());
 	        preparedStatement.setDouble(3, order.getPrezzoTotale());
@@ -39,26 +41,26 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        preparedStatement.setString(7, order.getVia());
 	        preparedStatement.setString(8, order.getCAP());
 	        preparedStatement.setString(9, order.getCliente());
-	        
+
 	        preparedStatement.executeUpdate();
-	        
+
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        int orderId = -1;
-	        
+
 	        if (generatedKeys.next()) {
-	            orderId = generatedKeys.getInt(1); // Recupera l'ID generato
+	            orderId = generatedKeys.getInt(1);
 	        } else {
 	            throw new SQLException("Nessun ID generato dopo l'inserimento dell'ordine.");
 	        }
 	        
 	        preparedStatement.close();
-	        
-	        String s = "INSERT INTO datiFatturazione (Ordine, Nome, Cognome, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV) "
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?)";
-	        preparedStatement = connection.prepareStatement(s);
-	        
+
+	        String insertBilling = "INSERT INTO datiFatturazione (Ordine, Nome, Cognome, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV) "
+	                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+	        preparedStatement = connection.prepareStatement(insertBilling);
+
 	        Cliente cliente = new ClienteModelDM().doRetrieveByKey(order.getCliente());
-	        
+
 	        preparedStatement.setInt(1, orderId);
 	        preparedStatement.setString(2, cliente.getNome());
 	        preparedStatement.setString(3, cliente.getCognome());
@@ -69,56 +71,45 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        preparedStatement.setString(8, cliente.getCarta().getNumeroCarta());
 	        preparedStatement.setTimestamp(9, new Timestamp(cliente.getCarta().getDataScadenza().getTimeInMillis()));
 	        preparedStatement.setInt(10, cliente.getCarta().getCvv());
-	        
+
 	        preparedStatement.executeUpdate();
-	        
+	        preparedStatement.close();
+
 	        for (CartItem item : order.getProdotti()) {
+	            String insertProduct = null;
 	            if (item.getProduct() instanceof Libro) {
-	                s = "INSERT INTO `acquisto libro` (Libro, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
-	                           + "VALUES (?,?,?,?,?)";
-	                preparedStatementProdotti = connection.prepareStatement(s);
-	                
-	                preparedStatementProdotti.setInt(1, item.getProduct().getId());
-	                preparedStatementProdotti.setInt(2, orderId);
-	                preparedStatementProdotti.setInt(3, item.getNumElementi());
-	                preparedStatementProdotti.setDouble(4, item.getProduct().getPrezzo());
-	                preparedStatementProdotti.setDouble(5, item.getTotalCost());
-	                
-	                preparedStatementProdotti.executeUpdate();
-	                preparedStatementProdotti.close(); // Chiudi il PreparedStatement dopo l'esecuzione
+	                insertProduct = "INSERT INTO `acquisto libro` (Libro, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) VALUES (?,?,?,?,?)";
+	            } else if (item.getProduct() instanceof Gadget) {
+	                insertProduct = "INSERT INTO `acquisto gadget` (Gadget, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) VALUES (?,?,?,?,?)";
+	            } else if (item.getProduct() instanceof Musica) {
+	                insertProduct = "INSERT INTO `acquisto musica` (Musica, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) VALUES (?,?,?,?,?)";
 	            }
-	            
-	            if (item.getProduct() instanceof Gadget) {
-	                s = "INSERT INTO `acquisto gadget` (Gadget, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
-	                           + "VALUES (?,?,?,?,?)";
-	                preparedStatementProdotti = connection.prepareStatement(s);
-	                
+
+	            if (insertProduct != null) {
+	                preparedStatementProdotti = connection.prepareStatement(insertProduct);
+
 	                preparedStatementProdotti.setInt(1, item.getProduct().getId());
 	                preparedStatementProdotti.setInt(2, orderId);
 	                preparedStatementProdotti.setInt(3, item.getNumElementi());
 	                preparedStatementProdotti.setDouble(4, item.getProduct().getPrezzo());
 	                preparedStatementProdotti.setDouble(5, item.getTotalCost());
-	                
+
 	                preparedStatementProdotti.executeUpdate();
-	                preparedStatementProdotti.close(); // Chiudi il PreparedStatement dopo l'esecuzione
-	            }
-	            
-	            if (item.getProduct() instanceof Musica) {
-	                s = "INSERT INTO `acquisto musica` (Musica, Ordine, Quantità, `Prezzo acquisto`, `Prezzo totale`) "
-	                           + "VALUES (?,?,?,?,?)";
-	                preparedStatementProdotti = connection.prepareStatement(s);
-	                
-	                preparedStatementProdotti.setInt(1, item.getProduct().getId());
-	                preparedStatementProdotti.setInt(2, orderId);
-	                preparedStatementProdotti.setInt(3, item.getNumElementi());
-	                preparedStatementProdotti.setDouble(4, item.getProduct().getPrezzo());
-	                preparedStatementProdotti.setDouble(5, item.getTotalCost());
-	                
-	                preparedStatementProdotti.executeUpdate();
-	                preparedStatementProdotti.close(); // Chiudi il PreparedStatement dopo l'esecuzione
+	                preparedStatementProdotti.close(); // Close after use
 	            }
 	        }
-	        
+
+	        connection.commit(); // Commit transaction
+
+	    } catch (SQLException e) {
+	        if (connection != null) {
+	            try {
+	                connection.rollback(); // Rollback transaction on error
+	            } catch (SQLException ex) {
+	                throw new SQLException("Rollback failed: " + ex.getMessage(), ex);
+	            }
+	        }
+	        throw e;
 	    } finally {
 	        try {
 	            if (preparedStatement != null) {
@@ -131,7 +122,8 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	                generatedKeys.close();
 	            }
 	        } finally {
-	            DriverManagerCP.releaseConnection(connection);    
+	        	connection.setAutoCommit(true); 
+	            DriverManagerCP.releaseConnection(connection);
 	        }
 	    }
 	}

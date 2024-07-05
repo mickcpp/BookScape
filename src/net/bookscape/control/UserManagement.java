@@ -3,6 +3,7 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,19 +41,29 @@ public class UserManagement extends HttpServlet {
 			
 			if(action.equalsIgnoreCase("rimuovi")) {
 				try {
-					model.doDelete(clienteId);
+					if(model.doDelete(clienteId)) {
+						forward(request, response, "UserControl", "Cliente rimosso correttamente!", false);
+						return;
+					}
 				} catch (SQLException e) {
-					e.printStackTrace();
+					forward(request, response, "UserControl", "Errore nella rimozione del cliente!", true);
+					return;
 				}
 				
 			} else if(action.equalsIgnoreCase("changeRole")) {
+				boolean check = false;
 				
-				if(role.equalsIgnoreCase("admin")) model.changeRole(clienteId, "admin");
-				else if(role.equalsIgnoreCase("cliente")) model.changeRole(clienteId, "cliente");
+				if(role.equalsIgnoreCase("admin")) check = model.changeRole(clienteId, "admin");
+				else if(role.equalsIgnoreCase("cliente")) check = model.changeRole(clienteId, "cliente");
 				
-				if(clienteInSession.equalsIgnoreCase(clienteId)) {
-					response.sendRedirect("Logout");
-					return;
+				if(check) {
+					if(clienteInSession.equalsIgnoreCase(clienteId)) {
+						response.sendRedirect("Logout");
+						return;
+					} else {
+						forward(request, response, "UserControl", "L'utente '" + clienteId + "' ha cambiato correttamente ruolo in: " + role.toUpperCase() + "!", false);
+						return;
+					}
 				}
 			}
 			
@@ -68,4 +79,10 @@ public class UserManagement extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
+	}
 }

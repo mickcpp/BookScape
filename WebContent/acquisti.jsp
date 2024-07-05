@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>I Miei Acquisti</title>
   	<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="css/feedback.css">
   	
     <style>
         body {
@@ -84,10 +85,16 @@
         String id = (String) session.getAttribute("cliente");
         if(id != null && !id.equals("")) {
     %>
-    <a id="logout" href="Logout">Logout</a>
+    	<a id="logout" href="Logout">Logout</a>
     <%
         }
+        
+        String feedback = (String) request.getAttribute("feedback");
+ 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
     %>
+    
+    <%@ include file="template/feedbackSection.jsp" %>
+    
     <div class="container">
         <h1>I Miei Acquisti</h1>
         <%
@@ -188,5 +195,6 @@
 		}
 	</script>
     
+    <script src="js/scriptFeedback.js"></script>
 </body>
 </html>

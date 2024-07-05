@@ -15,6 +15,6 @@ public interface ClienteModel<T>{
    
     public boolean isAdmin(String id) throws SQLException;
     
-    public void doUpdate(Cliente cliente) throws SQLException;
+    public int doUpdate(Cliente cliente) throws SQLException;
  
 }

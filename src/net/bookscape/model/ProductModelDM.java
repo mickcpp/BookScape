@@ -15,7 +15,7 @@ public class ProductModelDM implements ProductModel <Product> {
    public static final String BASE_IMG_PATH_MUSICS = "productImages/musics/";
    public static final String BASE_IMG_PATH_GADGETS = "productImages/gadgets/";
    
-   public synchronized void doSave(Product product) throws SQLException {
+   public synchronized boolean doSave(Product product) throws SQLException {
 	   
 	   Connection connection = null;
 	   PreparedStatement preparedStatement = null;
@@ -78,7 +78,8 @@ public class ProductModelDM implements ProductModel <Product> {
 			   preparedStatement.setString(10, m.getArtista());   
 		   } 
 		   
-		   preparedStatement.executeUpdate();
+		   int check = preparedStatement.executeUpdate();
+		   return check > 0 ? true : false;
 //		   connection.commit();
 		   
 	   } finally {
@@ -419,7 +420,7 @@ public class ProductModelDM implements ProductModel <Product> {
 		return null;
 	}
 	
-	public synchronized void doUpdate(Product updatedProduct) throws SQLException {
+	public synchronized boolean doUpdate(Product updatedProduct) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 	    String tableName = "";
@@ -483,7 +484,8 @@ public class ProductModelDM implements ProductModel <Product> {
 
 	        preparedStatement.setInt(parameterIndex + 1, updatedProduct.getId());
 
-	        preparedStatement.executeUpdate();
+	        int check = preparedStatement.executeUpdate();
+	        return check > 0 ? true : false;
 	        
 	    } finally {
 	        try {

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 public interface ProductModel <T> {
 	
-	public void doSave(T product) throws SQLException;
+	public boolean doSave(T product) throws SQLException;
 
 	public boolean doDelete(int id) throws SQLException;
 
@@ -13,6 +13,6 @@ public interface ProductModel <T> {
 	
 	public Collection<T> doRetrieveAll(String order) throws SQLException;
 	
-	public void doUpdate(T product) throws SQLException;
+	public boolean doUpdate(T product) throws SQLException;
 	
 }

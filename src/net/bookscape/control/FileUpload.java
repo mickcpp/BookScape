@@ -36,35 +36,49 @@ public class FileUpload extends HttpServlet {
     	if(type.equalsIgnoreCase("musica")) type = "musics";
     	if(type.equalsIgnoreCase("gadget")) type = "gadgets";
     	
+    	int productId = getProductId(request);
+    	String redirectEditPage = "admin/dashboard.jsp";
+    	
+    	String action = "";
+    	if(request.getParameter("action") == null) return;
+    	else action = request.getParameter("action");
+    	
+    	if(action.equalsIgnoreCase("inserisci") && productId >= 0 && type != null) {
+    		redirectEditPage = "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type");
+    	} else if(action.equalsIgnoreCase("modifica") && productId != 0 && type != null){
+    		redirectEditPage = "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type");
+    	}
+    	
         Part filePart = request.getPart("immagine");
         if (filePart == null || filePart.getSize() == 0) {
-        	if(request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("inserisci")) {
-                response.getWriter().println("Nessun file caricato");
+        	if(action.equalsIgnoreCase("inserisci")) {
+        		forward(request, response, redirectEditPage, "Nessuna immagine caricata!", true);
                 return;
         	} else {
         		 // Inoltro della richiesta alla servlet ProductControl
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductControl");
                 dispatcher.forward(request, response);
+                return;
         	}
         }
 
         // Controllo del tipo MIME
         String mimeType = getServletContext().getMimeType(filePart.getSubmittedFileName());
         if (mimeType == null || !mimeType.startsWith("image/")) {
-            response.getWriter().println("Il file caricato non è un'immagine valida.");
+    		forward(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
             return;
         }
 
         // Controllo della dimensione del file
         if (filePart.getSize() > MAX_FILE_SIZE) {
-            response.getWriter().println("Il file caricato è troppo grande. La dimensione massima consentita è di 5MB.");
+        	forward(request, response, redirectEditPage, "Il file caricato è troppo grande. La dimensione massima consentita è di 5MB.", true);
             return;
         }
 
         // Estrazione del nome del file e controllo dell'estensione
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         if (!isAllowedExtension(fileName)) {
-            response.getWriter().println("Il file caricato ha un'estensione non consentita.");
+        	forward(request, response, redirectEditPage, "Il file caricato ha un'estensione non consentita.", true);
             return;
         }
 
@@ -72,11 +86,11 @@ public class FileUpload extends HttpServlet {
         try (InputStream fileContent = filePart.getInputStream()) {
             BufferedImage image = ImageIO.read(fileContent);
             if (image == null) {
-                response.getWriter().println("Il file caricato non è un'immagine valida.");
+            	forward(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
                 return;
             }
         } catch (IOException e) {
-            response.getWriter().println("Errore durante la lettura del file caricato.");
+        	forward(request, response, redirectEditPage, "Errore durante la lettura del file caricato.", true);
             return;
         }
 
@@ -116,4 +130,17 @@ public class FileUpload extends HttpServlet {
         return false;
     }
     
+    public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
+	}
+    
+    private int getProductId(HttpServletRequest request) {
+		if(request.getParameter("productId") != null) {
+			return Integer.parseInt(request.getParameter("productId"));
+		}
+		return 0;
+	}
 }

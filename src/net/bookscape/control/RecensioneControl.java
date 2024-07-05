@@ -63,8 +63,12 @@ public class RecensioneControl extends HttpServlet{
 			return;
 		}
 
+		String redirect = "ProductDetails?productId=" + prodotto + "&type=" + tableName;
+		
 		if(rating == 0 && !action.equals("visualizza") && !action.equals("delete")) {
-			response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
+			request.setAttribute("errorMessage", "Per favore, seleziona almeno una valutazione");
+			RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+			dispatcher.forward(request, response);
 			return;
 		}
 		
@@ -73,21 +77,21 @@ public class RecensioneControl extends HttpServlet{
 				String error = validate(recensione, rating);
 				if(error != null) {
 					request.setAttribute("errorMessage", error);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
+					RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
 					dispatcher.forward(request, response);
 					return;
 				}
-				insertRecensione(request, response, cliente, prodotto, recensione, rating, tableName);
+				insertRecensione(request, response, cliente, prodotto, recensione, rating, tableName, redirect);
 				break;
 			case "delete":
-				deleteRecensione(request, response, cliente, prodotto, tableName);
+				deleteRecensione(request, response, cliente, prodotto, tableName, redirect);
 				break;
 			case "update":
 				if(validate(recensione, rating) != null) {
 					response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 					return;
 				}
-				updateRecensione(response, cliente, prodotto, recensione, rating, tableName);
+				updateRecensione(response, cliente, prodotto, recensione, rating, tableName, redirect);
 				break;
 			case "visualizza":
 				showRecensioni(request, response, prodotto, tableName);
@@ -102,15 +106,13 @@ public class RecensioneControl extends HttpServlet{
 		doGet(request, response);
 	}
 	
-	private void insertRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+	private void insertRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName, String redirect) throws ServletException, IOException {
 
 		Recensione r = new Recensione(cliente, prodotto, recensione, rating);
 		
 		try {
 			model.doSave(r, TABLE.valueOf(tableName));
-			request.setAttribute("feedback", "Recensione effettuata!");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
-			dispatcher.forward(request, response);
+			forward(request, response, redirect, "Recensione effettuata!", false);
 			return;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -120,13 +122,11 @@ public class RecensioneControl extends HttpServlet{
 		return;	
 	}
 	
-	private void deleteRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String tableName) throws ServletException, IOException {
+	private void deleteRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String tableName, String redirect) throws ServletException, IOException {
 		try {
 			boolean check = model.doDelete(cliente, prodotto, TABLE.valueOf(tableName));
 			if(check) {
-				request.setAttribute("feedback", "Recensione eliminata!");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/ProductDetails?productId=" + prodotto + "&type=" + tableName);
-				dispatcher.forward(request, response);
+				forward(request, response, redirect, "Recensione eliminata!", false);
 				return;
 			}
 		} catch (SQLException e) {
@@ -137,7 +137,7 @@ public class RecensioneControl extends HttpServlet{
 		return;	
 	}
 	
-	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName) throws ServletException, IOException {
+	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName, String redirect) throws ServletException, IOException {
 		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
 		return;	
 	}
@@ -185,5 +185,12 @@ public class RecensioneControl extends HttpServlet{
 			return "La recensione può essere lunga al massimo 1000 caratteri.";
 		}	
 		return null;
+	}
+	
+	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
 	}
 }

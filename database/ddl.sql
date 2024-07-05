@@ -316,18 +316,10 @@ DELIMITER //
 CREATE TRIGGER decrementa_quantita_libri AFTER INSERT ON `acquisto libro`
 FOR EACH ROW
 BEGIN
-    DECLARE quantita_acquistata INT;
-    DECLARE libro_id INT;
-
-    -- Ottieni la quantità acquistata e l'ID del libro per l'ordine appena inserito
-    SELECT Quantità, Libro INTO quantita_acquistata, libro_id
-    FROM `acquisto libro`
-    WHERE Ordine = NEW.Ordine;
-
-    -- Aggiorna la quantità disponibile del libro
+    -- Aggiorna la quantità disponibile del libro usando NEW.Quantità e NEW.Libro direttamente
     UPDATE libro
-    SET Quantità = Quantità - quantita_acquistata
-    WHERE ID = libro_id;
+    SET Quantità = Quantità - NEW.Quantità
+    WHERE ID = NEW.Libro;
 END;
 //
 DELIMITER ;
@@ -336,18 +328,10 @@ DELIMITER //
 CREATE TRIGGER decrementa_quantita_musica AFTER INSERT ON `acquisto musica`
 FOR EACH ROW
 BEGIN
-    DECLARE quantita_acquistata INT;
-    DECLARE musica_id INT;
-
-    -- Ottieni la quantità acquistata e l'ID della musica per l'ordine appena inserito
-    SELECT Quantità, Musica INTO quantita_acquistata, musica_id
-    FROM `acquisto musica`
-    WHERE Ordine = NEW.Ordine;
-
-    -- Aggiorna la quantità disponibile della musica
+    -- Aggiorna la quantità disponibile della musica usando NEW.Quantità e NEW.Musica direttamente
     UPDATE musica
-    SET Quantità = Quantità - quantita_acquistata
-    WHERE ID = musica_id;
+    SET Quantità = Quantità - NEW.Quantità
+    WHERE ID = NEW.Musica;
 END;
 //
 DELIMITER ;
@@ -356,18 +340,10 @@ DELIMITER //
 CREATE TRIGGER decrementa_quantita_gadget AFTER INSERT ON `acquisto gadget`
 FOR EACH ROW
 BEGIN
-    DECLARE quantita_acquistata INT;
-    DECLARE gadget_id INT;
-
-    -- Ottieni la quantità acquistata e l'ID del gadget per l'ordine appena inserito
-    SELECT Quantità, Gadget INTO quantita_acquistata, gadget_id
-    FROM `acquisto gadget`
-    WHERE Ordine = NEW.Ordine;
-
-    -- Aggiorna la quantità disponibile del gadget
+    -- Aggiorna la quantità disponibile del gadget usando NEW.Quantità e NEW.Gadget direttamente
     UPDATE gadget
-    SET Quantità = Quantità - quantita_acquistata
-    WHERE ID = gadget_id;
+    SET Quantità = Quantità - NEW.Quantità
+    WHERE ID = NEW.Gadget;
 END;
 //
 DELIMITER ;

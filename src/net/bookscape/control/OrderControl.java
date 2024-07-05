@@ -100,7 +100,9 @@ public class OrderControl extends HttpServlet {
 			String errorMessage = ValidationUtilsCliente.validateFormShipping(nome, cognome, input);
 
 	        if (errorMessage != null) {
-	        	response.sendRedirect("OrderControl?action=checkout");
+	        	request.setAttribute("errorMessage", errorMessage);
+	    		RequestDispatcher dispatcher = request.getRequestDispatcher("OrderControl?action=checkout&option=false");
+	    		dispatcher.forward(request, response);
 	        	return;
 	        }
             
@@ -117,7 +119,7 @@ public class OrderControl extends HttpServlet {
             ordine.setCitta(citta);
             ordine.setCAP(cap);
                 
-            request.setAttribute("fatturazioneCheckbox", false);
+            request.setAttribute("fatturazioneCheckbox", false);  	
         } else {
         	ordine.setVia(cliente.getVia());
             ordine.setCitta(cliente.getCitta());
@@ -129,12 +131,17 @@ public class OrderControl extends HttpServlet {
         request.setAttribute("ordine", ordine);
         request.setAttribute("cliente", cliente);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");
-        dispatcher.forward(request, response);
+        if (request.getParameter("option") != null && request.getParameter("option").equals("updateSpedizione")) {
+        	forward(request, response, "checkout.jsp", "Dati di spedizione aggiornati!", false);
+        	return;
+        } else {
+        	forward(request, response, "checkout.jsp", null, false);
+        	return;
+        }
     }
     
     private void performAcquista(HttpServletRequest request, HttpServletResponse response, String clienteId)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         
@@ -151,12 +158,20 @@ public class OrderControl extends HttpServlet {
         ordine.setCAP(request.getParameter("capConsegna"));
         ordine.setCliente(clienteId);
         
-        orderModel.doSave(ordine);
+        try {
+			orderModel.doSave(ordine);
+			forward(request, response, "OrderControl?action=visualizza", "Ordine effettuato!", false);
+			cartModel.doDeleteAll(clienteId);
+	        request.getSession().removeAttribute("cart");
+	        return;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        cartModel.doDeleteAll(clienteId);
-        request.getSession().removeAttribute("cart");
-        
-        response.sendRedirect("OrderControl?action=visualizza");
+        forward(request, response, "OrderControl?action=visualizza", "Errore nella creazione dell'ordine!", true);
+
+        return;
     }
     
     private void showOrdini(HttpServletRequest request, HttpServletResponse response, String clienteId)
@@ -168,4 +183,11 @@ public class OrderControl extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("acquisti.jsp");
         dispatcher.forward(request, response);
     }
+    
+    public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.setAttribute("feedback-negative", message);
+		else request.setAttribute("feedback", message);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
+		dispatcher.forward(request, response);
+	}
 }
