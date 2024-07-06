@@ -188,6 +188,10 @@
         });
 
         function showModal() {
+        	try{
+        		closeModal();
+        	} catch(error){}
+     
             document.body.classList.add("blurred");
             var modalOverlay = document.getElementById("modalOverlay");
             var choiceModal = document.getElementById("choiceModal");
@@ -217,12 +221,6 @@
                 modalOverlay.style.display = "none";
             }, 300); // Chiusura più veloce, quindi ritardo minore
         }
-
-        // Gestione del click sull'overlay per chiudere il modal
-        document.getElementById("modalOverlay").addEventListener("click", function() {
-            hideModal();
-        });
-
 
         // Funzione per gestire il click sull'overlay per chiudere il modale
         $(document).on('click', '#modalOverlay', function() {

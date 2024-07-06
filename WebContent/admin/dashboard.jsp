@@ -439,6 +439,7 @@
 	    <script>
 		    // Funzione per aprire il modal di eliminazione account
 		    function openModal() {
+		    	document.getElementById("zona_utente").style.zIndex = "998";
 		        var modal = document.getElementById('deleteModal');
 		        modal.style.display = 'block';
 		    }
@@ -447,6 +448,7 @@
 		    function closeModal() {
 		        var modal = document.getElementById('deleteModal');
 		        modal.style.display = 'none';
+		        document.getElementById("zona_utente").style.zIndex = "1000";
 		    }
 	
 		    // Funzione per eliminare l'account
