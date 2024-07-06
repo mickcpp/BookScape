@@ -26,12 +26,12 @@ public class Logout extends HttpServlet {
 		request.getSession().removeAttribute("wishlist");
 		request.getSession().removeAttribute("adminRole");
 		request.getSession().invalidate();
-
-		response.sendRedirect("./");	
+		
+		request.getSession().setAttribute("feedback", "Login effettuato!");
+		response.sendRedirect("HomePage");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
 }

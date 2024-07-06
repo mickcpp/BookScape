@@ -76,9 +76,16 @@ public class Registration extends HttpServlet {
         try {
             model.doSave(cliente);
             request.getSession().setAttribute("cliente", email);
-            response.sendRedirect("./");
+            redirect(request, response, "HomePage", "Registrazione effettuata!", false);
         } catch (SQLException e) {
             e.printStackTrace();
+            redirect(request, response, "HomePage", e.getMessage(), true);
         }
+    }
+    
+    private void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+        if (negative) request.getSession().setAttribute("feedback-negative", message);
+        else request.getSession().setAttribute("feedback", message);
+        response.sendRedirect(redirect);
     }
 }

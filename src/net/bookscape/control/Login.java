@@ -28,6 +28,7 @@ public class Login extends HttpServlet {
 	}	
 	
 	private static ClienteModelDM model;
+	private static String username;
 	
 	static {
 		model = new ClienteModelDM();
@@ -53,6 +54,7 @@ public class Login extends HttpServlet {
 	        
 		boolean checkLogin = false;
 		String error = "";
+		username = id;
 		
 		try {
 			checkLogin =  checkLogin(id, password, request);
@@ -61,8 +63,9 @@ public class Login extends HttpServlet {
 		}
 		
 		if(checkLogin) {
-			response.sendRedirect("./");
-		}else {
+			redirect(request, response, "HomePage", "Benvenuto, " + username + "!", false);
+			return;
+		} else {
 			request.setAttribute("error", error);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/login-form.jsp");
 			dispatcher.forward(request, response);
@@ -77,7 +80,7 @@ public class Login extends HttpServlet {
 		
 		Cliente cliente = null;
 		cliente = model.doRetrieveByKey(id);
-		
+
 		if(cliente == null) {
 			throw new Exception("Username o password errata!");
 		} else {
@@ -93,6 +96,7 @@ public class Login extends HttpServlet {
 				request.getSession().setAttribute("cliente", cliente.getEmail());
 				request.getSession().setAttribute("cart", cart);
 				request.getSession().setAttribute("wishlist", wishlist);
+				username = cliente.getUsername();
 				
 				if(model.isAdmin(cliente.getEmail())) {
 					request.getSession().setAttribute("adminRole", true);
@@ -103,4 +107,10 @@ public class Login extends HttpServlet {
 			}
 		}
 	}
+	
+	private void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+        if (negative) request.getSession().setAttribute("feedback-negative", message);
+        else request.getSession().setAttribute("feedback", message);
+        response.sendRedirect(redirect);
+    }
 }
