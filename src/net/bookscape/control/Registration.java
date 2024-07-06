@@ -78,8 +78,16 @@ public class Registration extends HttpServlet {
             request.getSession().setAttribute("cliente", email);
             redirect(request, response, "HomePage", "Registrazione effettuata!", false);
         } catch (SQLException e) {
-            e.printStackTrace();
-            redirect(request, response, "HomePage", e.getMessage(), true);
+        	String error = "";
+        	if (e.getErrorCode() == 1062 && e.getMessage().contains("PRIMARY")) {
+            	error = "Errore: email già esistente!";
+            } else if (e.getErrorCode() == 1062 && e.getMessage().contains("Username")) {
+            	error = "Errore: username già esistente!";
+            } else {
+            	error = "Si è verificato un errore durante la registrazione.";
+            }
+        	
+            redirect(request, response, "signup.jsp", error, true);
         }
     }
     

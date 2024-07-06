@@ -1,6 +1,7 @@
 package net.bookscape.control;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -126,8 +127,14 @@ public class ProductControl extends HttpServlet {
 				redirect(request, response, "UserControl", "Prodotto modificato correttamente", false);
 				return;
 			}
-		} catch(Exception e) {
-			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type"), "Errore nella modifica del prodotto!", true);
+		} catch(SQLException e) {
+			String error = "";
+			if (e.getErrorCode() == 1062 && e.getMessage().contains("ISBN")) {
+            	error = "Errore: ISBN già presente nel sistema!";
+            } else {
+            	error = "Errore nel caricamento del prodotto!";
+            }
+			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type"), error, true);
 			return;
 		}
 	}
@@ -183,8 +190,14 @@ public class ProductControl extends HttpServlet {
 				redirect(request, response, "UserControl", "Prodotto salvato correttamente", false);
 				return;
 			}
-		} catch(Exception e) {
-			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type"), "Errore nel caricamento del prodotto!", true);
+		} catch(SQLException e) {
+			String error = "";
+			if (e.getErrorCode() == 1062 && e.getMessage().contains("ISBN")) {
+            	error = "Errore: ISBN già presente nel sistema!";
+            } else {
+            	error = "Errore nel caricamento del prodotto!";
+            }
+			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type"), error, true);
 			return;
 		}
 	}

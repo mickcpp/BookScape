@@ -65,7 +65,18 @@ public class UpdateUser extends HttpServlet {
 					eliminaPagamento(request, response, cliente, redirect);
 					break;
 				case "updateDatiPersonali":
-					updateDatiPersonali(request, response, cliente, redirect);
+					try {
+						updateDatiPersonali(request, response, cliente, redirect);
+					} catch (SQLException e) {
+						String error = "";
+						if (e.getErrorCode() == 1062 && e.getMessage().contains("Username")) {
+			            	error = "Errore: username già esistente!";
+			            } else {
+			            	error = "Si è verificato un errore durante la registrazione.";
+			            }
+						redirect(request, response, redirect, error, true);
+						return;
+					}
 					break;
 				case "updateIndirizzo":
 					updateIndirizzo(request, response, cliente, redirect);

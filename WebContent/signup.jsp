@@ -6,6 +6,7 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	    <title>Registrazione Cliente</title>
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	    <link rel="stylesheet" href="css/feedback.css">
 	    
 	    <style>
 	        html, body {
@@ -142,7 +143,12 @@
 		        response.sendRedirect("./");
 		        return;
 		    }
+		    
+		    String feedbackNegativo = (String) session.getAttribute("feedback-negative");	    	 	
+			session.removeAttribute("feedback-negative");
 	    %>
+	    
+	    <%@ include file="template/feedbackSection.jsp" %>
 	    
 	    <div class="container">
 	    
@@ -160,7 +166,6 @@
 	     				<div class="error-message" style="display: block; margin: 4% auto"><%= serverError %></div>
 	     			<%
 	     		}
-	     	
 	     	%>
 	        <form action="Registration" method="post" onsubmit="return validateSignupForm()">
 	            <div class="form-group">
@@ -249,5 +254,6 @@
 	    
 	    <script src="js/ValidationUtilsCliente.js"></script>
 	    <script src="js/ValidationLibraryCliente.js"></script>
+	    <script src="js/scriptFeedback.js"></script>
 	</body>
 </html>
