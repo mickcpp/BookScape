@@ -44,7 +44,7 @@ public class HomePage extends HttpServlet {
 		
 		request.setAttribute("prodotti", prodotti);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("./");
 		dispatcher.forward(request, response);
 	}
 	
@@ -52,5 +52,4 @@ public class HomePage extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	
 }

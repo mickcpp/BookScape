@@ -3,7 +3,6 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,27 +49,26 @@ public class DeleteUser extends HttpServlet {
 			boolean check = model.doDelete(email);
 			if(check) {
 				request.getSession().invalidate();
-				forward(request, response, "HomePage", "Account eliminato correttamente!", false);
+				redirect(request, response, "HomePage", "Account eliminato correttamente!", false);
 				return;
 			} else {
-				forward(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
+				redirect(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
 				return;
 			}
 		} catch (SQLException e) {
 			if(redirect.equals("UserControl")) {
-				forward(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
+				redirect(request, response, redirect, "Errore nell'eliminazione dell'account!", true);
 				return;
 			} else {
-				forward(request, response, redirect, "Errore nell'eliminazione dell'account; per motivi di sicurezza, devi cambiare il tuo ruolo in 'CLIENTE' prima di poter eliminare il tuo account!", true);
+				redirect(request, response, redirect, "Errore nell'eliminazione dell'account; per motivi di sicurezza, devi cambiare il tuo ruolo in 'CLIENTE' prima di poter eliminare il tuo account!", true);
 				return;
 			}
 		}
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

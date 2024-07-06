@@ -66,9 +66,8 @@ public class RecensioneControl extends HttpServlet{
 		String redirect = "ProductDetails?productId=" + prodotto + "&type=" + tableName;
 		
 		if(rating == 0 && !action.equals("visualizza") && !action.equals("delete")) {
-			request.setAttribute("errorMessage", "Per favore, seleziona almeno una valutazione");
-			RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-			dispatcher.forward(request, response);
+			request.getSession().setAttribute("errorMessage", "Per favore, seleziona almeno una valutazione");
+			response.sendRedirect(redirect);
 			return;
 		}
 		
@@ -76,9 +75,8 @@ public class RecensioneControl extends HttpServlet{
 			case "insert":
 				String error = validate(recensione, rating);
 				if(error != null) {
-					request.setAttribute("errorMessage", error);
-					RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-					dispatcher.forward(request, response);
+					request.getSession().setAttribute("errorMessage", error);
+					response.sendRedirect(redirect);
 					return;
 				}
 				insertRecensione(request, response, cliente, prodotto, recensione, rating, tableName, redirect);
@@ -112,29 +110,28 @@ public class RecensioneControl extends HttpServlet{
 		
 		try {
 			model.doSave(r, TABLE.valueOf(tableName));
-			forward(request, response, redirect, "Recensione effettuata!", false);
+			redirect(request, response, redirect, "Recensione effettuata!", false);
 			return;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			redirect(request, response, redirect, "Errore nell'invio della recensione!", true);
+			return;
 		}
-		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
-		return;	
 	}
 	
 	private void deleteRecensione(HttpServletRequest request, HttpServletResponse response, String cliente, int prodotto, String tableName, String redirect) throws ServletException, IOException {
 		try {
 			boolean check = model.doDelete(cliente, prodotto, TABLE.valueOf(tableName));
 			if(check) {
-				forward(request, response, redirect, "Recensione eliminata!", false);
+				redirect(request, response, redirect, "Recensione eliminata!", false);
+				return;
+			} else {
+				redirect(request, response, redirect, "Errore nell'eliminazione della recensione!", true);
 				return;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			redirect(request, response, redirect, "Errore nell'eliminazione della recensione!", true);
+			return;
 		}
-		response.sendRedirect("ProductDetails?productId=" + prodotto + "&type=" + tableName);
-		return;	
 	}
 	
 	private void updateRecensione(HttpServletResponse response, String cliente, int prodotto, String recensione, int rating, String tableName, String redirect) throws ServletException, IOException {
@@ -187,10 +184,9 @@ public class RecensioneControl extends HttpServlet{
 		return null;
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

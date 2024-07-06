@@ -222,14 +222,21 @@
 	        }
 	    %>
 	    <%
-	        if(request.getAttribute("prodotto") == null){
+	   
+	    	Product prodotto = (Product) request.getAttribute("prodotto");
+	    
+	        if(prodotto == null){
 	            response.sendRedirect("./");
 	            return;
 	        }
 	    
-	 		String errorMessage = (String) request.getAttribute("errorMessage");
-	 		String feedback = (String) request.getAttribute("feedback");
-	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+	 		String errorMessage = (String) session.getAttribute("errorMessage");
+	 		String feedback = (String) session.getAttribute("feedback");
+	 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+	 		
+	 		session.removeAttribute("feedback");
+			session.removeAttribute("feedback-negative");
+			session.removeAttribute("errorMessage");
 	    
 	        @SuppressWarnings("unchecked")
 	        List<Recensione> recensioni = (List<Recensione>) request.getAttribute("recensioni");

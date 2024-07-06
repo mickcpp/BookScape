@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -89,8 +88,7 @@ public class UpdateUser extends HttpServlet {
 
         if (errorMessage != null) {
         	request.setAttribute("errorMessage", errorMessage);
-    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-    		dispatcher.forward(request, response);
+        	response.sendRedirect(redirect);
         	return;
         }
         
@@ -115,10 +113,10 @@ public class UpdateUser extends HttpServlet {
 		cliente.setCarta(carta);
 	
 		if(model.doUpdate(cliente) > 0) {
-			forward(request, response, redirect, "Metodo di pagamento aggiunto!", false);
+			redirect(request, response, redirect, "Metodo di pagamento aggiunto!", false);
 			return;
 		} else {
-			forward(request, response, redirect, "Errore nell'aggiunta del metodo di pagamento!", true);
+			redirect(request, response, redirect, "Errore nell'aggiunta del metodo di pagamento!", true);
 			return;
 		}
 	}
@@ -126,10 +124,10 @@ public class UpdateUser extends HttpServlet {
 	private void eliminaPagamento(HttpServletRequest request, HttpServletResponse response, Cliente cliente, String redirect) throws SQLException, ServletException, IOException {
 		cliente.setCarta(null);
 		if(model.doUpdate(cliente) > 0) {
-			forward(request, response, redirect, "Metodo di pagamento eliminato!", false);
+			redirect(request, response, redirect, "Metodo di pagamento eliminato!", false);
 			return;
 		} else {
-			forward(request, response, redirect, "Errore nell'eliminazione del metodo di pagamento!", true);
+			redirect(request, response, redirect, "Errore nell'eliminazione del metodo di pagamento!", true);
 			return;
 		}
 	}
@@ -145,8 +143,7 @@ public class UpdateUser extends HttpServlet {
 
         if (errorMessage != null) {
         	request.setAttribute("errorMessage", errorMessage);
-    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-    		dispatcher.forward(request, response);
+        	response.sendRedirect(redirect);
         	return;
         }
         
@@ -170,10 +167,10 @@ public class UpdateUser extends HttpServlet {
 		cliente.setDataNascita(dataNascita);
 		
 		if(model.doUpdate(cliente) > 0) {
-			forward(request, response, redirect, "Dati aggiornati correttamente!", false);
+			redirect(request, response, redirect, "Dati aggiornati correttamente!", false);
 			return;
 		} else {
-			forward(request, response, redirect, "Errore nell'aggiornamento dei dati!", true);
+			redirect(request, response, redirect, "Errore nell'aggiornamento dei dati!", true);
 			return;
 		}
 	}
@@ -191,8 +188,7 @@ public class UpdateUser extends HttpServlet {
 
 	        if (errorMessage != null) {
 	        	request.setAttribute("errorMessage", errorMessage);
-	    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-	    		dispatcher.forward(request, response);
+	        	response.sendRedirect(redirect);
 	        	return;
 	        }
 			
@@ -201,24 +197,22 @@ public class UpdateUser extends HttpServlet {
 			cliente.setCAP(cap);
 		} else {
 			request.setAttribute("errorMessage", "Inserisci un indirizzo valido, rispettando il formato.");
-    		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-    		dispatcher.forward(request, response);
+			response.sendRedirect(redirect);
         	return;
 		}
 		
 		if(model.doUpdate(cliente) > 0) {
-			forward(request, response, redirect, "Indirizzo aggiornato correttamente!", false);
+			redirect(request, response, redirect, "Indirizzo aggiornato correttamente!", false);
 			return;
 		} else {
-			forward(request, response, redirect, "Errore nell'aggiornamento dell'indirizzo!", true);
+			redirect(request, response, redirect, "Errore nell'aggiornamento dell'indirizzo!", true);
 			return;
 		}
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

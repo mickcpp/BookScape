@@ -57,8 +57,11 @@
 				<%
 			}
 			
-			String feedback = (String) request.getAttribute("feedback");
-	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+			String feedback = (String) session.getAttribute("feedback");
+	 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+	 		
+	 		session.removeAttribute("feedback");
+			session.removeAttribute("feedback-negative");
 		%>
 		
 		<%@ include file="template/feedbackSection.jsp" %>
@@ -66,7 +69,7 @@
 		<div id="contenuto">
 		<%
 			@SuppressWarnings("unchecked")
-			Collection<Musica> musics = (Collection<Musica>)request.getAttribute("musics");
+			Collection<Musica> musics = (Collection<Musica>) request.getAttribute("musics");
 		
 			if(musics == null || musics.isEmpty()) {
 				response.sendRedirect("MusicCatalog");

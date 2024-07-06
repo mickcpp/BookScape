@@ -248,8 +248,11 @@
 	    <%
 	        }
 	        
-	        String feedback = (String) request.getAttribute("feedback");
-	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+	        String feedback = (String) session.getAttribute("feedback");
+	 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+	 		
+	 		session.removeAttribute("feedback");
+			session.removeAttribute("feedback-negative");
 	    %>
 	    
 	    <%@ include file="/template/feedbackSection.jsp" %>
@@ -425,7 +428,7 @@
 			    <div class="modal-content-delete">
 			        <span class="close" onclick="closeModal()">&times;</span>
 			        <p>Per favore, inserisci "ELIMINA" nel campo di testo per confermare l'eliminazione dell'account:</p>
-			        <input type="text" id="deleteConfirmationInput">
+			        <input type="text" id="deleteConfirmationInput" autocomplete="off">
 			        <button onclick="deleteAccount()">Conferma</button>
 			    </div>
 			</div>

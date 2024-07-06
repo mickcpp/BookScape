@@ -3,7 +3,6 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,10 +82,10 @@ public class CartControl extends HttpServlet {
 							if(userId != null && !userId.equals("")) {
 								cartModel.doUpdate(cart.getItem(id), userId);
 							}
-							forward(request, response, redirect, "Prodotto aggiunto al carrello!", false);
+							redirect(request, response, redirect, "Prodotto aggiunto al carrello!", false);
 							return;
 						} else {
-							forward(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
+							redirect(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
 							return;
 						}
 					} else {
@@ -94,7 +93,7 @@ public class CartControl extends HttpServlet {
 						if(userId != null && !userId.equals("")) {
 							cartModel.doSave(cart.getItem(id), userId);
 						}
-						forward(request, response, redirect, "Prodotto aggiunto al carrello!", false);
+						redirect(request, response, redirect, "Prodotto aggiunto al carrello!", false);
 						return;
 					}
 					
@@ -108,7 +107,7 @@ public class CartControl extends HttpServlet {
 					}
 					
 					if(check1 || check2) {
-						forward(request, response, redirect, "Prodotto rimosso dal carrello!", false);
+						redirect(request, response, redirect, "Prodotto rimosso dal carrello!", false);
 						return;
 					}
 					
@@ -117,7 +116,7 @@ public class CartControl extends HttpServlet {
 					int num = Integer.parseInt(request.getParameter("quantity"));
 					
 					if(num > 10) {
-						forward(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
+						redirect(request, response, redirect, "Raggiunto limite di prodotti di questo tipo nel carrello!", true);
 						return;
 					}
 					
@@ -127,7 +126,7 @@ public class CartControl extends HttpServlet {
 						cartModel.doUpdate(cart.getItem(id), userId);
 					}
 					
-					forward(request, response, redirect, "Aggiornato numero di prodotti!", false);
+					redirect(request, response, redirect, "Aggiornato numero di prodotti!", false);
 					return;
 				}
 			}	
@@ -147,11 +146,10 @@ public class CartControl extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

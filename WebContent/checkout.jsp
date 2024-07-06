@@ -151,18 +151,24 @@
 
     <%
         Ordine ordine = (Ordine) request.getAttribute("ordine");
-        Cliente cliente = (Cliente) request.getAttribute("cliente");
+        Cliente clienteOrder = (Cliente) request.getAttribute("clienteOrder");
 
-        if (ordine == null || cliente == null){
-            response.sendRedirect("./");
+        if (ordine == null || clienteOrder == null){
+            response.sendRedirect("OrderControl?action=checkout");
             return;
         }
 
-        CartaPagamento carta = cliente.getCarta();
+        CartaPagamento carta = clienteOrder.getCarta();
         
-        String errorMessage = (String) request.getAttribute("errorMessage");
-        String feedback = (String) request.getAttribute("feedback");
- 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        String feedback = (String) session.getAttribute("feedback");
+ 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+ 		Boolean fatturazioneCheckbox = (Boolean) session.getAttribute("fatturazioneCheckbox");
+ 		
+ 		session.removeAttribute("feedback");
+		session.removeAttribute("feedback-negative");
+		session.removeAttribute("errorMessage");
+		session.removeAttribute("fatturazioneCheckbox");
     %>
 
 	<%@ include file="template/feedbackSection.jsp" %>
@@ -195,7 +201,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="2">Totale:</td>
-                        <td>${ordine.prezzoTotale}</td>
+                        <td><%=ordine.getPrezzoTotale()%></td>
                     </tr>
                 </tfoot>
             </table>
@@ -203,10 +209,10 @@
 
         <div class="checkout-customer-info">
             <h2>Informazioni di fatturazione</h2>
-            <p id="nomeCliente"><strong>Nome: </strong>${EscaperHTML.escapeHTML(cliente.nome)}</p>
-            <p id="cognomeCliente"><strong>Cognome: </strong>${EscaperHTML.escapeHTML(cliente.cognome)}</p>
-            <p><strong>Email: </strong>${cliente.email}</p>
-            <p id="indirizzoCliente"><strong>Indirizzo di fatturazione: </strong>${EscaperHTML.escapeHTML(cliente.via)}, ${EscaperHTML.escapeHTML(cliente.citta)}, ${EscaperHTML.escapeHTML(cliente.CAP)}</p>
+            <p id="nomeCliente"><strong>Nome: </strong><%=EscaperHTML.escapeHTML(clienteOrder.getNome())%></p>
+            <p id="cognomeCliente"><strong>Cognome: </strong><%=EscaperHTML.escapeHTML(clienteOrder.getCognome())%></p>
+            <p><strong>Email: </strong><%=EscaperHTML.escapeHTML(clienteOrder.getEmail())%></p>
+            <p id="indirizzoCliente"><strong>Indirizzo di fatturazione: </strong><%=EscaperHTML.escapeHTML(clienteOrder.getVia())%>, <%=EscaperHTML.escapeHTML(clienteOrder.getCitta())%>, <%=EscaperHTML.escapeHTML(clienteOrder.getCAP())%></p>
         </div>
         
 		<div class="checkout-billing-info">
@@ -215,12 +221,12 @@
            	<strong>Utilizza indirizzo di fatturazione per la spedizione: </strong>
           	<form style="display: inline-block" action="OrderControl" method="POST">
           		<input type="hidden" name="action" value="checkout">
-          		<input type="checkbox" id="useShippingForBilling" onchange="toggleBillingForm()" <%if(request.getAttribute("fatturazioneCheckbox") == null){ %> checked <% } %>>
+          		<input type="checkbox" id="useShippingForBilling" onchange="toggleBillingForm()" <%if(fatturazioneCheckbox == null){ %> checked <% } %>>
        		</form>
 
-       		<p id="nomeConsegna"><strong>Nome: </strong>${EscaperHTML.escapeHTML(ordine.nomeConsegna)}</p>
-            <p id="cognomeConsegna"><strong>Cognome: </strong>${EscaperHTML.escapeHTML(ordine.cognomeConsegna)}</p>
-            <p id="indirizzoConsegna"><strong>Indirizzo di Spedizione: </strong>${EscaperHTML.escapeHTML(ordine.via)}, ${EscaperHTML.escapeHTML(ordine.citta)}, ${EscaperHTML.escapeHTML(ordine.CAP)}</p>
+       		<p id="nomeConsegna"><strong>Nome: </strong><%=EscaperHTML.escapeHTML(ordine.getNomeConsegna())%></p>
+            <p id="cognomeConsegna"><strong>Cognome: </strong><%=EscaperHTML.escapeHTML(ordine.getCognomeConsegna())%></p>
+            <p id="indirizzoConsegna"><strong>Indirizzo di Spedizione: </strong><%=EscaperHTML.escapeHTML(ordine.getVia())%>, <%=EscaperHTML.escapeHTML(ordine.getCitta())%>, <%=EscaperHTML.escapeHTML(ordine.getCAP())%></p>
         </div>
         
         <div id="checkout-billing-form">
@@ -306,11 +312,11 @@
 
         <form style="text-align: center" action="OrderControl" method="post">
       		<input type="hidden" name="action" value="acquista">
-      		<input type="hidden" name="nomeConsegna" value="${ordine.nomeConsegna }">
-      		<input type="hidden" name="cognomeConsegna" value="${ordine.cognomeConsegna }">
-      		<input type="hidden" name="viaConsegna" value="${ordine.via }">
-      		<input type="hidden" name="cittaConsegna" value="${ordine.citta }">
-      		<input type="hidden" name="capConsegna" value="${ordine.CAP }">
+      		<input type="hidden" name="nomeConsegna" value="<%=ordine.getNomeConsegna()%>">
+      		<input type="hidden" name="cognomeConsegna" value="<%=ordine.getCognomeConsegna()%>">
+      		<input type="hidden" name="viaConsegna" value="<%=ordine.getVia()%>">
+      		<input type="hidden" name="cittaConsegna" value="<%=ordine.getCitta()%>">
+      		<input type="hidden" name="capConsegna" value="<%=ordine.getCAP()%>">
             <% if (carta == null || carta.getNomeCarta() == null || carta.getNumeroCarta() == null || carta.getDataScadenza() == null) { %>
                 <button type="submit" disabled>Conferma Acquisto</button>
             <% } else { %>

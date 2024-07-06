@@ -3,7 +3,6 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,11 +41,11 @@ public class UserManagement extends HttpServlet {
 			if(action.equalsIgnoreCase("rimuovi")) {
 				try {
 					if(model.doDelete(clienteId)) {
-						forward(request, response, "UserControl", "Cliente rimosso correttamente!", false);
+						redirect(request, response, "UserControl", "Cliente rimosso correttamente!", false);
 						return;
 					}
 				} catch (SQLException e) {
-					forward(request, response, "UserControl", "Errore nella rimozione del cliente!", true);
+					redirect(request, response, "UserControl", "Errore nella rimozione del cliente!", true);
 					return;
 				}
 				
@@ -61,7 +60,7 @@ public class UserManagement extends HttpServlet {
 						response.sendRedirect("Logout");
 						return;
 					} else {
-						forward(request, response, "UserControl", "L'utente '" + clienteId + "' ha cambiato correttamente ruolo in: " + role.toUpperCase() + "!", false);
+						redirect(request, response, "UserControl", "L'utente '" + clienteId + "' ha cambiato correttamente ruolo in: " + role.toUpperCase() + "!", false);
 						return;
 					}
 				}
@@ -79,10 +78,9 @@ public class UserManagement extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

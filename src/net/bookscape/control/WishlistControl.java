@@ -3,7 +3,6 @@ package net.bookscape.control;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,13 +71,13 @@ public class WishlistControl extends HttpServlet {
 				if (action.equalsIgnoreCase("Aggiungi")) {
 					Product product = productModel.doRetrieveByKey(id, TABLE.valueOf(tableName));
 					if(wishlist.isInWishlist(product)) {
-						forward(request, response, redirect, "Prodotto già presente nella wishlist!", true);
+						redirect(request, response, redirect, "Prodotto già presente nella wishlist!", true);
 						return;
 					} else {
 						wishlist.addItem(product);
 						wishlistModel.doSave(product, userId);
 						
-						forward(request, response, redirect, "Prodotto aggiunto nella wishlist!", false);
+						redirect(request, response, redirect, "Prodotto aggiunto nella wishlist!", false);
 						return;
 					}
 					
@@ -88,7 +87,7 @@ public class WishlistControl extends HttpServlet {
 					boolean check = wishlistModel.doDelete(id, userId);
 					
 					if(check) {
-						forward(request, response, redirect, "Prodotto rimosso dalla wishlist!", false);
+						redirect(request, response, redirect, "Prodotto rimosso dalla wishlist!", false);
 						return;
 					}
 				}
@@ -111,10 +110,9 @@ public class WishlistControl extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

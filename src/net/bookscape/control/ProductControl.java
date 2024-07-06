@@ -46,7 +46,6 @@ public class ProductControl extends HttpServlet {
 			switch (action.toLowerCase()) {
 				case "rimuovi":
 					removeProduct(request, response, productId);
-					response.sendRedirect("admin/dashboard.jsp");
 					break;
 				case "viewedit":
 					viewEditProduct(request, response, productId);
@@ -82,10 +81,10 @@ public class ProductControl extends HttpServlet {
 	
 	private void removeProduct(HttpServletRequest request, HttpServletResponse response, int productId) throws Exception {
 		if(model.doDelete(productId)) {
-			forward(request, response, "UserControl", "Prodotto eliminato correttamente!", false);
+			redirect(request, response, "UserControl", "Prodotto eliminato correttamente!", false);
 			return;
 		} else {
-			forward(request, response, "UserControl", "Errore nell'eliminazione del prodotto!", true);
+			redirect(request, response, "UserControl", "Errore nell'eliminazione del prodotto!", true);
 			return;
 		}
 	}
@@ -124,11 +123,11 @@ public class ProductControl extends HttpServlet {
 		
 		try {
 			if(model.doUpdate(p)) {
-				forward(request, response, "UserControl", "Prodotto modificato correttamente", false);
+				redirect(request, response, "UserControl", "Prodotto modificato correttamente", false);
 				return;
 			}
 		} catch(Exception e) {
-			forward(request, response, "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type"), "Errore nella modifica del prodotto!", true);
+			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type"), "Errore nella modifica del prodotto!", true);
 			return;
 		}
 	}
@@ -181,11 +180,11 @@ public class ProductControl extends HttpServlet {
 		
 		try {
 			if(model.doSave(prodotto)) {
-				forward(request, response, "UserControl", "Prodotto salvato correttamente", false);
+				redirect(request, response, "UserControl", "Prodotto salvato correttamente", false);
 				return;
 			}
 		} catch(Exception e) {
-			forward(request, response, "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type"), "Errore nel caricamento del prodotto!", true);
+			redirect(request, response, "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type"), "Errore nel caricamento del prodotto!", true);
 			return;
 		}
 	}
@@ -255,6 +254,13 @@ public class ProductControl extends HttpServlet {
 		String type = request.getParameter("type");
 		String action = request.getParameter("action");
 		int productId = getProductId(request);
+		String redirect = "";
+		
+		if(action.toLowerCase().equals("modifica")) {
+			redirect = "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type");
+		} else {
+			redirect = "ProductControl?productId=" + productId + "&action=viewInsert&type=" + request.getParameter("type");
+		}
 		
 		String error;
 		
@@ -274,8 +280,8 @@ public class ProductControl extends HttpServlet {
 	        		request.setAttribute("prodotto", l);
 	        		request.setAttribute("action", "edit");
 	        	}
-	            request.setAttribute("errorMessage", error);
-	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	            request.getSession().setAttribute("errorMessage", error);
+	            response.sendRedirect(redirect);
 	            return false;
 	        }
 			break;
@@ -294,8 +300,8 @@ public class ProductControl extends HttpServlet {
 	        		request.setAttribute("prodotto", m);
 	        		request.setAttribute("action", "edit");
 	        	}
-	            request.setAttribute("errorMessage", error);
-	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	        	request.getSession().setAttribute("errorMessage", error);
+	        	response.sendRedirect(redirect);
 	            return false;
 	        }
 			break;
@@ -313,8 +319,8 @@ public class ProductControl extends HttpServlet {
 	        		request.setAttribute("prodotto", g);
 	        		request.setAttribute("action", "edit");
 	        	}
-	            request.setAttribute("errorMessage", error);
-	            request.getRequestDispatcher("admin/editProduct.jsp").forward(request, response);
+	        	request.getSession().setAttribute("errorMessage", error);
+	        	response.sendRedirect(redirect);
 	            return false;
 	        }
 			break;
@@ -322,10 +328,9 @@ public class ProductControl extends HttpServlet {
 		return true;
 	}
 	
-	public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
 }

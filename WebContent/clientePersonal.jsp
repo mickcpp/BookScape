@@ -380,9 +380,13 @@
 	        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy/MM/dd");
 	    	String redirectUrl = admin != null && admin ? "UserControl?personalAreaAdmin=true" : "UserControl"; 
 	    	
-	    	String errorMessage = (String) request.getAttribute("errorMessage");
-	    	String feedback = (String) request.getAttribute("feedback");
-	 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+	    	String errorMessage = (String) session.getAttribute("errorMessage");
+	    	String feedback = (String) session.getAttribute("feedback");
+	 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+	 		
+	 		session.removeAttribute("feedback");
+			session.removeAttribute("feedback-negative");
+			session.removeAttribute("errorMessage");
 	    %>
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>
@@ -568,7 +572,7 @@
 			    <div class="modal-content-delete">
 			        <span class="close" onclick="closeModal()">&times;</span>
 			        <p>Per favore, inserisci "ELIMINA" nel campo di testo per confermare l'eliminazione dell'account:</p>
-			        <input type="text" id="deleteConfirmationInput">
+			        <input type="text" id="deleteConfirmationInput" autocomplete="off">
 			        <button onclick="deleteAccount()">Conferma</button>
 			    </div>
 			</div>

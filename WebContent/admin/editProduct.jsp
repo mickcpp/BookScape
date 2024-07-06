@@ -119,8 +119,11 @@
 	  		return;
 	  	}
 	  	
-	  	String feedback = (String) request.getAttribute("feedback");
- 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+	  	String feedback = (String) session.getAttribute("feedback");
+ 		String feedbackNegativo = (String) session.getAttribute("feedback-negative");
+ 		
+ 		session.removeAttribute("feedback");
+		session.removeAttribute("feedback-negative");
 	%>
 	
 		<%@ include file="/template/feedbackSection.jsp" %>
@@ -131,7 +134,9 @@
 			
 		        <h2><%=action.equals("modifica") ? "Modifica" : "Inserisci"%> prodotto</h2>
 		        
-	<% 			String serverError = (String) request.getAttribute("errorMessage");
+	<% 			String serverError = (String) session.getAttribute("errorMessage");
+				session.removeAttribute("errorMessage");
+				
 	     		if(serverError != null){
 	     			%>
 	     				<div class="error-message" style="display: block; margin: 4% auto; margin: -1% auto 2% auto"><%= serverError %></div>

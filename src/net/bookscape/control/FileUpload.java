@@ -52,7 +52,7 @@ public class FileUpload extends HttpServlet {
         Part filePart = request.getPart("immagine");
         if (filePart == null || filePart.getSize() == 0) {
         	if(action.equalsIgnoreCase("inserisci")) {
-        		forward(request, response, redirectEditPage, "Nessuna immagine caricata!", true);
+        		redirect(request, response, redirectEditPage, "Nessuna immagine caricata!", true);
                 return;
         	} else {
         		 // Inoltro della richiesta alla servlet ProductControl
@@ -65,20 +65,20 @@ public class FileUpload extends HttpServlet {
         // Controllo del tipo MIME
         String mimeType = getServletContext().getMimeType(filePart.getSubmittedFileName());
         if (mimeType == null || !mimeType.startsWith("image/")) {
-    		forward(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
+        	redirect(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
             return;
         }
 
         // Controllo della dimensione del file
         if (filePart.getSize() > MAX_FILE_SIZE) {
-        	forward(request, response, redirectEditPage, "Il file caricato è troppo grande. La dimensione massima consentita è di 5MB.", true);
+        	redirect(request, response, redirectEditPage, "Il file caricato è troppo grande. La dimensione massima consentita è di 5MB.", true);
             return;
         }
 
         // Estrazione del nome del file e controllo dell'estensione
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         if (!isAllowedExtension(fileName)) {
-        	forward(request, response, redirectEditPage, "Il file caricato ha un'estensione non consentita.", true);
+        	redirect(request, response, redirectEditPage, "Il file caricato ha un'estensione non consentita.", true);
             return;
         }
 
@@ -86,11 +86,11 @@ public class FileUpload extends HttpServlet {
         try (InputStream fileContent = filePart.getInputStream()) {
             BufferedImage image = ImageIO.read(fileContent);
             if (image == null) {
-            	forward(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
+            	redirect(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
                 return;
             }
         } catch (IOException e) {
-        	forward(request, response, redirectEditPage, "Errore durante la lettura del file caricato.", true);
+        	redirect(request, response, redirectEditPage, "Errore durante la lettura del file caricato.", true);
             return;
         }
 
@@ -130,11 +130,10 @@ public class FileUpload extends HttpServlet {
         return false;
     }
     
-    public void forward(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
-		if(negative) request.setAttribute("feedback-negative", message);
-		else request.setAttribute("feedback", message);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(redirect);
-		dispatcher.forward(request, response);
+    public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {
+		if(negative) request.getSession().setAttribute("feedback-negative", message);
+		else request.getSession().setAttribute("feedback", message);
+		response.sendRedirect(redirect);
 	}
     
     private int getProductId(HttpServletRequest request) {
