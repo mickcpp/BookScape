@@ -35,13 +35,20 @@ public class UserManagement extends HttpServlet {
 		String clienteId = request.getParameter("id");
 		String role = request.getParameter("role");
 		String clienteInSession = (String) request.getSession().getAttribute("cliente");
+
+		if(action == null) {
+			response.sendRedirect("admin/dashboard.jsp");
+			return;
+		}
 		
-		try {
-			
+		try {	
 			if(action.equalsIgnoreCase("rimuovi")) {
 				try {
 					if(model.doDelete(clienteId)) {
 						redirect(request, response, "UserControl", "Cliente rimosso correttamente!", false);
+						return;
+					} else {
+						redirect(request, response, "UserControl", "Errore nella rimozione del cliente!", true);
 						return;
 					}
 				} catch (SQLException e) {
@@ -52,20 +59,28 @@ public class UserManagement extends HttpServlet {
 			} else if(action.equalsIgnoreCase("changeRole")) {
 				boolean check = false;
 				
-				if(role.equalsIgnoreCase("admin")) check = model.changeRole(clienteId, "admin");
-				else if(role.equalsIgnoreCase("cliente")) check = model.changeRole(clienteId, "cliente");
+				try {
+					if(role.equalsIgnoreCase("admin")) check = model.changeRole(clienteId, "admin");
+					else if(role.equalsIgnoreCase("cliente")) check = model.changeRole(clienteId, "cliente");
 				
-				if(check) {
-					if(clienteInSession.equalsIgnoreCase(clienteId)) {
-						response.sendRedirect("Logout");
-						return;
+					if(check) {
+						if(clienteInSession.equalsIgnoreCase(clienteId)) {
+							response.sendRedirect("Logout");
+							return;
+						} else {
+							redirect(request, response, "UserControl", "L'utente '" + clienteId + "' ha cambiato correttamente ruolo in: " + role.toUpperCase() + "!", false);
+							return;
+						}
 					} else {
-						redirect(request, response, "UserControl", "L'utente '" + clienteId + "' ha cambiato correttamente ruolo in: " + role.toUpperCase() + "!", false);
+						redirect(request, response, "UserControl", "Errore nella modifica del ruolo!", true);
 						return;
 					}
-				}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					redirect(request, response, "UserControl", "Errore nella rimozione del cliente!", true);
+					return;
+				}		
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
