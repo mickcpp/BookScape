@@ -27,7 +27,7 @@ public class Logout extends HttpServlet {
 		request.getSession().removeAttribute("adminRole");
 		request.getSession().invalidate();
 		
-		request.getSession().setAttribute("feedback", "Login effettuato!");
+		request.getSession().setAttribute("feedback", "Logout effettuato!");
 		response.sendRedirect("HomePage");
 	}
 
