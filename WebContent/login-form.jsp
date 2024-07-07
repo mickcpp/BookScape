@@ -135,7 +135,11 @@
         .tab.active {
             border-bottom: 2px solid #1abc9c;
             color: #1abc9c;
-        }
+     	}
+     	
+     	.fa-eye:hover, .fa-eye-slash:hover{
+      		cursor: pointer;
+      	}
     </style>
 </head>
 <body>
@@ -166,7 +170,7 @@
                 <div class="form-group">
                     <label for="login-password">Password:</label>
                     <input type="password" id="login-password" name="password" placeholder="Password" required>
-                    <i class="fa fa-lock"></i>
+             		<i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
                 </div>
                 <input type="submit" value="Login">
             </form>
@@ -200,6 +204,20 @@
             errorElement.textContent = '';
             errorElement.style.display = 'none';
         }
+        
+        function togglePasswordVisibility() {
+	        const passwordInput = document.getElementById('login-password');
+	        const toggleIcon = document.getElementById('togglePassword');
+	        if (passwordInput.type === 'password') {
+	            passwordInput.type = 'text';
+	            toggleIcon.classList.remove('fa-eye');
+	            toggleIcon.classList.add('fa-eye-slash');
+	        } else {
+	            passwordInput.type = 'password';
+	            toggleIcon.classList.remove('fa-eye-slash');
+	            toggleIcon.classList.add('fa-eye');
+	        }
+	    }
     </script>
     
     <script src="js/ValidationLibraryCliente.js"></script>

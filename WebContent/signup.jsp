@@ -93,8 +93,12 @@
 	            top: 48px;
 	            transform: translateY(-50%);
 	            color: #999;
-	        }
-	
+	      	}
+	      	
+	    	.fa-eye:hover, .fa-eye-slash:hover{
+	      		cursor: pointer;
+	      	}
+	      	
 	        .tab-container {
 	            display: flex;
 	            justify-content: space-around;
@@ -102,7 +106,7 @@
 	          	font-size: 1.1em;
 	        }
 	
-	       .tab {
+	        .tab {
 			    padding: 10px 20px;
 			    cursor: pointer;
 			}
@@ -185,7 +189,7 @@
 	            <div class="form-group">
 	                <label for="password">Password:</label>
 	                <input type="password" id="password" name="password" required>
-	                <i class="fa fa-lock"></i>
+	                <i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
 	                <div class="error-message"></div>
 	            </div>
 	
@@ -249,6 +253,20 @@
 		            error.style.display = 'none';
 		            error.textContent = '';
 		        });
+		    }
+		    
+		    function togglePasswordVisibility() {
+		        const passwordInput = document.getElementById('password');
+		        const toggleIcon = document.getElementById('togglePassword');
+		        if (passwordInput.type === 'password') {
+		            passwordInput.type = 'text';
+		            toggleIcon.classList.remove('fa-eye');
+		            toggleIcon.classList.add('fa-eye-slash');
+		        } else {
+		            passwordInput.type = 'password';
+		            toggleIcon.classList.remove('fa-eye-slash');
+		            toggleIcon.classList.add('fa-eye');
+		        }
 		    }
 	    </script>
 	    
