@@ -101,7 +101,7 @@
 		%>
 		</div>
 		
-		<%@ include file="template/footer.html" %>
+		<%@ include file="template/footer.jsp" %>
 		
 		<script src="js/scriptFeedback.js"></script>
 	</body>

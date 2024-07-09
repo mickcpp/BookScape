@@ -34,6 +34,6 @@
 		      out.println("</p>");
 		  }
 		%>
-		<%@ include file="/template/footer.html" %>
+		<%@ include file="/template/footer.jsp" %>
 	</body>
 </html>

@@ -301,7 +301,7 @@
 		    </div>
 		</div>
 		
-		<%@ include file="/template/footer.html" %>
+		<%@ include file="/template/footer.jsp" %>
 		
 		<script>
 			function showError(input, message) {

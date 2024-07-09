@@ -48,6 +48,7 @@
         .rating label:hover,
         .rating label:hover ~ label {
             color: #f5a623;
+            
         }
         .logout {
             position: absolute;
@@ -56,30 +57,18 @@
             padding-bottom: 10px;
             font-size: 18px;
         }
-        .rating {
-            direction: rtl;
+        .rating{
+        	
         }
-        .product-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            margin-top : 40px;
-        }
-        .bookmark img {
-                width: 20px;
-                height: 20px;
-            }
     </style>
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>
-     
     <%
         String id = (String) session.getAttribute("cliente");
         if (id != null && !id.equals("")) {
     %>
-        <a class="logout btn btn-danger" href="Logout">Logout</a>
+         <a class="logout btn btn-danger" href="Logout">Logout</a>
     <%
         }
     %>
@@ -144,13 +133,12 @@
 
     <%@ include file="template/feedbackSection.jsp" %>
 
-    <div class="container my-4 product-container">
-    <br>
+    <div class="container my-4">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 <img src="${prodotto.imgURL}" alt="Immagine Prodotto" class="img-fluid rounded">
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6">
                 <h2>${EscaperHTML.escapeHTML(prodotto.nome)}</h2>
                 <p>${EscaperHTML.escapeHTML(prodotto.descrizione)}</p>
                 <p>Prezzo: ${prodotto.prezzo}</p>
@@ -168,8 +156,7 @@
                     <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
                     <input type="hidden" name="action" value="aggiungi">
                     <input type="hidden" name="redirect" value="ProductDetails?productId=${prodotto.getId()}&type=${prodotto.getClass().getSimpleName().toLowerCase()}">
-                    <button class="bookmark btn btn-outline-warning" type="submit"><img src="img/bookmark.png" alt="Bookmark">
-                    </button>
+                    <button class="btn btn-outline-warning"><i class="far fa-bookmark"></i> Aggiungi alla lista desideri</button>
                 </form>
             </div>
         </div>
@@ -207,15 +194,16 @@
         </div>
     </div>
     
+    
     <div class="container my-4">
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title">Recensioni</h3>
                 <%
                     if (recensioni != null && !recensioni.isEmpty()) {
-                        int num = 0;
+                    	int num=0;
                         for (Recensione recensione : recensioni) {
-                            if (num == 4) break;
+                        	if (num == 4) break;
                 %>
                 <div class="card mb-3">
                     <div class="card-body">
@@ -229,40 +217,44 @@
                         <div class="d-flex align-items-center">
                             <div class="rating">
                                 <%
-                                    for (int i = 1; i <= recensione.getValutazione(); i++) {
-                                        out.print("<i class='fas fa-star text-warning'></i>");
+                                    for (int i = 1; i <= 5; i++) {
+                                        if (i <= recensione.getValutazione()) {
+                                            out.print("<i class='fas fa-star text-warning'></i>");
+                                        } else {
+                                            out.print("<i class='far fa-star text-secondary'></i>");
+                                        }
                                     }
                                 %>
                             </div>
                             <p class="ml-auto mb-0"><%= formatTimeAgo(recensione.getData()) %></p>
                         </div>
                         <% 
-                            if (recensione.getCliente().equals(id)) { // Mostra il pulsante solo se è la recensione del cliente autenticato
-                        %>
-                            <form action="RecensioneControl" method="post" style="float: right">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="productId" value="${prodotto.getId()}">
-                                <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
-                                <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">Elimina Recensione</button>
-                            </form>
-                        <%
-                            }
-                        %>
+	                                if (recensione.getCliente().equals(id)) { // Mostra il pulsante solo se è la recensione del cliente autenticato
+	                            %>
+	                                <form action="RecensioneControl" method="post" style="float: right">
+	                                    <input type="hidden" name="action" value="delete">
+	                                    <input type="hidden" name="productId" value="${prodotto.getId()}">
+	                                    <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">
+	                                    <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">Elimina Recensione</button>
+	                                </form>
+                       	<%
+                                }
+                      	%>
                     </div>
                 </div>
                 <%
-                        num++;
-                    }
-                } else {
+                	num++;
+                        }
+                    } else {
                 %>
-                <p class="text-muted">Ancora nessuna recensione.</p>
+                <p class="text-muted" >Ancora nessuna recensione.</p>
                 <%
-                }
+                    }
                 %>
             </div>
         </div>
     </div>
     
-    <%@ include file="template/footer.jsp" %>
+    <%@ include file="template/footer.html" %>
 </body>
 </html>

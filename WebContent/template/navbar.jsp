@@ -2,143 +2,252 @@
 <html>
 <head>
     <base href="${pageContext.request.contextPath}/">
-    <link rel="stylesheet" href="css/navStyle.css">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <style>
-        #choiceModal {
-            position: fixed;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            z-index: 1000; /* Ensures it is above other elements */
-            display: none; /* Hidden by default */
-            text-align: center;
-            width: 80%;
-            max-width: 400px;
-            overflow: hidden;
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            opacity: 0; /* Inizialmente nascosto */
-    		transition: opacity 0.2s ease;
-        }
-        #modalOverlay {
-            position: fixed;
-            top: 0;
+        .risultati {
+            position: absolute;
             left: 0;
+            top: 100%;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none; /* Hidden by default */
-            z-index: 1000;
-            opacity: 0; /* Inizialmente nascosto */
-    		transition: opacity 0.5s ease; /* Aggiunge una transizione graduale */
+            background-color: white;
+            border: 1px solid silver;
+            border-radius: 0.25rem;
+            display: none;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10000;
+            overflow-x: hidden;
+            max-height: 400px;
+            overflow-y: auto;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
-        body.blurred #zona_utente, 
-        body.blurred nav,
-        body.blurred #contenuto,
-       	body.blurred .container{
-            filter: blur(5px);
+
+        .risultati.show {
+            display: block;
         }
-        
+
+        .risultati .product {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            border: 0.3px solid rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            border-radius: 0;
+        }
+
+        .risultati .product img {
+            width: auto;
+            margin-right: 2%;
+        }
+
+        .risultati .product #name {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .risultati .product:hover {
+            background-color: #f0f0f0;
+        }
+
         .modal-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .modal-section {
-		    flex: 1;
-		    text-align: center;
-		    padding: 20px;
-		    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Aggiunta transizione per box-shadow */
-		    display: flex;
-		    flex-direction: column;
-		    align-items: center;
-		    justify-content: center;
-		    color: #007bff; /* Cambia il colore delle icone */
-		    background-color: #f8f9fa; /* Colore di sfondo base */
-		}
-		.modal-section:hover {
-		    background-color: #dce4eb; /* Colore di sfondo al passaggio del mouse */
-		    border-radius: 12px; /* Aumentato il raggio per bordi più arrotondati */
-		    cursor: pointer;
-		    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Effetto di ombra al passaggio del mouse */
-		}
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .modal-section:hover {
+            background-color: #dce4eb;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
         .modal-section i {
             font-size: 50px;
             margin-bottom: 10px;
         }
+
         .modal-section p {
             margin: 0;
             font-size: 18px;
             font-weight: bold;
-            color: #333; /* Cambia il colore del testo */
+            color: #333;
         }
+
         .divider {
             height: 80px;
             width: 2px;
             background-color: #ccc;
         }
+
+        .blurred #zona_utente, 
+        .blurred nav,
+        .blurred #contenuto,
+        .blurred .container {
+            filter: blur(5px);
+        }
+
+        .icon-hover {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icon-hover::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            height: 2px;
+            width: 0;
+            background-color: blue;
+            transition: width 0.3s, left 0.3s;
+            
+        }
+
+        .icon-hover:hover::after {
+            width: 100%;
+            left: 0;
+            
+        }
+
+        #icon-links a {
+            color: rgba(9, 23, 91, 1);
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        #icon-links a:hover{
+        	color: rgba(34, 19, 19, 0.6);
+        }
+        #links ul a:hover {
+    		background-color: #89B9E3;
+		}
+		#navbarNav ul a:hover{
+			background-color: #89B9E3;
+		}
+		.navbarBlue{
+			background-color : rgba(9, 23, 91, 1);
+		}
+		.iconBlue{
+			color : rgba(9, 23, 91, 1);
+		}
+		#divider-row{
+			border-top: double 2px #CCC;
+		}
+        
     </style>
 </head>
 <body>
-    <nav>
-        <div id="links">
-            <ul>
-                <li><a href="./">Home</a></li>
-                <li><a href="contatti.jsp">Contatti</a></li>
-                <li><a href="assistenza.jsp">Assistenza clienti</a></li>
+
+	 <!--  prima riga -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbarBlue">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto " >
+                <li class="nav-item"><a class="nav-link text-white" href="./">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="contatti.jsp">Contatti</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="negozi.jsp">Negozi</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="punti_ritiro.jsp">Punti di Ritiro</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="eventi.jsp">Eventi</a></li>
+                <li class="nav-item"><a class="nav-link text-white mx-4" href="assistenza.jsp">Assistenza Clienti</a></li>
             </ul>
         </div>
     </nav>
+    
+    
+     <!--  seconda riga -->
+    <div class="container-fluid navbar-neutral">  
+    <div id="zona_utente" class="container my-3 d-flex flex-column align-items-center ">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div>
+	            <span id="logo">
+	                <a href="./"><img src="img/logo.png" alt="logo" class="img-fluid" style="max-width: 100px;"></a>
+	            </span>
+	            	
+	            <span id="nomeSito"> 
+	            	<a href="./"><img src="img/nomeSito.png" alt="Bookscape" class="img-fluid" style="max-width: 250px; "></a>
+	            </span>
+	        </div>    
 
-    <div id="zona_utente">
-        <div id="logo">
-            <a href="./"><img src="img/logo.png" alt="logo" width="100%" height="auto"></a>
+            <div id="searchbar-section" class="flex-fill mx-3 position-relative">
+                <input id="searchbar" name="search" type="text" class="form-control" autocomplete="off" placeholder="cerca nel catalogo...">
+                <div class="risultati"></div>
+            </div>
+
+            <div id="icone" class="d-flex">
+                <a href="Wishlist.jsp" class="icon mx-2"><img src="img/heart.png" alt="" width="25px" height="25px"></a>
+                <a href="Cart.jsp" class="icon mx-2"><img src="img/shopping-cart.png" alt="" width="25px" height="25px"></a>
+                <%
+                    if(request.getSession().getAttribute("adminRole") != null){
+                %>
+                        <a href="javascript:void(0)" id="adminLink" class="icon mx-2" onclick="showModal()"><img src="img/user.png" alt="" width="25px" height="25px"></a>
+                <%
+                    } else {
+                %>
+                        <a href="UserControl" class="icon mx-2"><img src="img/user.png" alt="" width="25px" height="25px"></a>
+                <%
+                    }
+                %>
+            </div>
         </div>
+        
+        
+        <!--  terza riga -->    
+        <div id="icon-links" class="d-flex justify-content-center w-100 mt-3 ">
+            <a class="icon-hover mx-4" href="Romani.jsp">Romanzi</a>
+            <a class="icon-hover mx-4" href="Gialli.jsp">Gialli</a>
+            <a class="icon-hover mx-4" href="Horror.jsp">Horror</a>
+            <a class="icon-hover mx-4" href="Teen.jsp">Teen</a>
+            <a class="icon-hover mx-4" href="Manga.jsp">Manga</a>
+            <a class="icon-hover mx-4" href="Classici.jsp">Classici</a>
+            <a class="icon-hover mx-4" href="CD.jsp">CD</a>
+            <a class="icon-hover mx-4" href="Vinili.jsp">Vinili</a>
+            <a class="icon-hover mx-4" href="Gadget.jsp">Gadget</a>
+        </div>
+        
+    </div>
+    <hr id="divider-row">
+   
+   </div> 
 
-         <div id="searchbar-section">
-            <input id="searchbar" name="search" type="text" autocomplete="off" placeholder="cerca nel catalogo...">
-            
-            <div class="risultati"></div>
-         </div>
-         
-        <div id="icone">
-            <a href="Wishlist.jsp"><img src="img/heart.png" alt="" width="25px" height="25px"></a>
-            <a href="Cart.jsp"><img src="img/shopping-cart.png" alt="" width="25px" height="25px"></a>
-        <%
-            if(request.getSession().getAttribute("adminRole") != null){
-         %>
-                <a href="javascript:void(0)" id="adminLink" onclick="showModal()"><img src="img/user.png" alt="" width="25px" height="25px"></a>
-         <%
-            } else{
-         %>
-                <a href="UserControl"><img src="img/user.png" alt="" width="25px" height="25px"></a>
-         <%
-            }
-        %>
+    <div id="modalOverlay" class="modal-overlay"></div>
+    <div id="choiceModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content p-4">
+                <div class="modal-section" onclick="window.location.href='UserControl?personalAreaAdmin=true'">
+                    <i class="fas fa-user-shield iconBlue"></i>
+                    <p>Area Personale</p>
+                </div>
+                <div class="divider"></div>
+                <div class="modal-section" onclick="window.location.href='UserControl'">
+                    <i class="fas fa-chart-line iconBlue"></i>
+                    <p>Dashboard</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="modalOverlay"></div>
-    <div id="choiceModal">
-        <div class="modal-content">
-            <div class="modal-section" onclick="window.location.href='UserControl?personalAreaAdmin=true'">
-                <i class="fas fa-user-circle"></i>
-                <p>Area Personale</p>
-            </div>
-            <div class="divider"></div>
-            <div class="modal-section" onclick="window.location.href='UserControl'">
-                <i class="fas fa-chart-line"></i>
-                <p>Dashboard</p>
-            </div>
-        </div>
-    </div>
-
+    
     <script>
         $(document).ready(function(){
             // Funzione per gestire la barra di ricerca
@@ -147,7 +256,7 @@
                 if(query != ""){
                     $.get("./RicercaProdotto", {"query": query}, function(data){
                         if(data != ""){
-                            $(".risultati").empty().css({"display" : "block"});
+                            $(".risultati").empty().addClass("show");
                             $.each(data, function(i, product) {
                                 var type = "gadget"; // Valore predefinito
         
@@ -175,58 +284,34 @@
                         console.error("Error fetching data");
                     });
                 } else {
-                    $(".risultati").css({"display" : "none"});
+                    $(".risultati").removeClass("show");
                 }
             });
 
             // Funzione per gestire il click al di fuori della searchbar
             $(document).on('click', function(event) {
                 if (!$(event.target).closest('#searchbar-section').length) {
-                    $(".risultati").css({"display" : "none"});
+                    $(".risultati").removeClass("show");
                 }
             });
         });
 
         function showModal() {
-            document.body.classList.add("blurred");
-            var modalOverlay = document.getElementById("modalOverlay");
-            var choiceModal = document.getElementById("choiceModal");
-
-            modalOverlay.style.display = "block";
-            choiceModal.style.display = "block";
-
-            setTimeout(function() {
-                modalOverlay.style.opacity = "1";
-                choiceModal.style.opacity = "1";
-            }, 10); // Ritardo minimo per assicurarsi che le transizioni siano applicate correttamente
+            $('body').addClass('blurred');
+            $('#choiceModal').modal('show');
         }
 
         function hideModal() {
-            document.body.classList.remove("blurred");
-            var modalOverlay = document.getElementById("modalOverlay");
-            var choiceModal = document.getElementById("choiceModal");
-
-            choiceModal.style.opacity = "0";
-
-            setTimeout(function() {
-                modalOverlay.style.opacity = "0";
-            }, 10); // Ritardo minimo per assicurarsi che le transizioni siano applicate correttamente
-
-            setTimeout(function() {
-                choiceModal.style.display = "none";
-                modalOverlay.style.display = "none";
-            }, 300); // Chiusura più veloce, quindi ritardo minore
+            $('body').removeClass('blurred');
         }
 
-        // Gestione del click sull'overlay per chiudere il modal
-        document.getElementById("modalOverlay").addEventListener("click", function() {
+        $('#choiceModal').on('hidden.bs.modal', function () {
             hideModal();
         });
 
-
-        // Funzione per gestire il click sull'overlay per chiudere il modale
-        $(document).on('click', '#modalOverlay', function() {
+        $('#modalOverlay').on('click', function() {
             hideModal();
+            $('#choiceModal').modal('hide');
         });
     </script>
 </body>

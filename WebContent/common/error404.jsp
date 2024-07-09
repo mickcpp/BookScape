@@ -33,6 +33,6 @@
 		la URL non sia stata digitata correttamente.
 		</p>
 	</div>
-	<%@ include file="/template/footer.html" %>
+	<%@ include file="/template/footer.jsp" %>
 </body>
 </html>

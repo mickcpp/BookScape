@@ -3,9 +3,12 @@
 <html>
 <head>
     <title>Carrello</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/feedback.css">
-    <link rel="stylesheet" href="css/feedback.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/scriptFeedback.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,15 +34,18 @@
             justify-content: center;
         }
         .product {
-            margin: 20px 20px 15px 20px;
-            padding: 10px 10px 0px 10px;
+            margin: 20px;
+            padding: 10px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 170px;
+            width: 100%;
+            max-width: 200px;
         }
         .product img {
             width: 100%;
+            height: 200px; /* Altezza fissa per le immagini */
+            object-fit: contain; /* Adatta l'immagine senza distorcerla */
             border-radius: 8px;
         }
         .product-info {
@@ -72,38 +78,44 @@
             bottom: 0;
             width: 100%;
         }
-       	#logout{
-      		position: absolute;
-			margin-left: 5%;
-			top: 138px;
-			padding-bottom: 10px;
-			font-size: 18px;
-		}
-		#searchbar-section{
-	      	display: none;
-	    }
+        #logout {
+            position: absolute;
+            margin-left: 5%;
+            top: 138px;
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
+        #searchbar-section {
+            display: none;
+        }
+        .empty-cart-msg {
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
    <%@ include file="template/navbar.jsp" %>
    
- 	<%
-		String id = (String) session.getAttribute("cliente");
-		if(id != null && !id.equals("")){
-			%>
-			<a id="logout" href="Logout">Logout</a>
-			<%
-		}
-		
-		String feedback = (String) request.getAttribute("feedback");
- 		String feedbackNegativo = (String) request.getAttribute("feedback-negative");
-	%>
-		
-	<%@ include file="template/feedbackSection.jsp" %>
-	
-    <div class="container">
-      	<h1>Prodotti nel Carrello</h1>
-        <div id="cart-items">
+    <%
+        String id = (String) session.getAttribute("cliente");
+        if(id != null && !id.equals("")){
+    %>
+            <a id="logout" href="Logout" class="btn btn-danger">Logout</a>
+    <%
+        }
+        
+        String feedback = (String) request.getAttribute("feedback");
+        String feedbackNegativo = (String) request.getAttribute("feedback-negative");
+    %>
+        
+    <%@ include file="template/feedbackSection.jsp" %>
+    
+    <div class="container mt-5">
+        <h1>Prodotti nel Carrello</h1>
+        <div id="cart-items" class="row">
             <% 
                 Cart carrello = (Cart)request.getSession().getAttribute("cart");
                 if(carrello != null){
@@ -113,48 +125,53 @@
             <%
                         for (CartItem item : items) {
             %>
-                            <div class="product">
-									<a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>"><img src="<%=item.getProduct().getImgURL()%>"></a>                                <div class="product-info">
-                                    <p><strong>Nome Prodotto:</strong> <%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %></p>
-                                    <p><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
-                                    <p><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
-                                    <hr>
-                                    <p><strong>Prezzo totale:</strong> <%= item.getTotalCost() %></p>
-                                    <hr>
-                                    <form action="CartControl" method="post">
-                                        <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
-                                        <input type="hidden" name="type" value="<%= item.getProduct().getClass().getSimpleName().toLowerCase() %>">
-                                        <input type="hidden" name="redirect" value="Cart.jsp">
-                                        <input type="number" name="quantity" value="<%= item.getNumElementi() %>" min="1" max="10">
-                                        <input type="submit" name="action" value="Aggiorna">
-                                        <input type="submit" name="action" value="Rimuovi">
-                                    </form>
+                            <div class="product col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <div class="card h-100">
+                                    <a href="ProductDetails?productId=<%=item.getProduct().getId()%>&type=<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
+                                        <img src="<%=item.getProduct().getImgURL()%>" class="card-img-top" alt="<%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %>">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %></h5>
+                                        <p class="card-text"><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %> EUR</p>
+                                        <p class="card-text"><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
+                                        <p class="card-text"><strong>Prezzo totale:</strong> <%= item.getTotalCost() %> EUR</p>
+                                        <form action="CartControl" method="post">
+                                            <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
+                                            <input type="hidden" name="type" value="<%= item.getProduct().getClass().getSimpleName().toLowerCase() %>">
+                                            <input type="hidden" name="redirect" value="Cart.jsp">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="quantity" value="<%= item.getNumElementi() %>" min="1" max="10">
+                                            </div>
+                                            <button type="submit" name="action" value="Aggiorna" class="btn btn-primary btn-block">Aggiorna</button>
+                                            <button type="submit" name="action" value="Rimuovi" class="btn btn-danger btn-block">Rimuovi</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
             <%  
                         }
                     } else { 
-            %>		
+            %>      
                         <p class="empty-cart-msg">Il carrello è vuoto.</p>
             <%          }
                 } else { 
-            %>		
+            %>      
                     <p class="empty-cart-msg">Il carrello è vuoto.</p>
             <%  }  %>
             
         </div>
         
-   		<%
-   			if(carrello != null && !carrello.getItems().isEmpty()){
-   				%>
-   				<button class="checkout-btn" onclick="location.href='OrderControl?action=checkout';">Procedi all'acquisto</button>
-   				<%
-   			}
-   		%>
+        <%
+            if(carrello != null && !carrello.getItems().isEmpty()){
+        %>
+            <button class="checkout-btn btn btn-primary" onclick="location.href='OrderControl?action=checkout';">Procedi all'acquisto</button>
+        <%
+            }
+        %>
     </div>
     
-    <%@ include file="template/footer.html" %>
+    <%@ include file="template/footer.jsp" %>
     
-    <script src="js/scriptFeedback.js"></script>
+    
 </body>
 </html>

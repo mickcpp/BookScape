@@ -8,8 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Recensioni</title>
-    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,6 @@
         }
 
         .container {
-            width: 80%;
             margin: 27px auto;
             background-color: #fff;
             padding: 20px;
@@ -40,10 +39,6 @@
         }
 
         .product-details {
-            width: 30%;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
             text-align: center;
             margin: auto;
         }
@@ -65,14 +60,6 @@
         .product-details p {
             color: #666;
             margin: 5px 0;
-        }
-
-        .review-display {
-            width: 65%;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
         }
 
         .review-display .review {
@@ -97,10 +84,6 @@
             font-size: 18px;
             margin-right: 15px;
             text-transform: uppercase;
-        }
-
-        .review-display .review-content {
-            flex: 1;
         }
 
         .review-display .review-content h4 {
@@ -134,6 +117,9 @@
 	        display: inline-block;
 	    }
     </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>
@@ -141,7 +127,7 @@
         String id = (String) session.getAttribute("cliente");
         if(id != null && !id.equals("")) {
     %>
-        <a id="logout" href="Logout">Logout</a>
+        <a id="logout" class="btn btn-danger" href="Logout">Logout</a>
     <%
         }
 
@@ -186,18 +172,18 @@
  	%>
 
     <div class="container">
-        <div class="content">
-            <div class="review-display">
-                <h2>Recensioni dei Clienti</h2>
+        <div class="content row">
+            <div class="review-display col-md-8">
+                <h2 class="mb-4">Recensioni dei Clienti</h2>
                 <%
                     if (recensioni != null && !recensioni.isEmpty()) {
                         for (Recensione recensione : recensioni) {
                             String email = recensione.getCliente();
                             String initials = email.substring(0, 1).toUpperCase();
                 %>
-                            <div class="review">
+                            <div class="review d-flex mb-4">
                                 <div class="avatar" data-email="<%= email %>"><%= initials %></div>
-                                <div class="review-content">
+                                <div class="review-content flex-grow-1">
                                     <h4><%= EscaperHTML.escapeHTML(email) %></h4>
                                     <div class="rating">
                                         <% 
@@ -222,18 +208,19 @@
                 %>
             </div>
 
-            <div class="product-details">
+            <div class="product-details col-md-4">
             	<a href="ProductDetails?productId=<%=prodotto.getId()%>&type=<%=prodotto.getClass().getSimpleName().toLowerCase()%>">
-            		<img src="<%= EscaperHTML.escapeHTML(prodotto.getImgURL()) %>" alt="<%= EscaperHTML.escapeHTML(prodotto.getNome())%>">
+            		<img src="<%= EscaperHTML.escapeHTML(prodotto.getImgURL()) %>" class="img-fluid" alt="<%= EscaperHTML.escapeHTML(prodotto.getNome())%>">
             	</a>
-                <h2><%= EscaperHTML.escapeHTML(prodotto.getNome()) %></h2>
+                <h2 class="mt-3"><%= EscaperHTML.escapeHTML(prodotto.getNome()) %></h2>
                 <p>ID: <%= prodotto.getId() %></p>
             </div>
         </div>
     </div>
 
-    <%@ include file="template/footer.html" %>
+    <%@ include file="template/footer.jsp" %>
 
+    
     <script>
         function stringToColor(str) {
             let hash = 0;
