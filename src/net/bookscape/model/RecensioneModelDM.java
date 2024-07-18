@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import utility.UtilsModel;
 
@@ -131,7 +134,151 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 		
 		return listaRecensioni;
 	}
-
+	
+	public Map<Integer, Integer> doRetrieveAllRatingAverageBooks() throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String tabella = "recensionelibro";
+		
+		Collection<Recensione> listaRecensioni = new LinkedList<Recensione>();
+		Map<Integer, Integer> valutazioni =  new HashMap<Integer, Integer>();
+	
+		String selectSQL = "SELECT * FROM " + tabella;;
+	
+		try {
+			connection = DriverManagerCP.getConnection();
+			
+			preparedStatement = connection.prepareStatement(selectSQL);	
+			rs = preparedStatement.executeQuery();
+	
+			while (rs.next()) {
+				Recensione r = new Recensione();
+				r.setProdotto(rs.getInt("libro"));
+				r.setValutazione(rs.getInt("Valutazione"));
+                
+				listaRecensioni.add(r);
+			}
+			
+			valutazioni = listaRecensioni.stream()
+		              	.collect(Collectors.groupingBy(
+		                    Recensione::getProdotto,
+		                    Collectors.collectingAndThen(
+		                        Collectors.averagingInt(Recensione::getValutazione),
+		                        avg -> (int) Math.round(avg)
+		                    )
+		                ));
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+		
+		return valutazioni;
+	}
+	
+	public Map<Integer, Integer> doRetrieveAllRatingAverageMusic() throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String tabella = "recensionemusica";
+		
+		Collection<Recensione> listaRecensioni = new LinkedList<Recensione>();
+		Map<Integer, Integer> valutazioni =  new HashMap<Integer, Integer>();
+	
+		String selectSQL = "SELECT * FROM " + tabella;;
+	
+		try {
+			connection = DriverManagerCP.getConnection();
+			
+			preparedStatement = connection.prepareStatement(selectSQL);	
+			rs = preparedStatement.executeQuery();
+	
+			while (rs.next()) {
+				Recensione r = new Recensione();
+				r.setProdotto(rs.getInt("musica"));
+				r.setValutazione(rs.getInt("Valutazione"));
+                
+				listaRecensioni.add(r);
+			}
+			
+			valutazioni = listaRecensioni.stream()
+		              	.collect(Collectors.groupingBy(
+		                    Recensione::getProdotto,
+		                    Collectors.collectingAndThen(
+		                        Collectors.averagingInt(Recensione::getValutazione),
+		                        avg -> (int) Math.round(avg)
+		                    )
+		                ));
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+		
+		return valutazioni;
+	}
+	
+	public Map<Integer, Integer> doRetrieveAllRatingAverageGadgets() throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String tabella = "recensionegadget";
+		
+		Collection<Recensione> listaRecensioni = new LinkedList<Recensione>();
+		Map<Integer, Integer> valutazioni =  new HashMap<Integer, Integer>();
+	
+		String selectSQL = "SELECT * FROM " + tabella;;
+	
+		try {
+			connection = DriverManagerCP.getConnection();
+			
+			preparedStatement = connection.prepareStatement(selectSQL);	
+			rs = preparedStatement.executeQuery();
+	
+			while (rs.next()) {
+				Recensione r = new Recensione();
+				r.setProdotto(rs.getInt("gadget"));
+				r.setValutazione(rs.getInt("Valutazione"));
+                
+				listaRecensioni.add(r);
+			}
+			
+			valutazioni = listaRecensioni.stream()
+		              	.collect(Collectors.groupingBy(
+		                    Recensione::getProdotto,
+		                    Collectors.collectingAndThen(
+		                        Collectors.averagingInt(Recensione::getValutazione),
+		                        avg -> (int) Math.round(avg)
+		                    )
+		                ));
+			
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+	    			rs.close();
+			} finally {
+				DriverManagerCP.releaseConnection(connection);
+			}
+		}
+		
+		return valutazioni;
+	}
+	
 	@Override
 	public void doUpdate(Recensione product, TABLE table) throws SQLException {
 		
