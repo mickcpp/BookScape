@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="css/footerStyle.css">
 		
 		<style>
-			p{
+			#paragrafoErrore{
 				padding-left: 20px;
 				width: 80%;
 				margin-top: 0;
@@ -33,7 +33,7 @@
 		<h1 style="text-align: center;">Errore!</h1>
 		<%
 		  if(exception != null) {
-		      out.println("<p>Exception: " + exception.getMessage());
+		      out.println("<p id='paragrafoErrore'>Exception: " + exception.getMessage());
 		      out.println("<br><br>");
 		      StackTraceElement[] st = exception.getStackTrace();
 		      for(StackTraceElement e: st){
@@ -42,7 +42,9 @@
 		      out.println("</p>");
 		  }
 		%>
-		<%@ include file="/template/footer.html" %>
+		
+		<%@ include file="/template/footer.jsp"%>
+		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	</body>
 </html>

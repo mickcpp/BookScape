@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+.card img {
+  	max-width: 100%;
+}
+   
+.card-body {
+   	padding: 10px;
+}
+
+.card-title, .card-text {
+    margin-bottom: 5px;
+}
+   
+.rating {
+   	color: #f5a623;
+   	font-size: 16px;
+   	display: inline-block;
+}
+   
+.card{
+ 	width: 12rem;
+ 	border: none;
+}
+
+.booksContainer .row *, .gadgetsContainer .row *, .musicsContainer .row *{
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.img-container{
+	position: relative;
+}
+
+.card:hover img{
+    opacity: 0.9;
+}
+
+.add-to-cart {			    
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgb(160, 0, 0, 0.75);
+    color: white;
+    padding: 5px 20px;
+    border: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.add-to-cart:hover {			    
+	background-color: rgb(200, 0, 0, 1);
+	color: white;
+}
+
+.img-container:hover .add-to-cart {
+    opacity: 1;
+}
+
+#wishlist-form{
+	display: inline-block;
+	position: absolute;
+}
+
+#wishlist-form button{
+	border: none;
+	background-color: white;
+	font-size: 1.5rem;
+	position: relative;
+	bottom: 5px;
+}
+
+#wishlist-form button:hover {
+    transform: scale(1.15);
+    color: #8B0000;
+}	

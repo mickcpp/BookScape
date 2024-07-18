@@ -22,7 +22,7 @@
 	            margin: 0;
 	            padding: 0;
 	        }
-	        .container {
+	        .profileContainer {
 	            width: 60%;
 	            margin: 15px auto 40px auto;
 	            padding: 30px;
@@ -391,7 +391,7 @@
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>
 	    
-	    <div class="container">
+	    <div class="container profileContainer">
 	        <h1>Profilo Cliente</h1>
 	       	<h3 style="float: right"><a class="greenlinkunderline" href="OrderControl?action=visualizza">I miei acquisti</a></h3>
 	        <div>
@@ -579,7 +579,7 @@
 		    
 	    </div>
 	    
-	    <%@ include file="template/footer.html" %>
+	    <%@ include file="template/footer.jsp"%>
 	    
 	    <script>    
 	        function toggleEditFormData() {

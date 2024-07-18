@@ -441,7 +441,7 @@
 			</div>
 	    </div>
 	
-	    <%@ include file="/template/footer.html" %>
+	    <%@ include file="/template/footer.jsp"%>
 	    
 	    <script>
 		    // Funzione per aprire il modal di eliminazione account

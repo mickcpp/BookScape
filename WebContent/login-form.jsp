@@ -20,14 +20,14 @@
 			display: none;
 		}
 		
-        .container {
+        .loginContainer {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             padding: 30px;
         	max-width: 400px;
             text-align: center;
-            margin: 0px auto 6% auto;
+            margin: 15px auto 7% auto;
         }
       	
         h2 {
@@ -153,7 +153,7 @@
 	    }
     %>
     
-    <div class="container">
+    <div class="container loginContainer">
         <div class="tab-container">
             <div id="login-tab" class="tab active"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Login</a></div>
             <div id="signup-tab" class="tab non-active"><a href="signup.jsp" style="text-decoration: none; color: inherit;">Registrazione</a></div>
@@ -190,7 +190,7 @@
         %>
     </div>
 
-    <%@ include file="template/footer.html" %>
+    <%@ include file="template/footer.jsp"%>
     
     <script>
         function showError(message) {

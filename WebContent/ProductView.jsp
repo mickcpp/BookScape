@@ -25,10 +25,15 @@
 	            display: flex;
 	            justify-content: center;
 	            align-items: center;
-	            
 	            background-color: #f9f9f9;
 	            padding: 20px;
+	         	margin-top: 20px;
 	        }
+	       
+	      	.section-menu{
+	    		display: none;
+	      	}
+	      	
 	        .product-container {
 	            display: flex;
 	            align-items: center;
@@ -397,7 +402,9 @@
             }
         %>
     </div>
-    <%@ include file="template/footer.html" %>
+    
+    <%@ include file="template/footer.jsp"%>
+    
     <script>
         function stringToColor(str) {
             let hash = 0;

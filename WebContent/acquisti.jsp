@@ -19,7 +19,7 @@
             padding: 0;
         }
 
-        .container {
+        .acquistiContainer {
             width: 80%;
             margin: 27px auto;
             background-color: #fff;
@@ -104,7 +104,7 @@
     
     <%@ include file="template/feedbackSection.jsp" %>
     
-    <div class="container">
+    <div class="container acquistiContainer">
         <h1>I Miei Acquisti</h1>
         <%
         	@SuppressWarnings("unchecked")
@@ -190,7 +190,7 @@
         %>
     </div>
     
-    <%@ include file="template/footer.html" %>
+    <%@ include file="template/footer.jsp"%>
     
     <script>
 	    // Funzione per gestire il submit del form

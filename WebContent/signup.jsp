@@ -17,7 +17,7 @@
 	            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
 	        }
 	
-	        .container {
+	        .loginContainer {
 	            background-color: #fff;
 	            border-radius: 10px;
 	            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -39,10 +39,10 @@
 	            margin-bottom: 8px;
 	        }
 	
-	        .container input[type="text"],
-	        .container input[type="email"],
-	        .container input[type="password"],
-	        .container input[type="date"] {
+	        .loginContainer input[type="text"],
+	        .loginContainer input[type="email"],
+	        .loginContainer input[type="password"],
+	        .loginContainer input[type="date"] {
 	            width: 100%;
 	            padding: 12px;
 	            margin-bottom: 20px;
@@ -148,7 +148,7 @@
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>
 	    
-	    <div class="container">
+	    <div class="container loginContainer">
 	    
 	        <div class="tab-container">
 	            <div id="login-tab" class="tab non-active"><a href="login-form.jsp" style="text-decoration: none; color: inherit;">Login</a></div>
@@ -232,7 +232,7 @@
 	        </form>
 	    </div>
 	
-	    <%@ include file="template/footer.html" %>
+	    <%@ include file="template/footer.jsp"%>
 	    
 	    <script>
 	        function showError(input, message) {

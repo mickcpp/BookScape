@@ -18,7 +18,7 @@
 				padding: 5px 0px 30px 0px;
 				margin-top: 20px;
 			}
-			p{
+			#paragrafoErrore{
 				font-size: 20px;
 				color: #5E5B58;
 			}
@@ -33,13 +33,15 @@
 		<div class="errorContent">
 			<h1>Errore! Pagina non trovata.</h1>
 			<img src="img/errorBook.png" alt="erroreImg" width="30%">
-			<p>
+			<p id="paragrafoErrore">
 			Sembra che la pagina che stai cercando non esista,
 			è possible che il contenuto sia stato eliminato o che
 			la URL non sia stata digitata correttamente.
 			</p>
 		</div>
-		<%@ include file="/template/footer.html" %>
+		
+		<%@ include file="/template/footer.jsp"%>
+		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	</body>
 </html>
