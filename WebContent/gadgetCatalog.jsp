@@ -57,7 +57,7 @@
         
         		<div class="card-body">
            			<h5 class="card-title"><%= gadget.getNome() %></h5>
-          			<p class="card-text">By Shakespeare</p>
+          			<p class="card-text">BS Gadget</p>
            			<div class="rating me-2">
 		              	<% int valutazione = 3; if(valutazioni.get(gadget.getId()) != null) { valutazione = valutazioni.get(gadget.getId()); } for (int j = 0; j < valutazione; j++) { %>
 		                	<i class="fas fa-star"></i>

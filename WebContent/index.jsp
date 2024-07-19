@@ -86,7 +86,7 @@
 				      			</div>
 		            			<div class="card-body">
 		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-		              				<p class="card-text">By Shakespeare</p>
+		              				<p class="card-text">By <%=libro.getAutore() %></p>
 		              				<div class="rating me-2">
 		                				<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
 		                  					<i class="fas fa-star"></i>
@@ -121,7 +121,7 @@
 				      			</div>
 	            				<div class="card-body">
 		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-	              					<p class="card-text">By Shakespeare</p>
+	              					<p class="card-text">By <%=libro.getAutore() %></p>
 		              				<div class="rating me-2">
 					              	<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
 					                	<i class="fas fa-star"></i>
@@ -156,7 +156,7 @@
 				      			</div>
 	            				<div class="card-body">
 		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-	              					<p class="card-text">By Shakespeare</p>
+	              					<p class="card-text">By <%=libro.getAutore() %></p>
 		              				<div class="rating me-2">
 					              	<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
 					                	<i class="fas fa-star"></i>
@@ -209,7 +209,21 @@
         
         		<div class="card-body">
            			<h5 class="card-title"><%= prodotto.getNome() %></h5>
-          			<p class="card-text">By Shakespeare</p>
+      				<%
+      					if(prodotto instanceof Libro){
+      						%>
+      							<p class="card-text">By <%= ((Libro) prodotto).getAutore() %></p>
+      						<%
+      					} else if(prodotto instanceof Musica){
+      						%>
+  								<p class="card-text">By <%= ((Musica) prodotto).getArtista() %></p>
+  							<%
+      					} else{
+      						%>
+								<p class="card-text"> BS Gadget</p>
+							<%
+      					}
+      				%>
            			<div class="rating me-2">
 		              	<% int valutazione = 3; if(valutazioni.get(prodotto.getId()) != null) { valutazione = valutazioni.get(prodotto.getId()); } for (int j = 0; j < valutazione; j++) { %>
 		                	<i class="fas fa-star"></i>
