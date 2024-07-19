@@ -47,8 +47,8 @@
 	                </div>
 	            </div>
 	            <div class="col-lg-2 col-md-3 col-4 text-end">
-	              	<a href="Wishlist.jsp"><img src="img/heart.png" alt="Heart" class="img-fluid me-md-3 me-1" width="25" height="25"></a>
-	                <a href="Cart.jsp"><img src="img/shopping-cart.png" alt="Shopping Cart" class="img-fluid me-md-3 me-1" width="25" height="25"></a>
+	              	<a href="Wishlist.jsp"><img src="img/heart.png" alt="Heart" class="img-fluid me-md-3 me-2" width="25" height="25"></a>
+	                <a href="Cart.jsp"><img src="img/shopping-cart.png" alt="Shopping Cart" class="img-fluid me-md-3 me-2" width="25" height="25"></a>
 <%
             		if(request.getSession().getAttribute("adminRole") != null){
 %>

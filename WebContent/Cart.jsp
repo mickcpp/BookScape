@@ -50,9 +50,9 @@
 	                            <p class="my-0 py-0"><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
 	                            <p class="my-0 py-0"><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
 	                            <p class="my-0 py-0"><strong>Prezzo totale:</strong> <%= item.getTotalCost() %></p>
-	                            <hr class="mb-1">
+	                            <hr class="mb-2 mt-2">
 	                           	<div class="row">
-		                            <form class="col-9 mt-0" action="CartControl" method="post">
+		                            <form class="col-9 col-lg-9 mt-0" action="CartControl" method="post">
 		                                <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
 		                                <input type="hidden" name="type" value="<%= item.getProduct().getClass().getSimpleName().toLowerCase() %>">
 		                                <input type="hidden" name="redirect" value="Cart.jsp">
@@ -60,7 +60,7 @@
 		                                <input style="width:100%" class="btn btn-sm btn-success my-1" type="submit" name="action" value="Aggiorna">
 		                                <input style="width:100%" class="btn btn-sm btn-danger" type="submit" name="action" value="Rimuovi">
 		                            </form>
-		                            <form class="col-2 mt-2" id="wishlist-form" action="WishlistControl" method="post">
+		                            <form class="col-2 mt-2 me-2" id="wishlist-form" action="WishlistControl" method="post">
 		                                <input type="hidden" name="productId" value="<%= item.getProduct().getId() %>">
 		                                <input type="hidden" name="type" value="<%=item.getProduct().getClass().getSimpleName().toLowerCase()%>">
 		                                <input type="hidden" name="action" value="aggiungi">

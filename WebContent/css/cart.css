@@ -53,3 +53,13 @@
 	height: 300px;
 	text-align: center;
 }	
+
+#wishlist-form button{
+	color: black;
+}
+
+@media (max-width: 500px) {
+    #wishlist-form button{
+		right: 16px;
+	}
+}
