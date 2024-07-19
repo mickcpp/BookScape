@@ -7,102 +7,14 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<title>Wishlist</title>
     	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	    <link rel="stylesheet" href="css/style.css">
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	    <link rel="stylesheet" href="css/cart.css">
+	    <link rel="stylesheet" href="css/wishlist.css">
 	    <link rel="stylesheet" href="css/feedback.css">
-	    <style>
-	        body {
-	            font-family: Arial, sans-serif;
-	            background-color: #f4f4f4;
-	            margin: 0;
-	            padding: 0;
-	        }
-	        
-	        .section-menu {
-	  			display: none;
-	  		}
-	  		
-	        h2 {
-	            text-align: center;
-	            margin-bottom: 10px;
-	            margin-top: 0px;
-	        }
-	        .wishlist-items {
-	            display: flex;
-	            flex-wrap: wrap;
-	            justify-content: center;
-	        }
-	        .product {
-	            margin: 20px;
-	            padding: 20px;
-	            background-color: #fff;
-	            border-radius: 8px;
-	            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	            width: 200px;
-	        }
-	        .product img {
-	            width: 100%;
-	            height: auto;
-	            border-radius: 8px;
-	            object-fit: cover;
-	        }
-	        .product-info {
-	            
-	        }
-	        .product-info p {
-	            margin: 5px 0;
-	        }
-	        .action-buttons {
-	            margin-top: 10px;
-	        }
-	        .action-buttons form {
-	           	margin: 5px 0px;
-	        }
-	        .action-buttons input[type="submit"] {
-	        	border: 1px solid grey;
-	            padding: 4px 7px;
-	            text-align: center;
-	            text-decoration: none;
-	            font-size: 15px;
-	            cursor: pointer;
-	            border-radius: 5px;
-	            transition: background-color 0.3s;
-	        }
-	        .action-buttons input[type="submit"]:hover {
-	            background-color: #0056b3;
-	        }
-	        
-	        .empty-wishlist-msg {
-	            text-align: center;
-	            margin-top: 20px;
-	            color: #666;
-	        }
-	        .logout {
-	           	position: absolute;
-				margin-left: 5%;
-				top: 138px;
-				padding-bottom: 10px;
-				font-size: 18px;
-	        }
-	     
-	        @media screen and (max-width: 768px) {
-	            .product {
-	                width: 45%;
-	            }
-	        }
-	        @media screen and (max-width: 576px) {
-	            .product {
-	                width: 100%;
-	            }
-	        }
-	        #searchbar-section{
-		       	display: none;
-		    }
-	    </style>
 	</head>
+
 	<body>
 		<%@ include file="template/navbar.jsp" %>
-		
-		<a class="logout" href="Logout">Logout</a>
 	
 		<%
 			String feedback = (String) session.getAttribute("feedback");
@@ -114,69 +26,83 @@
 		  
 		<%@ include file="template/feedbackSection.jsp" %>
 		
-		<div class="container">
-		    <%
-		        String id = (String) session.getAttribute("cliente");
-		        Wishlist wishlist = null;
+	    <%
+	        String id = (String) session.getAttribute("cliente");
+	        Wishlist wishlist = null;
+	
+	        if (id != null && !id.equals("")) {
+	            wishlist = (Wishlist) request.getSession().getAttribute("wishlist");
+	            if (wishlist == null) {
+	                response.sendRedirect("WishlistControl");
+	                return;
+	            }
+	    %>
+	    <%
+	        } else {
+	            response.sendRedirect("Login?redirect=Wishlist.jsp");
+	        }
+	    %>
 		
-		        if (id != null && !id.equals("")) {
-		            wishlist = (Wishlist) request.getSession().getAttribute("wishlist");
-		            if (wishlist == null) {
-		                response.sendRedirect("WishlistControl");
-		                return;
-		            }
-		    %>
-		    <%
-		        } else {
-		            response.sendRedirect("Login?redirect=Wishlist.jsp");
-		        }
-		    %>
-		
-		    <h2>Prodotti nella Wishlist</h2>
-		    
-		    <div class="wishlist-items">
-		        <%
-		            if (wishlist != null) {
+		<div class="container productsContainer my-3 my-lg-0">
+		    <h1 class="text-center mb-2 mb-lg-3">Prodotti nella wishlist</h1>
+		    <div class="row d-flex justify-content-center">
+		        <% 
+		            if(wishlist != null){
 		                Collection<Product> products = wishlist.getItems();
 		                if (products != null && !products.isEmpty()) {
-		                    Iterator<Product> iterator = products.iterator();
-		                    while (iterator.hasNext()) {
-		                        Product product = iterator.next();
+		                	
+		                int i = 0;
+		                for (Product product : products) {
 		        %>
-		        <div class="product">
-					<a href="ProductDetails?productId=<%=product.getId()%>&type=<%=product.getClass().getSimpleName().toLowerCase()%>"><img src="<%=product.getImgURL()%>"></a>                              
-		            <div class="product-info">
-		                <p><strong>Nome Prodotto:</strong> <%= EscaperHTML.escapeHTML(product.getNome()) %></p>
-		                <p><strong>Prezzo:</strong> <%= product.getPrezzo() %></p>
-		                <div class="action-buttons">
-		                    <form action="CartControl" method="post">
-		                        <input type="hidden" name="productId" value="<%= product.getId() %>">
-		                        <input type="hidden" name="type" value="<%= product.getClass().getSimpleName().toLowerCase() %>">
-		                        <input type="hidden" name="action" value="aggiungi">
-		                        <input type="hidden" name="redirect" value="Wishlist.jsp">
-		                        <input type="submit" value="Aggiungi al carrello">
-		                    </form>
-		                    <form action="WishlistControl" method="post">
-		                        <input type="hidden" name="productId" value="<%= product.getId() %>">
-		                        <input type="hidden" name="type" value="<%= product.getClass().getSimpleName().toLowerCase() %>">
-		                        <input type="hidden" name="redirect" value="Wishlist.jsp">
-		                        <input type="submit" name="action" value="Rimuovi">
-		                    </form>
-		                </div>
-		            </div>
-		        </div>
-		        <%
-		                    }
-		                } else {
+		                    <div class="card mx-5 my-3">
+		                        <div class="img-container">
+		                            <a href="ProductDetails?productId=<%=product.getId()%>&type=<%=product.getClass().getSimpleName().toLowerCase()%>">
+		                                <img src="<%= product.getImgURL() %>" alt="..." class="img-fluid">
+		                            </a>
+		                            <form action="CartControl" method="post">
+				                        <input type="hidden" name="productId" value="<%= product.getId() %>">
+				                        <input type="hidden" name="type" value="<%= product.getClass().getSimpleName().toLowerCase() %>">
+				                        <input type="hidden" name="action" value="aggiungi">
+				                        <input type="hidden" name="redirect" value="Wishlist.jsp">
+				                        <input type="submit" value="Aggiungi al carrello" class="add-to-cart">
+				                    </form>
+		                        </div>
+		                        <div class="card-body">
+		                       		<h5 class="card-title"><%= product.getNome() %></h5>
+		                           	<div class="row mt-3">
+			                            <p class="col-9 my-0 py-0"><strong>Prezzo:</strong> <%= product.getPrezzo() %></p>
+			                          
+			                            <form id="wishlist-form" class="col-3" action="WishlistControl" method="post">
+					                        <input type="hidden" name="productId" value="<%= product.getId() %>">
+					                        <input type="hidden" name="type" value="<%= product.getClass().getSimpleName().toLowerCase() %>">
+					                        <input type="hidden" name="redirect" value="Wishlist.jsp">
+					                        <button type="submit" name="action" value="Rimuovi"><i class="bi bi-bookmark-x"></i></button>
+					                    </form>
+					                    
+					                    <hr class="mb-1">
+		                            </div>
+		                        </div>
+		                    </div>
+		        <%  
+		                i++;
+		                if(i > 0 && i % 4 == 0){
 		        %>
-		        <p class="empty-wishlist-msg">Nessun prodotto nella Wishlist.</p>
-		        <%
+		                    </div>
+		                    <div class="row d-flex justify-content-center">
+		        <%  
 		                }
-		            } else {
-		        %>
-		        <p class="empty-wishlist-msg">Nessun prodotto nella Wishlist.</p>
-		        <%
 		            }
+		            
+		        } else { 
+		        %>        
+		            <p class="empty-cart-msg">Non hai nessun prodotto nella wishlist.</p>
+		        <%  
+		            }
+		        } else { 
+		        %>        
+		            <p class="empty-cart-msg">Non hai nessun prodotto nella wishlist.</p>
+		        <%  
+		            }  
 		        %>
 		    </div>
 		</div>

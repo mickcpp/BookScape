@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+.section-menu, #searchbar-section{
+	display: none;
+}
+
+ .card img {
+  	max-width: 100%;
+}
+   
+.card-body {
+   	padding: 10px;
+}
+		
+.card-title, .card-text {
+    margin-bottom: 5px;
+}
+ 
+.card{
+ 	width: 13rem;
+ 	border: none;
+}
+		
+#wishlist-form button{
+	border: none;
+	background-color: white;
+	font-size: 1.5rem;
+	position: relative;
+	bottom: 5px;
+	right: 16px;
+}
+
+#wishlist-form button:hover {
+    transform: scale(1.15);
+    color: #8B0000;
+}
+
+.item-blue{
+	background-color: rgba(9, 23, 91, 1);
+}
+		
+.item-blue:hover{
+	background-color: rgba(9, 70, 91, 1);
+}
+
+.img-container img {
+	width: 100%;
+    height: 250px;
+    object-fit: contain;
+}
+
+.empty-cart-msg{
+	height: 300px;
+	text-align: center;
+}	

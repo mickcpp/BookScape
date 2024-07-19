@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+.img-container{
+	position: relative;
+}
+
+.card:hover img{
+    opacity: 0.9;
+}
+		
+.add-to-cart {			    
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgb(160, 0, 0, 0.75);
+    color: white;
+    padding: 5px;
+    border: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.add-to-cart:hover {			    
+	background-color: rgb(200, 0, 0, 1);
+	color: white;
+}
+		
+.img-container:hover .add-to-cart {
+    opacity: 1;
+}
+
+#wishlist-form button{
+	color: #8B0000;
+}
