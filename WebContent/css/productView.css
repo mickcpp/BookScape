@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.section-menu{
+	display: none;
+}
+
+.error-message {
+    margin: -10px 8px 0 auto;
+    text-align: right;
+    display: none;
+}
+
+.rating input {
+    display: none;
+    direction: rtl;
+}
+
+.rating label {
+    color: #ddd;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating input:checked ~ label,
+.rating label:hover,
+.rating label:hover ~ label {
+    color: #f5a623;
+}
+	
+.rating {
+    direction: rtl;
+}
+
+.bookmark img {
+   	width: 20px;
+  	height: 20px;
+}
+       
+.product-image {
+   	width: 11.3rem;
+	border-radius: 8px;
+}
+		 	
+#separatorProductReview{
+  	display: none;
+}
+
+.rating {
+	color: #f5a623;
+	font-size: 1.05rem;
+}
+
+small {
+    color: #999;
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+}
+		    
+@media (max-width: 540px) {
+  	#ratingError{
+ 		margin-top: 5px;
+		text-align: left;
+ 	}
+	#productImage{
+		margin-bottom: 3%;
+ 	}
+  	#separatorCartWishlist{
+  		display: none;
+  	}
+   	#separatorProductReview{
+   		display: block;
+   		margin-top: 4%;
+   	}
+   	#emailRecensione{
+ 		font-size: 1.1rem;
+   	}
+}
+			 
+@media (max-width: 775px) {
+	#deleteRecensione{
+   		font-size: 0.9rem;
+   	}
+}
