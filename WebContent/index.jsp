@@ -142,7 +142,7 @@
 			    
 					<div class="carousel-item">
 			      		<div class="row d-flex justify-content-center">
-			        		<% i = 0; for(Libro libro : libri) { if(i < 3) { i++; continue; } if(i == 6) break; %>
+			        		<% i = 0; for(Libro libro : libri) { if(i < 6) { i++; continue; } if(i == 9) break; %>
 		          			<div class="card mx-5 my-2">
 		            			<div class="img-container">
 				      				<a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>

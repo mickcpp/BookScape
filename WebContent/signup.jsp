@@ -7,129 +7,8 @@
 	   	<title>Registrazione Cliente</title>
 	   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	    <link rel="stylesheet" href="css/signup.css">
 	    <link rel="stylesheet" href="css/feedback.css">
-	    
-	    <style>
-	        html, body {
-	            margin: 0;
-	            padding: 0;
-	            height: 100%;
-	            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-	        }
-	
-	        .loginContainer {
-	            background-color: #fff;
-	            border-radius: 10px;
-	            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-	            padding: 25px 40px;
-	            max-width: 600px;
-	            text-align: center;
-	           	margin: -28px auto 2% auto;
-	        }
-	
-			#zona_utente #searchbar-section, .section-menu{
-				display: none;
-			}
-			
-	        label {
-	            display: block;
-	            font-weight: bold;
-	            text-align: left;
-	            color: #555;
-	            margin-bottom: 8px;
-	        }
-	
-	        .loginContainer input[type="text"],
-	        .loginContainer input[type="email"],
-	        .loginContainer input[type="password"],
-	        .loginContainer input[type="date"] {
-	            width: 100%;
-	            padding: 12px;
-	            margin-bottom: 20px;
-	            border: 1px solid #ddd;
-	            border-radius: 5px;
-	            box-sizing: border-box;
-	            font-size: 16px;
-	        }
-	        
-	        .error-message {
-	            color: #e74c3c;
-	            font-size: 0.9em;
-	            margin-top: -15px;
-	            margin-bottom: 1.55%;
-	            text-align: left;
-	            display: none;
-	        }
-	
-	        input[type="submit"] {
-	            background-color: #1abc9c;
-	            color: white;
-	            padding: 12px 20px;
-	            border: none;
-	            border-radius: 5px;
-	            cursor: pointer;
-	            font-size: 18px;
-	            width: 100%;
-	            transition: background-color 0.3s;
-	        }
-	
-	        input[type="submit"]:hover {
-	            background-color: #16a085;
-	        }
-	
-	        .form-group {
-	            position: relative;
-	        }
-	
-	        .form-group .fa {
-	            position: absolute;
-	            right: 10px;
-	            top: 48px;
-	            transform: translateY(-50%);
-	            color: #999;
-	      	}
-	      	
-	    	.fa-eye:hover, .fa-eye-slash:hover{
-	      		cursor: pointer;
-	      	}
-	      	
-	        .tab-container {
-	            display: flex;
-	            justify-content: space-around;
-	            margin-bottom: 24px;
-	          	font-size: 1.1em;
-	        }
-	
-	        .tab {
-			    padding: 10px 20px;
-			    cursor: pointer;
-			}
-			
-			.tab a{
-				padding: 10px 10px;
-			}
-		
-			.tab.non-active{
-				border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-			    opacity: 0.5;
-			    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
-			}
-	
-	        .tab.active {
-	            border-bottom: 2px solid #1abc9c;
-	            color: #1abc9c;
-	        }
-	        
-	        @media (max-width: 768px) {
-	            .container {
-	                padding: 30px;
-	            }
-	
-	            input[type="submit"] {
-	                font-size: 16px;
-	            }
-	        }
-	    </style>
 	</head>
 	
 	<body>
@@ -148,11 +27,11 @@
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>
 	    
-	    <div class="container loginContainer">
+	    <div class="container signupContainer">
 	    
-	        <div class="tab-container">
-	            <div id="login-tab" class="tab non-active"><a href="login-form.jsp" style="text-decoration: none; color: inherit;">Login</a></div>
-	            <div id="signup-tab" class="tab active"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Registrazione</a></div>
+	        <div class="row justify-content-around mb-3">
+	            <div id="login-tab" class="tab non-active col-auto"><a href="login-form.jsp" style="text-decoration: none; color: inherit;">Login</a></div>
+	            <div id="signup-tab" class="tab active col-auto"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Registrazione</a></div>
 	        </div>
         
 	        <h2>Registrazione Cliente</h2>
@@ -165,7 +44,7 @@
 	     			<%
 	     		}
 	     	%>
-	        <form action="Registration" method="post" onsubmit="return validateSignupForm()">
+	        <form action="Registration" method="post" onsubmit="return validateSignupForm()" class="row">
 	            <div class="form-group">
 	                <label for="email">Email:</label>
 	                <input type="email" id="email" name="email" required>

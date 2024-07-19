@@ -1,30 +1,7 @@
 footer{
-	background-color: #9FC8D5;;
-	justify-content: center;
-	display: flex;
-    margin-top: auto;
+	overflow: hidden;
 }
 
-footer .section{
-	display: inline;
-	padding: 20px;
-}
-
-.section ul{
-	list-style-type: none;
-}
-
-.section ul li{
-	padding: 5px;
-}
-
-.details{
-	align-self: center;
-	position: relative;
-	left: 10%;
-}
-
-.details ul li{
-	display: inline;
-	padding: 7px;
+footer a{
+	text-decoration: none;
 }

@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+body {
+	background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+}
+
+.signupContainer {
+     background-color: #fff;
+     border-radius: 10px;
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+     padding: 1.3% 2%;
+     max-width: 600px;
+     text-align: center;
+     margin: 0px auto 2% auto;
+ }
+
+#zona_utente #searchbar-section, .section-menu{
+	display: none;
+}
+			
+label {
+    display: block;
+    font-weight: bold;
+    text-align: left;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.signupContainer input[type="text"],
+.signupContainer input[type="email"],
+.signupContainer input[type="password"],
+.signupContainer input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+	        
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: -15px;
+    margin-bottom: 1.55%;
+    text-align: left;
+    display: none;
+}
+
+input[type="submit"] {
+    background-color: #1abc9c;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+	
+input[type="submit"]:hover {
+  	background-color: #16a085;
+}
+
+.form-group {
+  	position: relative;
+}
+
+ .form-group .fa {
+  	position: absolute;
+  	right: 5%;
+  	top: 55%;
+  	transform: translateY(-50%);
+  	color: #999;
+}
+ 	
+.fa-eye:hover, .fa-eye-slash:hover{
+	cursor: pointer;
+}
+
+.tab {
+ 	padding: 10px 20px;
+	cursor: pointer;
+}
+
+.tab a{
+	padding: 10px 10px;
+}
+
+.tab.non-active{
+	border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    opacity: 0.5;
+    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
+}
+
+.tab.active {
+  	border-bottom: 2px solid #1abc9c;
+    color: #1abc9c;
+}
+      
+h2 {
+  	color: #333;
+    margin-top: 3.4%;
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+	        
+ @media (max-width: 1400px) {
+  	.signupContainer {		         
+    	margin: 2% auto 12% auto;
+	}
+ }
+ 
+ @media (max-width: 990px) {
+  	.signupContainer {
+		padding: 20px;
+	    margin: 3% auto 12% auto;
+	    max-width: 80%;
+	}
+ }
+	        
+ @media (max-width: 768px) {
+   	.signupContainer {
+	    padding: 20px;
+	    margin: 4.5% auto 22% auto;
+	    max-width: 95%;
+	}
+   	input[type="submit"] {
+      	font-size: 16px;
+   	}
+ }
+	       
+@media (max-width: 500px) {
+  	.form-group .fa {
+	 	right: 7%;
+	}
+	h2 {
+	  	margin-bottom: 3%;
+	 	margin-top: 4.1%;
+	}
+	.signupContainer {
+     	margin: 5% auto 22% auto;
+   	}
+}

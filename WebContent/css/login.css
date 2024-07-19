@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+body {
+     background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+ }
+	
+#zona_utente #searchbar-section, .section-menu{
+	display: none;
+}
+		
+.loginContainer {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 1.3% 2%;
+	max-width: 400px;
+    text-align: center;
+    margin: 2% auto 8% auto;
+}
+      	
+h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.5rem;
+}
+
+label {
+    color: #555;
+    margin-bottom: 20px;
+    margin-top: 18px;
+}
+
+a{
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: #1abc9c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+    margin: 15px auto;
+}
+
+input[type="submit"]:hover {
+    background-color: #16a085;
+}
+        
+.form-group {
+    position: relative;
+}
+
+.form-group .fa {
+    position: absolute;
+    right: 4%;
+    top: 70%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+		
+.tab a{
+	padding: 10px 10px;
+}
+
+.tab.non-active{
+	border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    opacity: 0.5;
+    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
+}
+
+.tab.active {
+	border-bottom: 2px solid #1abc9c;
+  	color: #1abc9c;
+}
+   	
+.fa-eye:hover, .fa-eye-slash:hover{
+	cursor: pointer;
+}
+      	
+@media (max-width: 768px) {
+     .loginContainer {
+         padding: 20px;
+         margin: 6% auto 15% auto;
+         max-width: 65%;
+     }
+ }
+ 
+@media (max-width: 500px) {
+     .loginContainer {
+     	margin: 10% auto 22% auto;
+        max-width: 90%;
+     }
+ }
+ 

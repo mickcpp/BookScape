@@ -1,227 +1,94 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="it">
-<head>
-    <meta charset="utf-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1">
-   	<title>Login</title>
-   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-        }
+	<head>
+	    <meta charset="utf-8">
+	   	<meta name="viewport" content="width=device-width, initial-scale=1">
+	   	<title>Login</title>
+	   	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	    <link rel="stylesheet" href="css/login.css">
+	</head>
+	<body>
+	    <%@ include file="template/navbar.jsp" %>
+	    
+	    <%
+		    String clienteId = (String) request.getSession().getAttribute("cliente");
+		    if(clienteId != null){
+		        response.sendRedirect("./");
+		        return;
+		    }
+	    %>
+	    
+	    <div class="container loginContainer">
+	        <div class="row justify-content-around mb-3">
+	            <div id="login-tab" class="tab active col-auto"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Login</a></div>
+	            <div id="signup-tab" class="tab non-active col-auto"><a href="signup.jsp" style="text-decoration: none; color: inherit;">Registrazione</a></div>
+	        </div>
 	
-		#zona_utente #searchbar-section, .section-menu{
-			display: none;
-		}
-		
-        .loginContainer {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        	max-width: 400px;
-            text-align: center;
-            margin: 15px auto 7% auto;
-        }
-      	
-        h2 {
-            color: #333;
-            margin-top: 0;
-            margin-bottom: 0;
-            font-size: 1.5em;
-        }
-
-        label {
-            color: #555;
-            margin-bottom: 20px;
-            margin-top: 18px;
-        }
-
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-align: left;
-            color: #555;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-
-        input[type="submit"] {
-            background-color: #1abc9c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s;
-            margin: 15px auto;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #16a085;
-        }
-        
-        .form-group {
-            position: relative;
-        }
-
-        .form-group .fa {
-            position: absolute;
-            right: 10px;
-            top: 48px;
-            transform: translateY(-50%);
-            color: #999;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            input[type="submit"] {
-                font-size: 14px;
-            }
-        }
-
-        .tab-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 19px;
-          	font-size: 1.1em;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-        }
-		
-		.tab a{
-			padding: 10px 10px;
-		}
-		
-		.tab.non-active{
-			border-bottom: 2px solid rgba(0, 0, 0, 0.5);
-		    opacity: 0.5;
-		    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
-		}
-		
-        .tab.active {
-            border-bottom: 2px solid #1abc9c;
-            color: #1abc9c;
-     	}
-     	
-     	.fa-eye:hover, .fa-eye-slash:hover{
-      		cursor: pointer;
-      	}
-    </style>
-</head>
-<body>
-    <%@ include file="template/navbar.jsp" %>
-    
-    <%
-	    String clienteId = (String) request.getSession().getAttribute("cliente");
-	    if(clienteId != null){
-	        response.sendRedirect("./");
-	        return;
-	    }
-    %>
-    
-    <div class="container loginContainer">
-        <div class="tab-container">
-            <div id="login-tab" class="tab active"><a href="javascript:void(0)" style="text-decoration: none; color: inherit;">Login</a></div>
-            <div id="signup-tab" class="tab non-active"><a href="signup.jsp" style="text-decoration: none; color: inherit;">Registrazione</a></div>
-        </div>
-
-        <div id="login-form">
-            <h2>Login</h2>
-            <form action="Login" method="post" onsubmit="return validateLoginForm()">
-                <div class="form-group">
-                    <label for="login-id">Username o Email:</label>
-                    <input type="text" id="login-id" name="id" placeholder="Username o Email" required>
-                    <i class="fa fa-user"></i>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password:</label>
-                    <input type="password" id="login-password" name="password" placeholder="Password" required>
-             		<i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
-                </div>
-                <input type="submit" value="Login">
-            </form>
-        </div>
-
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-                %>
-                <div id="error-message" style="color: red; text-align: center; font-size: 1.05em"><%=error%></div>
-                <%
-            } else{
-            	%>
-                <div id="error-message" style="display: none; color: red; text-align: center; font-size: 1.05em"></div>
-            	<%
-            }
-        %>
-    </div>
-
-    <%@ include file="template/footer.jsp"%>
-    
-    <script>
-        function showError(message) {
-            const errorElement = document.getElementById('error-message');
-            errorElement.textContent = message;
-       		errorElement.style.display = 'block';
-        }
-        
-        function resetErrors() {
-            const errorElement = document.getElementById('error-message');
-            errorElement.textContent = '';
-            errorElement.style.display = 'none';
-        }
-        
-        function togglePasswordVisibility() {
-	        const passwordInput = document.getElementById('login-password');
-	        const toggleIcon = document.getElementById('togglePassword');
-	        if (passwordInput.type === 'password') {
-	            passwordInput.type = 'text';
-	            toggleIcon.classList.remove('fa-eye');
-	            toggleIcon.classList.add('fa-eye-slash');
-	        } else {
-	            passwordInput.type = 'password';
-	            toggleIcon.classList.remove('fa-eye-slash');
-	            toggleIcon.classList.add('fa-eye');
+	        <div id="login-form" class="row">
+	            <h2>Login</h2>
+	            <form action="Login" method="post" onsubmit="return validateLoginForm()">
+	                <div class="form-group">
+	                    <label for="login-id">Username o Email:</label>
+	                    <input type="text" id="login-id" name="id" placeholder="Username o Email" required>
+	                    <i class="fa fa-user"></i>
+	                </div>
+	                <div class="form-group">
+	                    <label for="login-password">Password:</label>
+	                    <input type="password" id="login-password" name="password" placeholder="Password" required>
+	             		<i class="fa fa-eye" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+	                </div>
+	                <input type="submit" value="Login">
+	            </form>
+	        </div>
+	
+	        <%
+	            String error = (String) request.getAttribute("error");
+	            if (error != null) {
+	                %>
+	                <div id="error-message" style="color: red; text-align: center; font-size: 1.05em"><%=error%></div>
+	                <%
+	            } else{
+	            	%>
+	                <div id="error-message" style="display: none; color: red; text-align: center; font-size: 1.05em"></div>
+	            	<%
+	            }
+	        %>
+	    </div>
+	
+	    <%@ include file="template/footer.jsp"%>
+	    
+	    <script>
+	        function showError(message) {
+	            const errorElement = document.getElementById('error-message');
+	            errorElement.textContent = message;
+	       		errorElement.style.display = 'block';
 	        }
-	    }
-    </script>
-    
-    <script src="js/ValidationLibraryCliente.js"></script>
-    <script src="js/ValidationUtilsCliente.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+	        
+	        function resetErrors() {
+	            const errorElement = document.getElementById('error-message');
+	            errorElement.textContent = '';
+	            errorElement.style.display = 'none';
+	        }
+	        
+	        function togglePasswordVisibility() {
+		        const passwordInput = document.getElementById('login-password');
+		        const toggleIcon = document.getElementById('togglePassword');
+		        if (passwordInput.type === 'password') {
+		            passwordInput.type = 'text';
+		            toggleIcon.classList.remove('fa-eye');
+		            toggleIcon.classList.add('fa-eye-slash');
+		        } else {
+		            passwordInput.type = 'password';
+		            toggleIcon.classList.remove('fa-eye-slash');
+		            toggleIcon.classList.add('fa-eye');
+		        }
+		    }
+	    </script>
+	    
+	    <script src="js/ValidationLibraryCliente.js"></script>
+	    <script src="js/ValidationUtilsCliente.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	</body>
 </html>
