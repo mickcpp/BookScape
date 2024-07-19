@@ -39,16 +39,6 @@
     left: 0; 
 }
 
-.carousel img{
- 	object-fit: contain;
-	max-height: 640px; 
-}
-      
-.carousel-control-next,
-.carousel-control-prev {
-    filter: invert(100%);
-}
-
 #zona_utente #searchbar-section {
     position: relative;
 }

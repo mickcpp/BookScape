@@ -65,6 +65,16 @@
 	position: absolute;
 }
 
+.carousel img{
+ 	object-fit: contain;
+	max-height: 640px; 
+}
+      
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(100%);
+}
+
 #wishlist-form button{
 	border: none;
 	background-color: white;

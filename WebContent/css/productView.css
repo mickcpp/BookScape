@@ -34,6 +34,10 @@
     transition: color 0.2s;
 }
 
+.col-auto-max {
+  max-width: 60%;
+}
+
 .rating input:checked ~ label,
 .rating label:hover,
 .rating label:hover ~ label {
@@ -88,6 +92,9 @@ small {
    	#emailRecensione{
  		font-size: 1.1rem;
    	}
+   	.col-auto-max {
+	  max-width: 90%;
+	}
 }
 			 
 @media (max-width: 775px) {

@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+.rating {
+	color: #f5a623;
+	font-size: 1.05rem;
+}
+
+small {
+   	color: #999;
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+}
+		    
+@media (max-width: 540px) {
+   	#emailRecensione{
+ 		font-size: 1.1rem;
+   	}
+}
+			 
+@media (max-width: 775px) {
+	#deleteRecensione{
+   		font-size: 0.9rem;
+   	}
+}
+
+@media (max-width: 990px) {
+	#productDetails img{
+   		width: 30%;
+   	}
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.section-menu{
+	display: none;
+}
+
+.rating input {
+    display: none;
+    direction: rtl;
+}

@@ -95,7 +95,7 @@
 	            <div id="productImage" class="col-auto mx-auto mx-sm-0 mb-3 mb-md-2">
 	   				<img src="${prodotto.imgURL}" alt="Immagine Prodotto" class="img-fluid rounded product-image">
 				</div>
-	            <div class="col-auto">
+	            <div class="col-auto col-auto-max">
 	                <h2>${EscaperHTML.escapeHTML(prodotto.nome)}</h2>
 	                <p>${EscaperHTML.escapeHTML(prodotto.descrizione)}</p>
 	                <p>Prezzo: ${prodotto.prezzo}</p>
@@ -153,6 +153,7 @@
 	   	<div class="container my-4">
 	        <div class="card">
 	            <div class="card-body">
+	            	<a href="RecensioneControl?action=visualizza&productId=${prodotto.getId()}&type=${prodotto.getClass().getSimpleName().toLowerCase()}" style="float: right; color: black">Vedi tutto</a>
 	                <h3 class="card-title mb-3">Recensioni</h3>
 	                <%
 	                    if (recensioni != null && !recensioni.isEmpty()) {
