@@ -68,10 +68,10 @@ input[type="submit"]:hover {
   	position: relative;
 }
 
- .form-group .fa {
-  	position: absolute;
+.form-group .fa {
+ 	position: absolute;
   	right: 5%;
-  	top: 55%;
+  	top: 57px;
   	transform: translateY(-50%);
   	color: #999;
 }

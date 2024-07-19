@@ -54,7 +54,7 @@
 	
 	            <div class="form-group">
 	                <label for="username">Username:</label>
-	                <input type="text" id="username" name="username" required>
+	                <input type="text" id="username" name="username" autocomplete="username" required>
 	                <i class="fa fa-user"></i>
 	                <div class="error-message"></div>
 	            </div>
@@ -104,7 +104,7 @@
 	                <label for="CAP">CAP:</label>
 	                <input type="text" id="CAP" name="CAP" maxlength="5" required>
 	                <i class="fa fa-mail-bulk"></i>
-	                <div class="error-message"></div>
+	                <div class="error-message mb-3"></div>
 	            </div>
 	
 	            <input type="submit" value="Registrati">
