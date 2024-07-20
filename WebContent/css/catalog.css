@@ -77,3 +77,7 @@
     transform: scale(1.15);
     color: #8B0000;
 }	
+
+#wishlist-form button{
+	color: black;
+}
