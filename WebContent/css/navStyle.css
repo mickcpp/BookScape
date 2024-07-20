@@ -166,7 +166,6 @@ body.blurred .container{
   
 .modalContent {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -184,10 +183,10 @@ body.blurred .container{
 }
 
 .modal-section:hover {
-    background-color: #dce4eb;
 	border-radius: 12px;
 	cursor: pointer;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	background-color: #dee2e6;
 }
 
 .modal-section i {
@@ -209,4 +208,27 @@ body.blurred .container{
     .risultati{
     	max-height: 300px;
     }
+}
+
+@media (max-width: 768px) {
+    #choiceModal {
+	    padding: 10px 0px;
+	    width: 97%;
+	    top: 46%;
+	}
+	#choiceModal p{
+	 	font-size: 1rem;
+	}
+}
+
+@media (max-width: 500px) {
+	#choiceModal {
+	    top: 50%;
+	}
+}
+
+@media (max-width: 380px) {
+	#choiceModal {
+	    top: 48%;
+	}
 }
