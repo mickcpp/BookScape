@@ -40,13 +40,13 @@
 	                    <img src="img/nomeSito.png" alt="Bookscape" class="navbar-logo img-fluid">
 	                </a>
 	            </div>
-	            <div class="col-lg-6 col-md-5 col-8">
+	            <div class="col-lg-6 col-md-5 col-sm-9 col-7">
 	                <div id="searchbar-section">
 	                    <input id="searchbar" name="search" type="text" class="form-control" autocomplete="off" placeholder="Cerca nel catalogo...">
 	                    <div class="risultati"></div>
 	                </div>
 	            </div>
-	            <div class="col-lg-2 col-md-3 col-4 text-end">
+	            <div class="col-lg-2 col-sm-3 col-5 text-end">
 	              	<a href="Wishlist.jsp"><img src="img/heart.png" alt="Heart" class="img-fluid me-md-3 me-2" width="25" height="25"></a>
 	                <a href="Cart.jsp"><img src="img/shopping-cart.png" alt="Shopping Cart" class="img-fluid me-md-3 me-2" width="25" height="25"></a>
 <%
