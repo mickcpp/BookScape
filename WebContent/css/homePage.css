@@ -87,3 +87,100 @@
     transform: scale(1.15);
     color: #8B0000;
 }
+
+#wishlist-form button{
+	color: black;
+}
+
+@media (max-width: 1200px) {
+	#editorialChoises .carousel-control-prev{
+		top: auto;
+		bottom: -5px;
+		left: -40px;
+	}
+	#editorialChoises .carousel-control-next{
+		top: auto;
+		bottom: -5px;
+		right: -40px;
+	}
+}
+
+@media (max-width: 875px) {
+	#editorialChoises .carousel-control-prev{
+		top: 0;
+		bottom: 0;
+		left: 0px;
+	}
+	#editorialChoises .carousel-control-next{
+		top: 0;
+		bottom: 0;
+		right: 0px;
+	}
+}
+
+@media (max-width: 575px) {
+	#bookCarousel .card, #musicCarousel .card{
+		width: 88%;
+	}
+	#bookCarousel .card-title, #musicCarousel .card-title{
+		font-size: 0.96rem;
+	}
+	
+	#bookCarousel .card-text, #musicCarousel .card-text{
+		font-size: 0.94rem;
+	}
+	
+	#bookCarousel .rating, #musicCarousel .rating{
+		font-size: 0.8rem;
+	}
+	
+	#bookCarousel .add-to-cart, #musicCarousel .add-to-cart{
+		font-size: 10px;
+		padding: 8px 0;
+	}
+}
+
+@media (max-width: 500px) {
+	#bookCarousel .card-title, #musicCarousel .card-title{
+		font-size: 0.93rem;
+	}
+	
+	#bookCarousel .card-text, #musicCarousel .card-text{
+		font-size: 0.84rem;
+	}
+	
+	#bookCarousel .rating, #musicCarousel .rating{
+		font-size: 0.68rem;
+	}
+}
+
+@media (max-width: 450px) {
+	#bookCarousel .row > *, #musicCarousel .row > *{
+		padding: 0;
+	}
+}
+
+@media (max-width: 370px) {
+	#bookCarousel .card-title, #musicCarousel .card-title{
+		font-size: 0.73rem;
+	}
+	
+	#bookCarousel .card-text, #musicCarousel .card-text{
+		font-size: 66%;
+	}
+	
+	#bookCarousel .rating, #musicCarousel .rating{
+		font-size: 0.65rem;
+	}
+}
+
+@media (max-width: 768px) {
+	#bookCarousel .control, #musicCarousel .control{
+		top: auto;
+		bottom: auto;
+	}
+	
+	#headerEditorialChoise{
+		font-size: 2.2rem;
+	}
+}

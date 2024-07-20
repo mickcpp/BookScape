@@ -38,6 +38,30 @@
 						.filter(P -> P instanceof Libro)
 						.map(P -> (Libro) P)
 						.toList();
+			
+			List<Libro> scelteRedazione = prodotti.stream()
+					.filter(P -> P instanceof Libro)
+					.map(P -> (Libro) P)
+					.filter(P -> P.getId() == 1041
+						 	  || P.getId() == 1047
+						      || P.getId() == 1053
+						      || P.getId() == 1045
+						      || P.getId() == 1054
+						      || P.getId() == 1050
+							)
+					.toList();
+			
+			List<Musica> scelteRedazioneMusica = prodotti.stream()
+					.filter(P -> P instanceof Musica)
+					.map(P -> (Musica) P)
+					.filter(P -> P.getId() == 1002
+						 	  || P.getId() == 1011
+						      || P.getId() == 1024
+						      || P.getId() == 1025
+						      || P.getId() == 1026
+						      || P.getId() == 1023
+							)
+					.toList();
 		%>
 		
 		<%!String nomeTabella = "";%>
@@ -66,13 +90,100 @@
 		  </button>
 		</div>
 		
-		<div class="container-lg mt-5 mb-5">
-			<h2 class="h1 text-center mb-4">I libri piu recensiti</h2>
-			<div id="bookCarousel" class="carousel slide">
+		<div class="container-lg mt-4 mt-md-5 mb-5">
+            <h2 class="h1 text-center mb-3 mb-md-4">I libri piu recensiti</h2>
+            <div id="bookCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row d-flex justify-content-center">
+                            <% int i = 0; for(Libro libro : libri) { if(i == 3) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= libro.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                
+                    <div class="carousel-item">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Libro libro : libri) { if(i < 3) { i++; continue; } if(i == 6) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= libro.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                
+                    <div class="carousel-item">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Libro libro : libri) { if(i < 6) { i++; continue; } if(i == 9) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= libro.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="control carousel-control-prev" href="#bookCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="control carousel-control-next" href="#bookCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
+		
+		<hr>
+		
+		<div class="container-lg mt-4 mt-md-3 mb-4">
+			<h2 id="headerEditorialChoise" class="display-2 text-center mb-4">Scelte della redazione</h2>
+			<div id="editorialChoises" class="carousel slide">
 			 	<div class="carousel-inner">
 			   		<div class="carousel-item active">
 			      		<div class="row d-flex justify-content-center">
-			        		<% int i = 0; for(Libro libro : libri) { if(i == 3) break; %>
+			        		<% i = 0; for(Libro libro : scelteRedazione) { if(i == 3) break; %>
 		          			<div class="card mx-5 my-2">
 		            			<div class="img-container">
 				      				<a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
@@ -104,45 +215,10 @@
 			        		<% i++; } %>
 			      		</div>
 			    	</div>
-			    
+			    	
 			    	<div class="carousel-item">
 			      		<div class="row d-flex justify-content-center">
-			        		<% i = 0; for(Libro libro : libri) { if(i < 3) { i++; continue; } if(i == 6) break; %>
-		          			<div class="card mx-5 my-2">
-		            			<div class="img-container">
-				      				<a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
-					         		<form action="CartControl" method="post">
-										<input type="hidden" name="productId" value="<%= libro.getId() %>">
-										<input type="hidden" name="type" value="<%=libro.getClass().getSimpleName().toLowerCase()%>">
-										<input type="hidden" name="action" value="aggiungi">
-										<input type="hidden" name="redirect" value="HomePage">
-										<input type="submit" value="Aggiungi al carrello" class="add-to-cart">
-									</form>
-				      			</div>
-	            				<div class="card-body">
-		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-	              					<p class="card-text">By <%=libro.getAutore() %></p>
-		              				<div class="rating me-2">
-					              	<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
-					                	<i class="fas fa-star"></i>
-					                <% } %>
-					         		</div>
-					         		<form id="wishlist-form" action="WishlistControl" method="post">
-										<input type="hidden" name="productId" value="<%= libro.getId() %>">
-										<input type="hidden" name="type" value="<%=libro.getClass().getSimpleName().toLowerCase()%>">
-										<input type="hidden" name="action" value="aggiungi">
-										<input type="hidden" name="redirect" value="HomePage">
-										<button class="bookmark" type=submit><i class="bi bi-bookmark-heart"></i></button>
-									</form>
-	            				</div>
-		          			</div>
-			        		<% i++; } %>
-			      		</div>
-			    	</div>
-			    
-					<div class="carousel-item">
-			      		<div class="row d-flex justify-content-center">
-			        		<% i = 0; for(Libro libro : libri) { if(i < 6) { i++; continue; } if(i == 9) break; %>
+			        		<% i = 0; for(Libro libro : scelteRedazione) { if(i < 3) { i++; continue; } if(i == 6) break; %>
 		          			<div class="card mx-5 my-2">
 		            			<div class="img-container">
 				      				<a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
@@ -176,11 +252,11 @@
 			    	</div>
 			    </div>
 			  
-			 	<a class="carousel-control-prev" href="#bookCarousel" role="button" data-bs-slide="prev">
+			 	<a class="control carousel-control-prev" href="#editorialChoises" role="button" data-bs-slide="prev">
 			    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			    	<span class="visually-hidden">Previous</span>
 			  	</a>
-			  	<a class="carousel-control-next" href="#bookCarousel" role="button" data-bs-slide="next">
+			  	<a class="control carousel-control-next" href="#editorialChoises" role="button" data-bs-slide="next">
 			    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			    	<span class="visually-hidden">Next</span>
 			  	</a>
@@ -189,71 +265,67 @@
 		
 		<hr>
 		
-		<div class="container-fluid productsContainer">
-			<div class="row d-flex justify-content-center">
-	<%
-			i = 0;
-			for(Product prodotto : prodotti){
-	%>
-      		<div class="card mx-5 my-3">
-      			<div class="img-container">
-      				<a href="ProductDetails?productId=<%=prodotto.getId()%>&type=<%=prodotto.getClass().getSimpleName().toLowerCase()%>"><img src="<%= prodotto.getImgURL() %>" alt="..." class="img-fluid"></a>
-	         		<form action="CartControl" method="post">
-						<input type="hidden" name="productId" value="<%= prodotto.getId() %>">
-						<input type="hidden" name="type" value="<%=prodotto.getClass().getSimpleName().toLowerCase()%>">
-						<input type="hidden" name="action" value="aggiungi">
-						<input type="hidden" name="redirect" value="HomePage">
-						<input type="submit" value="Aggiungi al carrello" class="add-to-cart">
-					</form>
-      			</div>
-        
-        		<div class="card-body">
-           			<h5 class="card-title"><%= prodotto.getNome() %></h5>
-      				<%
-      					if(prodotto instanceof Libro){
-      						%>
-      							<p class="card-text">By <%= ((Libro) prodotto).getAutore() %></p>
-      						<%
-      					} else if(prodotto instanceof Musica){
-      						%>
-  								<p class="card-text">By <%= ((Musica) prodotto).getArtista() %></p>
-  							<%
-      					} else{
-      						%>
-								<p class="card-text"> BS Gadget</p>
-							<%
-      					}
-      				%>
-           			<div class="rating me-2">
-		              	<% int valutazione = 3; if(valutazioni.get(prodotto.getId()) != null) { valutazione = valutazioni.get(prodotto.getId()); } for (int j = 0; j < valutazione; j++) { %>
-		                	<i class="fas fa-star"></i>
-		                <% } %>
-         			</div>
-         			<form id="wishlist-form" action="WishlistControl" method="post">
-						<input type="hidden" name="productId" value="<%= prodotto.getId() %>">
-						<input type="hidden" name="type" value="<%=prodotto.getClass().getSimpleName().toLowerCase()%>">
-						<input type="hidden" name="action" value="aggiungi">
-						<input type="hidden" name="redirect" value="HomePage">
-						<button class="bookmark" type=submit><i class="bi bi-bookmark-heart"></i></button>
-					</form>
-       			</div>
-       		</div>
-	<%
-			i++;
-			if(i > 0 && i % 4 == 0){
-				%>
-					</div>
-					<div class="row d-flex justify-content-center">
-				<%
-			}
-		}
-			if(i > 0 && i % 4 != 0){
-				%>
-					</div>
-				<%
-			}
-	%>
-		</div>
+		<div class="container-lg mt-4 mb-5">
+            <h2 class="h1 text-center mb-3 mb-md-4">Il meglio in vinile</h2>
+            <div id="musicCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Musica musica : scelteRedazioneMusica) { if(i == 3) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=musica.getId()%>&type=<%=musica.getClass().getSimpleName().toLowerCase()%>"><img src="<%= musica.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= musica.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=musica.getArtista() %></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(musica.getId()) != null) { valutazione = valutazioni.get(musica.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                
+                    <div class="carousel-item">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Musica musica : scelteRedazioneMusica) { if(i < 3) { i++; continue; } if(i == 6) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=musica.getId()%>&type=<%=musica.getClass().getSimpleName().toLowerCase()%>"><img src="<%= musica.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= musica.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=musica.getArtista() %></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(musica.getId()) != null) { valutazione = valutazioni.get(musica.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="control carousel-control-prev" href="#musicCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="control carousel-control-next" href="#musicCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
 		
 		<%@ include file="template/footer.jsp"%>
 		
