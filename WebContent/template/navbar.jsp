@@ -61,6 +61,9 @@
             		}
 %>
 	            </div>
+	            <div id="containerLogout" class="col-1 col-md-12 mt-2" style="position: relative; display: none">
+		    		<a class="btn btn btn-danger" id="logout" href="Logout">Logout</a>
+		    	</div>
 	        </div>
 	    </div>
 	    
