@@ -1,15 +1,5 @@
 @charset "UTF-8";
 
-html, body{
-	margin: 0px;
-	min-height: 100vh;
-}
-
-body{
-	display: flex;
-	flex-direction: column;
-}
-
-.bookmark img{
-	width: 18px;
+#links-bar {
+	display : none;
 }

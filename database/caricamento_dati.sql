@@ -60,7 +60,14 @@ VALUES
 ('I Pilastri della Terra', 'Un romanzo epico che racconta la costruzione di una cattedrale nel Medioevo inglese.', 24.99, 60, 'Epico-Storico', 'Cartaceo', 1989, 'productImages/books/i pilastri della terra.jpg', '9788804679323', 'Ken Follett', '1030'),
 ('Shogun', 'Un racconto epico di avventura e intrighi nel Giappone feudale.', 20.99, 40, 'Epico-Storico', 'Cartaceo', 1975, 'productImages/books/Shogun.jpg', '9788804679330', 'James Clavell', '1152'),
 ('Il Nome della Rosa', 'Un romanzo storico ambientato in un monastero benedettino nel Medioevo, che combina elementi di mistero e intrigo.', 14.99, 80, 'Epico-Storico', 'Cartaceo', 1980, 'productImages/books/il nome della rosa.jpg', '9788804679347', 'Umberto Eco', '592'),
-('I Have No Mouth, and I Must Scream', 'Un racconto di fantascienza distopico che narra la storia di cinque umani superstiti alle prese con un intelligenza artificiale malevola.', 15.99, 50, 'Fantascienza', 'Cartaceo', 1967, 'productImages/books/AM.jpg', '9780312567481', 'Harlan Ellison', '320');
+('I Have No Mouth, and I Must Scream', 'Un racconto di fantascienza distopico che narra la storia di cinque umani superstiti alle prese con un intelligenza artificiale malevola.', 15.99, 50, 'Fantascienza', 'Cartaceo', 1967, 'productImages/books/AM.jpg', '9780312567481', 'Harlan Ellison', '320'),
+('One Piece', 'Mondo pieno i pirati e avventure', 16.99, 77, 'Manga', 'Cartaceo', 1999, 'productImages/books/Un pezzo.jpg', '9788804670621', 'Eichiro Oda', '24'),
+('Jujutsu Kaisen', 'Stregoni che combatto maledizioni', 13.99, 93, 'Manga', 'Cartaceo', 2017, 'productImages/books/Jujutsu.jpg', '97888046706934', 'Gege Akutami', '22'),
+('One Punch Man', 'L eroe piu forte che sia mai esistito', 17.50, 123, 'Manga', 'Cartaceo', 2012, 'productImages/books/ONE.jpg', '9788804670635', 'ONE', '43'),
+('Sakamoto Days', 'L assasino leggendario oramai ritirato', 10.00, 140, 'Manga', 'Cartaceo', 2020, 'productImages/books/Sakamoto.jpg', '9788804670693', 'Suzuki Yuuto', '30'),
+('Ken il guerriero', 'Mondo post apocalittico dove regna sovrana la violenza', 29.99, 100, 'Manga', 'Cartaceo', 1983, 'productImages/books/Ken.jpg', '9788804670692', 'Buronson', '60'),
+('20th Century Boys', 'Ricordi di infanzia diventano realta', 21.49, 37, 'Manga', 'Cartaceo', 1999, 'productImages/books/20th.jpg', '9788804670691', 'Naoki Urasawa', '50'),
+('Naruto', 'Villagi dove sono presenti Ninja con particolari abilita ', 13.70, 69, 'Manga', 'Cartaceo', 1998, 'productImages/books/Naruto.jpg', '9788804670687', 'Masashi Kishimoto', '20');
 
 INSERT INTO cliente (Email, Username, `Password`, Nome, Cognome, `Data nascita`, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV)
 VALUES 
@@ -69,4 +76,3 @@ VALUES
 INSERT INTO amministratore (Email)
 VALUES
 ('admin@gmail.com');
-

@@ -53,21 +53,24 @@
     display: none;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1000;
-    overflow-x: hidden; /* Evita che il menu si espanda oltre i bordi */
+    overflow-x: hidden;
   	max-height: 400px;
   	overflow-y: auto;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    box-sizing: border-box; /* Assicura che padding e bordo siano inclusi nella larghezza */
+    box-sizing: border-box;
 }
 
-/* Mostra il menu quando � visibile */
+.item-blue{
+	color: rgba(9, 23, 91, 1);
+}
+
 .risultati.show {
     display: block;
 }
 
 .risultati .product {
     display: flex;
-    align-items: center; /* Allinea verticalmente gli elementi */
+    align-items: center;
     padding: 10px;
     cursor: pointer;
     width: 100%;

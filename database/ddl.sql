@@ -1,3 +1,4 @@
+drop schema if exists bookscape;
 create schema bookscape;
 use bookscape;
 
@@ -122,9 +123,6 @@ FOREIGN KEY (Gadget)
     ON UPDATE CASCADE ON DELETE CASCADE,
 FOREIGN KEY (Ordine)
 	REFERENCES ordine (ID)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-FOREIGN KEY (Gadget)
-	REFERENCES gadget (ID)
     ON UPDATE CASCADE ON DELETE CASCADE
 );
 

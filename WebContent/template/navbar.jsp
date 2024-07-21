@@ -67,16 +67,16 @@
 	        </div>
 	    </div>
 	    
-	 	<div class="container mt-4 section-menu">
+	 	<div class="container mt-4 section-menu" id="links-bar">
 	        <div id="section-links" class="d-flex justify-content-center flex-wrap">
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Romanzi</a>
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Gialli</a>
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Horror</a>
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Teen</a>
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Manga</a>
-	            <a class="section-link mx-4" href="bookCatalog.jsp">Classici</a>
-	            <a class="section-link mx-4" href="musicCatalog.jsp">CD</a>
-	            <a class="section-link mx-4" href="musicCatalog.jsp">Vinili</a>
+	            <a class="section-link mx-4" href="romanziCatalog.jsp">Romanzi</a>
+	            <a class="section-link mx-4" href="BookCatalogSearch?type=Fantasy">Fantasy</a>
+	            <a class="section-link mx-4" href="BookCatalogSearch?type=Horror">Thriller-Horror</a>
+	            <a class="section-link mx-4" href="BookCatalogSearch?type=teen">Teen</a>
+	            <a class="section-link mx-4" href="BookCatalogSearch?type=Manga">Manga</a>
+	            <a class="section-link mx-4" href="BookCatalogSearch?type=Classic">Classici</a>
+	            <a class="section-link mx-4" href="CDCatalog.jsp">CD</a>
+	            <a class="section-link mx-4" href="viniliCatalog.jsp">Vinili</a>
 	            <a class="section-link mx-4" href="gadgetCatalog.jsp">Gadget</a>
 	        </div>
 	        <div>
@@ -88,12 +88,12 @@
 	    <div id="choiceModal">
 	        <div class="modalContent">
 	            <div class="modal-section" onclick="window.location.href='UserControl?personalAreaAdmin=true'">
-	                <i class="fas fa-user-circle"></i>
+	                <i class="fas fa-user-circle item-blue"></i>
 	                <p>Area Personale</p>
 	            </div>
 	            <div class="divider"></div>
 	            <div class="modal-section" onclick="window.location.href='UserControl'">
-	                <i class="fas fa-chart-line"></i>
+	                <i class="fas fa-chart-line item-blue"></i>
 	                <p>Dashboard</p>
 	            </div>
 	        </div>

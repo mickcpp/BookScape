@@ -16,9 +16,9 @@
 	                <div class="col-md-3">
 	                    <h3>Terms and Policy</h3>
 	                    <ul class="list-unstyled">
-	                        <li><a href="#" class="text-light">Privacy Policy</a></li>
-	                        <li><a href="#" class="text-light">Terms of Service</a></li>
-	                        <li><a href="#" class="text-light">Refund Policy</a></li>
+	                        <li><a href="privacyPolicy.jsp" class="text-light">Privacy Policy</a></li>
+	                        <li><a href="termsService.jsp" class="text-light">Terms of Service</a></li>
+	                        <li><a href="refundPolicy.jsp" class="text-light">Refund Policy</a></li>
 	                    </ul>
 	                </div>
 	
@@ -26,9 +26,9 @@
 	                <div class="col-md-3">
 	                    <h3>Quick Help</h3>
 	                    <ul class="list-unstyled">
-	                        <li><a href="#" class="text-light ">Shipping Info</a></li>
-	                        <li><a href="#" class="text-light">FAQ</a></li>
-	                        <li><a href="#" class="text-light">Support</a></li>
+	                        <li><a href="shippingInfo.jsp" class="text-light ">Shipping Info</a></li>
+	                        <li><a href="faq.jsp" class="text-light">FAQ</a></li>
+	                        <li><a href="support.jsp" class="text-light">Support</a></li>
 	                    </ul>
 	                </div>
 	
@@ -36,9 +36,9 @@
 	                <div class="col-md-3">
 	                    <h3>Contact</h3>
 	                    <ul class="list-unstyled">
-	                        <li><a href="#" class="text-light">Email Us</a></li>
-	                        <li><a href="#" class="text-light">Call Us</a></li>
-	                        <li><a href="#" class="text-light">Visit Us</a></li>
+	                        <li><a href="emailUs.jsp" class="text-light">Email Us</a></li>
+	                        <li><a href="callUs.jsp" class="text-light">Call Us</a></li>
+	                        <li><a href="visitUs.jsp" class="text-light">Visit Us</a></li>
 	                    </ul>
 	                </div>
 	
@@ -47,30 +47,30 @@
 	                    <h3>Products</h3>
 	                    <div class="row">
 	                        <div class="col">
-	                            <h5>Books</h5>
+	                            <h5><a href="bookCatalog.jsp" class="text-light">Books</a></h5>
 	                            <ul class="list-unstyled">
-	                                <li><a href="#" class="text-light">Fiction</a></li>
-	                                <li><a href="#" class="text-light">Thriller</a></li>
-	                                <li><a href="#" class="text-light">Teen</a></li>
-	                                <li><a href="#" class="text-light">Educational</a></li>
+	                                <li><a href="fantasyCatalog.jsp" class="text-light">Fantasy</a></li>
+	                                <li><a href="horrorCatalog.jsp" class="text-light">Thriller</a></li>
+	                                <li><a href="teenCatalog.jsp" class="text-light">Teen</a></li>
+	                                <li><a href="classicCatalog.jsp" class="text-light">Classics</a></li>
 	                            </ul>
 	                        </div>
 	                        <div class="col">
-	                            <h5>Vinyls/CDs</h5>
+	                            <h5><a href="musicCatalog.jsp" class="text-light">Vinyls/CDs </a></h5>
 	                            <ul class="list-unstyled">
-	                                <li><a href="#" class="text-light">Rock</a></li>
-	                                <li><a href="#" class="text-light">Jazz</a></li>
-	                                <li><a href="#" class="text-light">Classical</a></li>
-	                                <li><a href="#" class="text-light">Pop</a></li>
+	                                <li><a href="MusicCatalogSearch?type=Rock" class="text-light">Rock</a></li>
+	                                <li><a href="MusicCatalogSearch?type=Hip-Hop" class="text-light">Hip-Hop</a></li>
+	                                <li><a href="MusicCatalogSearch?type=Pop" class="text-light">Pop</a></li>
+	                                <li><a href="MusicCatalogSearch?type=Miscellaneous" class="text-light">Miscellaneous</a></li>
 	                            </ul>
 	                        </div>
 	                        <div class="col">
-	                            <h5>Gadgets</h5>
+	                            <h5><a href="gadgetCatalog.jsp" class="text-light">Gadgets </a></h5>
 	                            <ul class="list-unstyled">
-	                                <li><a href="#" class="text-light">Mugs</a></li>
-	                                <li><a href="#" class="text-light">T-shirts</a></li>
-	                                <li><a href="#" class="text-light">Bookmarks</a></li>
-	                                <li><a href="#" class="text-light">Posters</a></li>
+	                                <li><a href="GadgetCatalogSearch?type=Tazza" class="text-light">Mugs</a></li>
+	                                <li><a href="GadgetCatalogSearch?type=Action" class="text-light">Figures</a></li>
+	                                <li><a href="GadgetCatalogSearch?type=Cover" class="text-light">Covers</a></li>
+	                                <li><a href="GadgetCatalogSearch?type=Poster" class="text-light">Posters</a></li>
 	                            </ul>
 	                        </div>
 	                    </div>
@@ -88,10 +88,10 @@
 	                <!-- Social Media -->
 	                <div class="col-md-2 text-md-end">
 	                    <h5>Follow Us</h5>
-	                    <a href="#" class="text-light me-2"><i class="fab fa-facebook fa-2x"></i></a>
-	                    <a href="#" class="text-light me-2"><i class="fab fa-twitter fa-2x"></i></a>
-	                    <a href="#" class="text-light me-2"><i class="fab fa-instagram fa-2x"></i></a>
-	                    <a href="#" class="text-light"><i class="fab fa-linkedin fa-2x"></i></a>
+	                    <a href="https://www.facebook.com/" class="text-light me-2"><i class="fab fa-facebook fa-2x"></i></a>
+	                    <a href="https://x.com/" class="text-light me-2"><i class="fab fa-twitter fa-2x"></i></a>
+	                    <a href="https://www.instagram.com/" class="text-light me-2"><i class="fab fa-instagram fa-2x"></i></a>
+	                    <a href="https://it.linkedin.com/" class="text-light"><i class="fab fa-linkedin fa-2x"></i></a>
 	                </div>
 	            </div>
 	        </div>
