@@ -20,7 +20,7 @@
 		<%
 	    Ordine ordine = (Ordine) request.getAttribute("ordine");
 	    Cliente clienteOrder = (Cliente) request.getAttribute("clienteOrder");
-	
+	    
 	    if (ordine == null || clienteOrder == null){
 	        response.sendRedirect("OrderControl?action=checkout");
 	        return;
@@ -81,17 +81,17 @@
 		            <h2 class="mb-4">Informazioni di fatturazione</h2>
 		            <div class="card">
 		                <div class="card-body">
-		                    <p><strong>Nome:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getNome()) %></p>
-		                    <p><strong>Cognome:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getCognome()) %></p>
+		                    <p id="nomeCliente"><strong>Nome:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getNome()) %></p>
+		                    <p id="cognomeCliente"><strong>Cognome:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getCognome()) %></p>
 		                    <p><strong>Email:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getEmail()) %></p>
-		                    <p><strong>Indirizzo di fatturazione:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getVia()) %>, <%= EscaperHTML.escapeHTML(clienteOrder.getCitta()) %>, <%= EscaperHTML.escapeHTML(clienteOrder.getCAP()) %></p>
+		                    <p id="indirizzoCliente"><strong>Indirizzo di fatturazione:</strong> <%= EscaperHTML.escapeHTML(clienteOrder.getVia()) %>, <%= EscaperHTML.escapeHTML(clienteOrder.getCitta()) %>, <%= EscaperHTML.escapeHTML(clienteOrder.getCAP()) %></p>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		
 		    <!-- Informazioni di spedizione -->
-		    <div class="row mb-4 mt-4 mt-md-0">
+		    <div class="row mb-4 mt-4 mt-md-0 checkout-billing-info">
 		        <div class="col-lg-8">
 		            <h2 class="mb-4">Dati di spedizione</h2>
 		            <div class="card">
@@ -103,9 +103,9 @@
 		                            <label class="form-check-label" for="useShippingForBilling">Utilizza indirizzo di fatturazione per la spedizione</label>
 		                        </div>
 		                    </form>
-		                    <p><strong>Nome:</strong> <%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) %></p>
-		                    <p><strong>Cognome:</strong> <%= EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %></p>
-		                    <p><strong>Indirizzo di Spedizione:</strong> <%= EscaperHTML.escapeHTML(ordine.getVia()) %>, <%= EscaperHTML.escapeHTML(ordine.getCitta()) %>, <%= EscaperHTML.escapeHTML(ordine.getCAP()) %></p>
+		                    <p id="nomeConsegna"><strong>Nome:</strong> <%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) %></p>
+		                    <p id="cognomeConsegna"><strong>Cognome:</strong> <%= EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %></p>
+		                    <p id="indirizzoConsegna"><strong>Indirizzo di Spedizione:</strong> <%= EscaperHTML.escapeHTML(ordine.getVia()) %>, <%= EscaperHTML.escapeHTML(ordine.getCitta()) %>, <%= EscaperHTML.escapeHTML(ordine.getCAP()) %></p>
 		                </div>
 		            </div>
 		        </div>

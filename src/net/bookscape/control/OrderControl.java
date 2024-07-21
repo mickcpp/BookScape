@@ -122,7 +122,7 @@ public class OrderControl extends HttpServlet {
             ordine.setVia(via);
             ordine.setCitta(citta);
             ordine.setCAP(cap);
-                
+            
             request.getSession().setAttribute("fatturazioneCheckbox", false);  	
         } else {
         	ordine.setVia(cliente.getVia());
@@ -136,7 +136,9 @@ public class OrderControl extends HttpServlet {
         request.setAttribute("clienteOrder", cliente);
         
         if (request.getParameter("option") != null && request.getParameter("option").equals("updateSpedizione")) {
-        	redirect(request, response, "OrderControl?action=checkout", "Dati di spedizione aggiornati!", false);
+        	request.getSession().setAttribute("feedback", "Dati di spedizione aggiornati!");
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");
+        	dispatcher.forward(request, response);
         	return;
         } else {
         	RequestDispatcher dispatcher = request.getRequestDispatcher("checkout.jsp");
