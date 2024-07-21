@@ -50,7 +50,7 @@
                         <input type="hidden" name="productId" value="<%= libro.getId() %>">
                         <input type="hidden" name="type" value="<%= libro.getClass().getSimpleName().toLowerCase() %>">
                         <input type="hidden" name="action" value="aggiungi">
-                        <input type="hidden" name="redirect" value="BookCatalog"">
+                        <input type="hidden" name="redirect" value="BookCatalog">
                         <input type="submit" value="Aggiungi al carrello" class="add-to-cart">
                     </form>
                 </div>

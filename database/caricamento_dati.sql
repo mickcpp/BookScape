@@ -11,8 +11,8 @@ VALUES
 (3008, 'Thriller', 'Vinile 33 giri', 22.99, 'productImages/musics/Vinile MJ.jpg', 180, 'Pop', 'Vinile', 2023, 9, 'Michael Jackson'),
 (3009, 'The Wall', 'Compact Disc', 16.99, 'productImages/musics/CD PinkFloyd.jpg', 110, 'Rock', 'CD', 2022, 26, 'Pink Floyd'),
 (3010, 'Born to Run', 'Vinile 33 giri', 18.99, 'productImages/musics/Vinile Bruce.jpg', 90, 'Rock', 'Vinile', 2023, 8, 'Bruce Springsteen'),
-(3011, 'Greatest Hits', 'Compact Disc', 15.99, 'productImages/musics/CD EltonJohn.jpg', 150, 'Pop', 'CD', 2021, 12, 'Elton John'),
-(3012, 'Legend', 'Vinile 33 giri', 20.99, 'productImages/musics/Vinile BobMarley.jpg', 160, 'Reggae', 'Vinile', 2023, 14, 'Bob Marley'),
+(3011, 'Greatest Hits', 'Compact Disc', 15.99, 'productImages/musics/CD ElthonJonh.jpg', 150, 'Pop', 'CD', 2021, 12, 'Elton John'),
+(3012, 'Legend', 'Vinile 33 giri', 20.99, 'productImages/musics/Vinile BobMarley_.jpg', 160, 'Reggae', 'Vinile', 2023, 14, 'Bob Marley'),
 (3013, 'Hotel California', 'Vinile 33 giri', 21.99, 'productImages/musics/Vinile Eagles.jpg', 180, 'Rock', 'Vinile', 2023, 9, 'Eagles'),
 (3014, 'Purple Rain', 'Compact Disc', 14.99, 'productImages/musics/CD Prince.jpg', 130, 'Pop', 'CD', 2022, 9, 'Prince'),
 (3015, 'The Chronic', 'Vinile 33 giri', 25.99, 'productImages/musics/Vinile DrDre.jpg', 110, 'Hip-Hop', 'Vinile', 2023, 16, 'Dr. Dre'),
@@ -35,7 +35,22 @@ VALUES
 ('Portachiavi Batman', 'Portachiavi metallico con logo di Batman', 4.99, 200,  'Metallo', 'productImages/gadgets/portachiavi batman.jpg', 5.0, 2.0, 0.5),
 ('Tazza Star Wars', 'Tazza in ceramica con logo di Star Wars', 9.99, 100,  'Ceramica', 'productImages/gadgets/Tazza Star Wars.jpg', 4.0, 3.5, 4.5),
 ('Penna multicolore', 'Penna a sfera con impugnatura in gomma, con molteplici colori', 1.99, 500,  'Plastica', 'productImages/gadgets/Penna multicolore.jpg', 6.0, 0.5, 0.5),
-('Porta Cellulare One-Piece', 'Porta cellulare da scrivania con adattatore e presa anti-scivolo', 7.99, 150, 'Plastica', 'productImages/gadgets/Porta cellulare One Piece.jpg', 7.5, 4.0, 2.0);
+('Porta Cellulare One-Piece', 'Porta cellulare da scrivania con adattatore e presa anti-scivolo', 7.99, 150, 'Plastica', 'productImages/gadgets/Porta cellulare One Piece.jpg', 7.5, 4.0, 2.0),
+('Tazza Spider-Man', 'Tazza in ceramica con logo di Spider-Man', 9.99, 100,  'Ceramica', 'productImages/gadgets/tazzaSpiderman.jpg', 4.0, 3.5, 4.5),
+('Tazza Pistola', 'Tazza in ceramica con manico a pistola', 9.99, 100,  'Ceramica', 'productImages/gadgets/tazzaPistola.jpg', 4.0, 3.5, 4.5),
+('Matita flessibile', 'Matita flessibile compresa di gomma', 1.99, 500,  'Plastica', 'productImages/gadgets/matita.jpg', 6.0, 0.5, 0.5),
+('Action-Figure Spider-man', 'Action-Figure raffigurante l eroe Spiderman', 24.99, 200,  'Plastica', 'productImages/gadgets/actionFigureSpiderman.jpg', 5.0, 5.0, 20.0),
+('Action-Figure Hulk', 'Action-Figure raffigurante l eroe Hulk', 24.99, 200,  'Plastica', 'productImages/gadgets/actionFigureHulk.jpg', 5.0, 5.0, 20.0),
+('Poster Murales', 'Poster largo a parete raffigurante un murales', 19.99, 100,  'Plastica', 'productImages/gadgets/posterMurales.jpeg', 30.0, 0.5, 22.0),
+('Poster City', 'Poster largo a parete raffigurante una citta di notte', 19.99, 100,  'Plastica', 'productImages/gadgets/posterCity.jpg', 30.0, 0.5, 22.0),
+('Poster Vintage', 'Poster largo a parete raffigurante un immagine stile Vintage', 19.99, 100,  'Plastica', 'productImages/gadgets/posterVintage.jpg', 30.0, 0.5, 22.0),
+('Cover Spiderman', 'Cover in gomma raffigurante Spider-Man', 9.99, 100,  'Gomma', 'productImages/gadgets/coverSpiderman.jpg', 5.0, 3.0, 11.0),
+('Cover Art', 'Cover in gomma raffigurante arte mista', 9.99, 100,  'Gomma', 'productImages/gadgets/coverArt.jpg', 5.0, 3.0, 11.0),
+('Cover Inter', 'Cover in gomma raffigurante la seconda stella dell Inter', 9.99, 100,  'Gomma', 'productImages/gadgets/coverInter.jpg', 5.0, 3.0, 11.0),
+('Penna FunkoPop', 'Penna a sfera con impugnatura in gomma, raffigurante Capitan America versione FunkoPop', 1.99, 500,  'Plastica', 'productImages/gadgets/pennaFunko.jpg', 6.0, 0.5, 0.5),
+('Penna Spider-Man', 'Penna a sfera con impugnatura in gomma, raffigurante Spider-Man', 1.99, 500,  'Plastica', 'productImages/gadgets/pennaSpiderman.jpg', 6.0, 0.5, 0.5),
+('Quaderno Spider-Man', 'Quaderno con copertina flessibile, raffigurante Spider-Man', 1.99, 500,  'Carta', 'productImages/gadgets/quadernoSpiderman.jpg', 6.0, 0.5, 0.5),
+('Quaderno Bat-Man', 'Quaderno con copertina rigida, raffigurante Bat-Man', 1.99, 500,  'Carta', 'productImages/gadgets/quadernoBatman.jpg', 6.0, 0.5, 0.5);
 
 -- Popolare la tabella 'libro'
 INSERT INTO libro (Nome, Descrizione, Prezzo, Quantità, Genere, Formato, Anno, Immagine, ISBN, Autore, `Numero pagine`)
@@ -64,7 +79,7 @@ VALUES
 ('One Piece', 'Mondo pieno i pirati e avventure', 16.99, 77, 'Manga', 'Cartaceo', 1999, 'productImages/books/Un pezzo.jpg', '9788804670621', 'Eichiro Oda', '24'),
 ('Jujutsu Kaisen', 'Stregoni che combatto maledizioni', 13.99, 93, 'Manga', 'Cartaceo', 2017, 'productImages/books/Jujutsu.jpg', '97888046706934', 'Gege Akutami', '22'),
 ('One Punch Man', 'L eroe piu forte che sia mai esistito', 17.50, 123, 'Manga', 'Cartaceo', 2012, 'productImages/books/ONE.jpg', '9788804670635', 'ONE', '43'),
-('Sakamoto Days', 'L assasino leggendario oramai ritirato', 10.00, 140, 'Manga', 'Cartaceo', 2020, 'productImages/books/Sakamoto.jpg', '9788804670693', 'Suzuki Yuuto', '30'),
+('Sakamoto Days', 'L assassino leggendario oramai ritirato', 10.00, 140, 'Manga', 'Cartaceo', 2020, 'productImages/books/Sakamoto.jpg', '9788804670693', 'Suzuki Yuuto', '30'),
 ('Ken il guerriero', 'Mondo post apocalittico dove regna sovrana la violenza', 29.99, 100, 'Manga', 'Cartaceo', 1983, 'productImages/books/Ken.jpg', '9788804670692', 'Buronson', '60'),
 ('20th Century Boys', 'Ricordi di infanzia diventano realta', 21.49, 37, 'Manga', 'Cartaceo', 1999, 'productImages/books/20th.jpg', '9788804670691', 'Naoki Urasawa', '50'),
 ('Naruto', 'Villagi dove sono presenti Ninja con particolari abilita ', 13.70, 69, 'Manga', 'Cartaceo', 1998, 'productImages/books/Naruto.jpg', '9788804670687', 'Masashi Kishimoto', '20');
