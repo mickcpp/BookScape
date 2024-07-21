@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.table-container {
+  	max-height: 400px;
+  	overflow-y: auto;
+  	overflow-x: auto;
+}
+	        
+.btn-custom {
+  	color: #fff;
+  	background-color: #dc3545;
+  	border-color: #dc3545;
+  	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	border-radius: 0.2rem;
+	margin-right: 10px;
+}
+			
+.btn-custom:hover {
+    color: #fff;
+  	background-color: #c82333;
+   	border-color: #bd2130;
+}
+
+.section-menu{
+	display: none;
+}
+	    	
+.deleteModal {
+   	display: none;
+   	position: fixed;
+   	z-index: 1000;
+   	left: 0;
+   	top: 0;
+   	width: 100%;
+   	height: 100%;
+   	overflow: auto;
+   	background-color: rgba(0,0,0,0.5);
+}
+		
+.modal-content-delete {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+		
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+ 	margin-right: 3%;
+ 	position: relative;
+    left: 20px;
+    bottom: 10px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+		
+.modal-content-delete input[type=text] {
+    padding: 10px 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-content-delete button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-content-delete button:hover {
+    background-color: #45a049;
+}
+
+#formDelete{
+	display: inline-block;
+	padding-left: 0;
+}
+
+.error-message {
+  	color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 0.4%;
+    margin-bottom: 1.55%;
+    text-align: left;
+    display: none;
+}
+
+@media (max-width: 500px) {
+	#choiceModal {
+	    top: 50%;
+	}
+}

@@ -58,12 +58,15 @@ public class ProductSearchAdmin extends HttpServlet {
               .append("<td>").append(p.getNome()).append("</td>")
               .append("<td>").append(p.getPrezzo()).append("</td>")
               .append("<td>").append(p.getQuantita()).append("</td>")
-              .append("<td>")
-              .append("<button onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
-              .append("<button onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=rimuovi'\">Elimina</button>")
+              .append("<td class=\"row\">")
+              .append("<button class=\"btn btn-primary d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
+              .append("<button class=\"btn btn-primary btn-sm d-lg-none col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
+              .append("<button class=\"btn btn-danger d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=rimuovi'\">Elimina</button>")
+              .append("<button class=\"btn btn-danger btn-sm d-lg-none col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=rimuovi'\">Elimina</button>")
               .append("</td>")
               .append("</tr>");
         }
+
 
         response.setContentType("text/html");
         response.getWriter().write(sb.toString());
