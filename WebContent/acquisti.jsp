@@ -108,7 +108,7 @@
                         %>
                             <li class="d-flex align-items-center mb-2">
                                 <img src="<%= item.getProduct().getImgURL() %>" alt="<%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %>" class="img-thumbnail me-2" style="width: 60px; height: 60px; object-fit: cover;">
-                                <p class="mb-0"><%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %> - Quantità: <%= item.getNumElementi() %> - Prezzo: € <%= item.getProduct().getPrezzo() %></p>
+                                <p class="mb-0"><%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %> - Quantità: <%= item.getNumElementi() %> - Prezzo: € <%= Math.round(item.getProduct().getPrezzo() * 100.0) / 100.0%> <small class="text-muted">(IVA incl.)</small></p>
                             </li>
                         <%
                                 }
@@ -142,6 +142,7 @@
         }
     </script>
     
+    <script src="js/scriptFeedback.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

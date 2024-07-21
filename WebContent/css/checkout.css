@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+}
+		   
+.payment-form, #checkout-billing-form, #shipping-form{
+    display: none;
+}
+		
+#searchbar-section, .section-menu{
+	display: none;
+}
+	    
+.form-group {
+ 	position: relative;
+}    
+	   
+.form-group .fa {
+    position: absolute;
+    right: 13px;
+    top: 19px;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+#payment-form .fa{
+	right: 14px;
+}
+        
+.error-message {
+  	color: #e74c3c;
+    font-size: 0.9em;
+    text-align: left;
+    display: none;
+}
+        
+.fa-cc-visa, .fa-cc-mastercard{
+ 	position: absolute;
+   	right: 8px;
+   	top: 19px;
+  	transform: translateY(-50%);
+ 	font-size: 1.3em;
+}
