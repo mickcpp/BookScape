@@ -62,6 +62,12 @@
 						      || P.getId() == 1023
 							)
 					.toList();
+			
+			List<Gadget> cartoleriaGadget = prodotti.stream()
+					.filter(p -> p instanceof Gadget)
+					.map(p -> (Gadget) p)
+					.filter(p -> p.getDescrizione().contains("Penna") || p.getDescrizione().contains("Matita") || p.getDescrizione().contains("Quaderno"))
+					.toList();
 		%>
 		
 		<%!String nomeTabella = "";%>
@@ -71,13 +77,16 @@
 		<div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
 		  <div class="carousel-inner">
 		    <div class="carousel-item active">
-		      <img src="img/offertaCarosello.jpg" class="d-block w-100" alt="...">
+		      <a href="BookCatalogSearch?type=love"><img src="img/loveCarosello.png" class="d-block w-100" alt="..."> </a>
 		    </div>
 		    <div class="carousel-item">
-		      <img src="img/tolkienCarosello.jpg" class="d-block w-100" alt="...">
+		      <a href="BookCatalogSearch?type=Tolkien"> <img src="img/tolkienCarosello.jpg" class="d-block w-100" alt="..."> </a>
 		    </div>
 		    <div class="carousel-item">
-		      <img src="img/spidermanCarosello.jpg" class="d-block w-100" alt="...">
+		      <a href="GadgetCatalogSearch?type=Spider-Man"> <img src="img/spidermanCarosello.jpg" class="d-block w-100" alt="..."> </a>
+		    </div>
+		    <div class="carousel-item">
+		      <a href="MusicCatalogSearch?type=Beatles"> <img src="img/beatlesCarosello.jpg" class="d-block w-100" alt="..."> </a>
 		    </div>
 		  </div>
 		  <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
@@ -321,6 +330,68 @@
                     <span class="visually-hidden">Previous</span>
                 </a>
                 <a class="control carousel-control-next" href="#musicCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="container-lg mt-4 mb-5">
+            <h2 class="h1 text-center mb-3 mb-md-4">Cartoleria</h2>
+            <div id="gadgetCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Gadget g : cartoleriaGadget) { if(i == 3) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img src="<%= g.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= g.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By BSGadgets</p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(g.getId()) != null) { valutazione = valutazioni.get(g.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                
+                    <div class="carousel-item">
+                        <div class="row d-flex justify-content-center">
+                            <% i = 0; for(Gadget g : cartoleriaGadget) { if(i < 3) { i++; continue; } if(i == 6) break; %>
+                            <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
+                                <div class="card mx-2 my-2">
+                                    <div class="img-container">
+                                        <a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img src="<%= g.getImgURL() %>" alt="..." class="img-fluid"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= g.getNome() %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By BSGadgets></p>
+                                        <div class="rating">
+                                            <% int valutazione = 3; if(valutazioni.get(g.getId()) != null) { valutazione = valutazioni.get(g.getId()); } for (int j = 0; j < valutazione; j++) { %>
+                                            <i class="fas fa-star"></i>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% i++; } %>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="control carousel-control-prev" href="#gadgetCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="control carousel-control-next" href="#gadgetCarousel" role="button" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </a>
