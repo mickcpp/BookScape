@@ -49,10 +49,10 @@
 	                        <div class="col">
 	                            <h5><a href="bookCatalog.jsp" class="text-light">Books</a></h5>
 	                            <ul class="list-unstyled">
-	                                <li><a href="fantasyCatalog.jsp" class="text-light">Fantasy</a></li>
-	                                <li><a href="horrorCatalog.jsp" class="text-light">Thriller</a></li>
-	                                <li><a href="teenCatalog.jsp" class="text-light">Teen</a></li>
-	                                <li><a href="classicCatalog.jsp" class="text-light">Classics</a></li>
+	                                <li><a href="BookCatalogSearch?type=Fantasy" class="text-light">Fantasy</a></li>
+	                                <li><a href="BookCatalogSearch?type=Horror" class="text-light">Thriller</a></li>
+	                                <li><a href="BookCatalogSearch?type=teen" class="text-light">Teen</a></li>
+	                                <li><a href="BookCatalogSearch?type=Classic" class="text-light">Classics</a></li>
 	                            </ul>
 	                        </div>
 	                        <div class="col">
