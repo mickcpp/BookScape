@@ -13,9 +13,8 @@
     
      <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Contattaci via Email - BookScape</h1>
-        <br>
         <br>
         <p class="text">Se hai domande o necessiti di assistenza, non esitare a contattarci via email. Compila il modulo sottostante e il nostro team di supporto ti risponderà il prima possibile.</p>
         

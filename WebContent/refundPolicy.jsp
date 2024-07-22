@@ -13,9 +13,8 @@
     
     <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Politica di Rimborso</h1>
-        <br>
         <br>
         <p>Benvenuti alla Politica di Rimborso di BookScape. Il nostro obiettivo è garantire la vostra soddisfazione con ogni acquisto. Vi invitiamo a leggere attentamente questa politica per comprendere i criteri e le procedure per i resi e i rimborsi.</p>
         

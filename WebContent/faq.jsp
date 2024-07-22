@@ -15,9 +15,8 @@
     
      <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">FAQ - Domande Frequenti</h1>
-        <br>
         <br>
         <p class="text-center">Benvenuti nella sezione FAQ di BookScape. Qui trovate le risposte alle domande più comuni.</p>
         
@@ -32,7 +31,7 @@
                 </div>
                 <div id="faq1" class="collapse show" aria-labelledby="faqHeading1" data-parent="#faqAccordion">
                     <div class="card-body">
-                        Accettiamo i seguenti metodi di pagamento: carte di credito (Visa, MasterCard, American Express), e bonifico bancario.
+                        Accettiamo i seguenti metodi di pagamento: carte di credito (Visa, MasterCard).
                     </div>
                 </div>
             </div>

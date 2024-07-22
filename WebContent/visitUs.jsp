@@ -13,7 +13,7 @@
     
     <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Visita il Nostro Negozio - BookScape</h1>
         <p class="text-center">Vieni a trovarci nel nostro negozio fisico per esplorare la nostra vasta collezione di libri e gadget. Saremo felici di accoglierti!</p>
         

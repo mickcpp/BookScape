@@ -42,12 +42,12 @@
 			List<Libro> scelteRedazione = prodotti.stream()
 					.filter(P -> P instanceof Libro)
 					.map(P -> (Libro) P)
-					.filter(P -> P.getId() == 1041
-						 	  || P.getId() == 1047
-						      || P.getId() == 1053
-						      || P.getId() == 1045
-						      || P.getId() == 1054
-						      || P.getId() == 1050
+					.filter(P -> P.getId() == 1056
+						 	  || P.getId() == 1048
+						      || P.getId() == 1062
+						      || P.getId() == 1065
+						      || P.getId() == 1060
+						      || P.getId() == 1061
 							)
 					.toList();
 			
@@ -77,9 +77,6 @@
 		<div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
 		  <div class="carousel-inner">
 		    <div class="carousel-item active">
-		      <a href="BookCatalogSearch?type=love"><img src="img/loveCarosello.png" class="d-block w-100" alt="..."> </a>
-		    </div>
-		    <div class="carousel-item">
 		      <a href="BookCatalogSearch?type=Tolkien"> <img src="img/tolkienCarosello.jpg" class="d-block w-100" alt="..."> </a>
 		    </div>
 		    <div class="carousel-item">
@@ -105,7 +102,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="row d-flex justify-content-center">
-                            <% int i = 0; for(Libro libro : libri) { if(i == 3) break; %>
+                            <% int i = 0; for(Libro libro : libri) { if(i < 9) { i++; continue; } if(i == 12) break;  %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">
@@ -128,7 +125,7 @@
                 
                     <div class="carousel-item">
                         <div class="row d-flex justify-content-center">
-                            <% i = 0; for(Libro libro : libri) { if(i < 3) { i++; continue; } if(i == 6) break; %>
+                            <% i = 0; for(Libro libro : libri) { if(i < 4) { i++; continue; } if(i == 7) break; %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">
@@ -151,7 +148,7 @@
                 
                     <div class="carousel-item">
                         <div class="row d-flex justify-content-center">
-                            <% i = 0; for(Libro libro : libri) { if(i < 6) { i++; continue; } if(i == 9) break; %>
+                            <% i = 0; for(Libro libro : libri) { if(i < 12) { i++; continue; } if(i == 15) break; %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">
@@ -274,7 +271,7 @@
 		
 		<hr>
 		
-		<div class="container-lg mt-4 mb-5">
+		<div class="container-lg mt-4 mb-5 mb-lg-4">
             <h2 class="h1 text-center mb-3 mb-md-4">Il meglio in vinile</h2>
             <div id="musicCarousel" class="carousel slide">
                 <div class="carousel-inner">
@@ -336,8 +333,8 @@
             </div>
         </div>
         
-        <div class="container-lg mt-4 mb-5">
-            <h2 class="h1 text-center mb-3 mb-md-4">Cartoleria</h2>
+        <div class="container-lg mb-5 pb-2">
+            <h2 class="h1 text-center mb-4 mb-md-4">Cartoleria</h2>
             <div id="gadgetCarousel" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">

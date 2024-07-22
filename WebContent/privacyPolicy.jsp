@@ -7,15 +7,14 @@
     <title>Politica sulla Privacy - BookScape</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     
 </head>
 <body>
  	<%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-7">
+    <main class="container my-4">
         <h1 class="text-center">Politica sulla Privacy</h1>
-        <br>
         <br>
         <p>Benvenuti nella pagina della Politica sulla Privacy di BookScape. A BookScape, prendiamo seriamente la vostra privacy e ci impegniamo a proteggere le vostre informazioni personali. Questa Politica sulla Privacy descrive come raccogliamo, utilizziamo e proteggiamo i vostri dati.</p>
         

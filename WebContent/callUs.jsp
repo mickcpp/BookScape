@@ -12,10 +12,8 @@
 <body>
      <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
-        <h1 class="text-center">Contattaci Telefonicamente - BookScape</h1>
-        <br>
-        <br>
+    <main class="container my-4">
+        <h2 class="text-center mb-lg-3">Contattaci Telefonicamente - BookScape</h2>
         <p class="text">Se hai domande o necessiti di assistenza, non esitare a contattarci telefonicamente. Il nostro team di supporto è disponibile per aiutarti con qualsiasi richiesta.</p>
         
         <div class="row justify-content-center">

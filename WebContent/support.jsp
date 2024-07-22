@@ -13,9 +13,8 @@
     
     <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Supporto - BookScape</h1>
-        <br>
         <br>
         <p class="text-center">Benvenuti nella sezione di supporto di BookScape. Siamo qui per aiutarti.</p>
         

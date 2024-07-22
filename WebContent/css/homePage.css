@@ -66,8 +66,17 @@
 }
 
 .carousel img{
- 	object-fit: contain;
+	object-fit: contain;
 	max-height: 640px; 
+}
+
+#musicCarousel img, #bookCarousel img{
+ 	object-fit: contain;
+	max-height: 300px; 
+}
+
+#gadgetCarousel img{
+	max-height: 150px; 
 }
       
 .carousel-control-next,
@@ -116,66 +125,73 @@
 		bottom: 0;
 		right: 0px;
 	}
+	.carousel img{
+		object-fit: cover;
+		max-height: 440px; 
+	}
 }
 
 @media (max-width: 575px) {
-	#bookCarousel .card, #musicCarousel .card{
+	#bookCarousel .card, #musicCarousel .card, #gadgetCarousel .card{
 		width: 88%;
 	}
-	#bookCarousel .card-title, #musicCarousel .card-title{
+	#bookCarousel .card-title, #musicCarousel .card-title, #gadgetCarousel .card-title{
 		font-size: 0.96rem;
 	}
 	
-	#bookCarousel .card-text, #musicCarousel .card-text{
+	#bookCarousel .card-text, #musicCarousel .card-text, #gadgetCarousel .card-text{
 		font-size: 0.94rem;
 	}
 	
-	#bookCarousel .rating, #musicCarousel .rating{
+	#bookCarousel .rating, #musicCarousel .rating, #gadgetCarousel .rating{
 		font-size: 0.8rem;
 	}
 	
-	#bookCarousel .add-to-cart, #musicCarousel .add-to-cart{
+	#bookCarousel .add-to-cart, #musicCarousel .add-to-cart, #gadgetCarousel .add-to-cart{
 		font-size: 10px;
 		padding: 8px 0;
+	}
+	#gadgetCarousel img{
+		max-height: 130px; 
 	}
 }
 
 @media (max-width: 500px) {
-	#bookCarousel .card-title, #musicCarousel .card-title{
+	#bookCarousel .card-title, #musicCarousel .card-title, #gadgetCarousel .card-title{
 		font-size: 0.93rem;
 	}
 	
-	#bookCarousel .card-text, #musicCarousel .card-text{
+	#bookCarousel .card-text, #musicCarousel .card-text, #gadgetCarousel .card-text{
 		font-size: 0.84rem;
 	}
 	
-	#bookCarousel .rating, #musicCarousel .rating{
+	#bookCarousel .rating, #musicCarousel .rating, #gadgetCarousel .rating{
 		font-size: 0.68rem;
 	}
 }
 
 @media (max-width: 450px) {
-	#bookCarousel .row > *, #musicCarousel .row > *{
+	#bookCarousel .row > *, #musicCarousel .row > *, #gadgetCarousel .row > *{
 		padding: 0;
 	}
 }
 
 @media (max-width: 370px) {
-	#bookCarousel .card-title, #musicCarousel .card-title{
+	#bookCarousel .card-title, #musicCarousel .card-title, #gadgetCarousel .card-title{
 		font-size: 0.73rem;
 	}
 	
-	#bookCarousel .card-text, #musicCarousel .card-text{
+	#bookCarousel .card-text, #musicCarousel .card-text #gadgetCarousel .card-text{
 		font-size: 66%;
 	}
 	
-	#bookCarousel .rating, #musicCarousel .rating{
+	#bookCarousel .rating, #musicCarousel .rating #gadgetCarousel .rating{
 		font-size: 0.65rem;
 	}
 }
 
 @media (max-width: 768px) {
-	#bookCarousel .control, #musicCarousel .control{
+	#bookCarousel .control, #musicCarousel .control, #gadgetCarousel .control{
 		top: auto;
 		bottom: auto;
 	}

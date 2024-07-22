@@ -14,9 +14,8 @@
    <%@ include file="template/navbar.jsp"%>
     
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Termini di Servizio</h1>
-        <br>
         <br>
         <p>Benvenuti nei Termini di Servizio di BookScape. Utilizzando il nostro sito web e i nostri servizi, accettate di essere vincolati dai seguenti termini e condizioni. Vi invitiamo a leggere attentamente questi termini prima di utilizzare il nostro sito.</p>
         

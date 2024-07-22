@@ -13,9 +13,8 @@
     
     <%@ include file="template/navbar.jsp"%>
     
-    <main class="container my-5">
+    <main class="container my-4">
         <h1 class="text-center">Informazioni di Spedizione</h1>
-        <br>
         <br>
         <p>Benvenuti alla sezione delle Informazioni di Spedizione di BookScape. Qui troverete tutte le informazioni necessarie sui metodi di spedizione, tempi di consegna e costi.</p>
         

@@ -37,8 +37,6 @@ public class BookCatalogSearch extends HttpServlet {
         Map<Integer, Integer> valutazioni = null;
         
         String tipo  =  request.getParameter("type");
-        String autore  =  request.getParameter("autor");
-
 		
 		if(tipo == null) {
 			response.sendRedirect("BookCatalog");
