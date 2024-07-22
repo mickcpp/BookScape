@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="css/catalog.css">
 		<link rel="stylesheet" href="css/feedback.css">
+		<link rel="icon" href="img/logo.png" type="image/x-icon">
 	</head>
 	<body>
 		<%@ include file="template/navbar.jsp" %>

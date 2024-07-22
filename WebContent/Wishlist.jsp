@@ -11,6 +11,7 @@
 	    <link rel="stylesheet" href="css/cart.css">
 	    <link rel="stylesheet" href="css/wishlist.css">
 	    <link rel="stylesheet" href="css/feedback.css">
+	    <link rel="icon" href="img/logo.png" type="image/x-icon">
 	</head>
 
 	<body>

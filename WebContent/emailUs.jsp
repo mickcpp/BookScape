@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contattaci via Email - BookScape</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
 </head>
 <body>
     
@@ -21,21 +22,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <form action="HomePage" method="post">
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="name">Nome:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control pt-2" id="name" name="name" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <input type="email" class="form-control pt-2" id="email" name="email" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="subject">Oggetto:</label>
-                        <input type="text" class="form-control" id="subject" name="subject" required>
+                        <input type="text" class="form-control pt-2" id="subject" name="subject" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="message">Messaggio:</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        <textarea class="form-control pt-2" id="message" name="message" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Invia</button>
                 </form>
