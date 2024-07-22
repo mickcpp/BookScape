@@ -33,6 +33,8 @@
 				response.sendRedirect("GadgetCatalog");
 				return;
 			} 
+			
+			String type = (String) request.getAttribute("type");
 		%>
 		
 		<%@ include file="template/feedbackSection.jsp" %>
@@ -50,7 +52,7 @@
 						<input type="hidden" name="productId" value="<%= gadget.getId() %>">
 						<input type="hidden" name="type" value="<%=gadget.getClass().getSimpleName().toLowerCase()%>">
 						<input type="hidden" name="action" value="aggiungi">
-						<input type="hidden" name="redirect" value="GadgetCatalog">
+						<input type="hidden" name="redirect" value="GadgetCatalogSearch?type=<%=type%>">
 						<input type="submit" value="Aggiungi al carrello" class="add-to-cart">
 					</form>
       			</div>
@@ -67,7 +69,7 @@
 						<input type="hidden" name="productId" value="<%= gadget.getId() %>">
 						<input type="hidden" name="type" value="<%=gadget.getClass().getSimpleName().toLowerCase()%>">
 						<input type="hidden" name="action" value="aggiungi">
-						<input type="hidden" name="redirect" value="GadgetCatalog">
+						<input type="hidden" name="redirect" value="GadgetCatalogSearch?type=<%=type%>">
 						<button class="bookmark" type=submit><i class="bi bi-bookmark-heart"></i></button>
 					</form>
        			</div>

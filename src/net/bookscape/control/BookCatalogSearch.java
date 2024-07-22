@@ -85,11 +85,10 @@ public class BookCatalogSearch extends HttpServlet {
         		libri2 = libri.stream()
                         .filter(l -> l.getDescrizione().contains("amore") || l.getDescrizione().contains("romantica"))
                         .collect(Collectors.toList());
-        	}
-            
+        	}            
         }
         
-
+        request.setAttribute("type", tipo);
         request.setAttribute("libri", libri2);
         request.setAttribute("valutazioni", valutazioni);
 

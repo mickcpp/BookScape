@@ -65,7 +65,8 @@ public class MusicCatalogSearch extends HttpServlet {
 		else {
 			musics2 = musics.stream().filter(m -> m.getGenere().equalsIgnoreCase(tipo)).collect(Collectors.toList());
 		}
-			
+		
+		request.setAttribute("type", tipo);
 		request.setAttribute("musics", musics2);
 		request.setAttribute("valutazioni", valutazioni);
 		

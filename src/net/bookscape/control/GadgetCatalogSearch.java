@@ -60,6 +60,7 @@ public class GadgetCatalogSearch extends HttpServlet {
 		
 		gadgetsFiltered = gadgets.stream().filter(g -> g.getDescrizione().contains(tipo)).collect(Collectors.toList());
 		
+		request.setAttribute("type", tipo);
 		request.setAttribute("gadgets", gadgetsFiltered);
 		request.setAttribute("valutazioni", valutazioni);
 		

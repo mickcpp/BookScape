@@ -36,7 +36,9 @@
         if (libri == null || libri.isEmpty() || valutazioni == null) {
             response.sendRedirect("BookCatalog");
             return;
-        } 
+        }
+        
+   		String type = (String) request.getAttribute("type");
     %>
 
     <%@ include file="template/feedbackSection.jsp" %>
@@ -54,7 +56,7 @@
                         <input type="hidden" name="productId" value="<%= libro.getId() %>">
                         <input type="hidden" name="type" value="<%= libro.getClass().getSimpleName().toLowerCase() %>">
                         <input type="hidden" name="action" value="aggiungi">
-                        <input type="hidden" name="redirect" value="BookCatalog">
+                        <input type="hidden" name="redirect" value="BookCatalogSearch?type=<%=type%>">
                         <input type="submit" value="Aggiungi al carrello" class="add-to-cart">
                     </form>
                 </div>
@@ -76,7 +78,7 @@
                         <input type="hidden" name="productId" value="<%= libro.getId() %>">
                         <input type="hidden" name="type" value="<%= libro.getClass().getSimpleName().toLowerCase() %>">
                         <input type="hidden" name="action" value="aggiungi">
-                        <input type="hidden" name="redirect" value="BookCatalog">
+                        <input type="hidden" name="redirect" value="BookCatalogSearch?type=<%=type%>">
                         <button class="bookmark" type="submit"><i class="bi bi-bookmark-heart"></i></button>
                     </form>
                 </div>
