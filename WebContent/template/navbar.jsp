@@ -23,10 +23,10 @@
 		                    <a class="nav-link text-white" href="./">Home</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link text-white" href="contatti.jsp">Contatti</a>
+		                    <a class="nav-link text-white" href="emailUs.jsp">Contatti</a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link text-white" href="assistenza.jsp">Assistenza clienti</a>
+		                    <a class="nav-link text-white" href="support.jsp">Assistenza clienti</a>
 		                </li>
 		            </ul>
 		        </div>
