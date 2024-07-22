@@ -81,3 +81,15 @@
 #wishlist-form button{
 	color: black;
 }
+
+.booksContainer img, .musicContainer img{
+ 	object-fit: fill;
+ 	max-height: 285px; 
+ 	min-width: 100%;
+}
+
+.gadgetsContainer img{
+	object-fit: contain;
+	max-height: 150px; 
+	min-width: 100%;
+}
