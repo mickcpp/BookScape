@@ -97,7 +97,7 @@
 		if(carrello != null && !carrello.getItems().isEmpty()){
 			%>
 			<div class="row text-center">
-				<button class="btn btn-primary item-blue text-white my-2 mb-4 mx-auto col-7 col-md-6 col-lg-4" onclick="location.href='OrderControl?action=checkout';">Procedi all'acquisto</button>
+				<button class="btn btn-primary item-background-blue text-white my-2 mb-4 mx-auto col-7 col-md-6 col-lg-4" onclick="location.href='OrderControl?action=checkout';">Procedi all'acquisto</button>
 			</div>
 			<%
 		}

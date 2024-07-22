@@ -35,11 +35,11 @@
     color: #8B0000;
 }
 
-.item-blue{
+.item-background-blue{
 	background-color: rgba(9, 23, 91, 1);
 }
 		
-.item-blue:hover{
+.item-background-blue:hover{
 	background-color: rgba(9, 70, 91, 1);
 }
 

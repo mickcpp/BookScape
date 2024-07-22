@@ -221,11 +221,11 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	    Collection<CartItem> prodotti = new ArrayList<CartItem>();
 
 	    String queryLibri = "SELECT Ordine, Quantità, `Prezzo acquisto`, libro "
-	            + "FROM `Acquisto libro` WHERE Ordine = ?";
+	            + "FROM `acquisto libro` WHERE Ordine = ?";
 	    String queryGadget = "SELECT Ordine, Quantità, `Prezzo acquisto`, gadget "
-	            + "FROM `Acquisto gadget` WHERE Ordine = ?";
+	            + "FROM `acquisto gadget` WHERE Ordine = ?";
 	    String queryMusica = "SELECT Ordine, Quantità, `Prezzo acquisto`, musica "
-	            + "FROM `Acquisto musica` WHERE Ordine = ?";
+	            + "FROM `acquisto musica` WHERE Ordine = ?";
 
 	    ProductModelDM productModel = new ProductModelDM();
 	    
