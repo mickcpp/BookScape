@@ -37,7 +37,7 @@ VALUES
 ('Penna multicolore', 'Penna a sfera con impugnatura in gomma, con molteplici colori', 1.99, 500,  'Plastica', 'productImages/gadgets/Penna multicolore.jpg', 6.0, 0.5, 0.5),
 ('Porta Cellulare One-Piece', 'Porta cellulare da scrivania con adattatore e presa anti-scivolo', 7.99, 150, 'Plastica', 'productImages/gadgets/Porta cellulare One Piece.jpg', 7.5, 4.0, 2.0),
 ('Tazza Spider-Man', 'Tazza in ceramica con logo di Spider-Man', 9.99, 100,  'Ceramica', 'productImages/gadgets/tazzaSpiderman.jpg', 4.0, 3.5, 4.5),
-('Tazza Pistola', 'Tazza in ceramica con manico a pistola', 9.99, 100,  'Ceramica', 'productImages/gadgets/tazzaPistola.jpg', 4.0, 3.5, 4.5),
+('Tazza Pistola', 'Tazza in ceramica con manico a pistola', 9.99, 100,  'Ceramica', 'productImages/gadgets/tazzaPistola.png', 4.0, 3.5, 4.5),
 ('Matita flessibile', 'Matita flessibile compresa di gomma', 1.99, 500,  'Plastica', 'productImages/gadgets/matita.jpg', 6.0, 0.5, 0.5),
 ('Action-Figure Spider-man', 'Action-Figure raffigurante l eroe Spiderman', 24.99, 200,  'Plastica', 'productImages/gadgets/actionFigureSpiderman.jpg', 5.0, 5.0, 20.0),
 ('Action-Figure Hulk', 'Action-Figure raffigurante l eroe Hulk', 24.99, 200,  'Plastica', 'productImages/gadgets/actionFigureHulk.jpg', 5.0, 5.0, 20.0),
