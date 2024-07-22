@@ -58,7 +58,7 @@
 	
 	<context-param>
         <param-name>uploadLocation</param-name>
-        <param-value>C:\Users\marco\OneDrive\Desktop\github\BookScape\WebContent\productImages</param-value>
+        <param-value>C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\BookScape\productImages</param-value>
     </context-param>
 	
 	<session-config>
