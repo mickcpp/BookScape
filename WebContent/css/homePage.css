@@ -71,8 +71,8 @@
 }
 
 #musicCarousel img, #bookCarousel img{
- 	object-fit: contain;
-	max-height: 285px; 
+ 	object-fit: fill;
+	max-height: 280px; 
 }
 
 #gadgetCarousel img{
@@ -116,6 +116,12 @@
 	}
 }
 
+@media (max-width: 685px) {
+	#musicCarousel img, #bookCarousel img{
+		max-height: 240px; 
+	}
+}
+	
 @media (max-width: 875px) {
 	#editorialChoises .carousel-control-prev{
 		top: 0;
