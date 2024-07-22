@@ -79,11 +79,9 @@
 	max-height: 150px; 
 }
       
-@media (prefers-color-scheme: light) {
-    .carousel-control-next,
-    .carousel-control-prev {
-        filter: invert(100%);
-    }
+.carousel-control-next,
+.carousel-control-prev {
+    filter: invert(50%);
 }
 
 #wishlist-form button{
