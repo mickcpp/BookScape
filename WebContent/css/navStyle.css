@@ -96,6 +96,12 @@
     background-color: #f0f0f0;
 }
 
+@media (prefers-color-scheme: dark) {
+    #nomeSito {
+        filter: invert(60%);
+    }
+}
+
 #zona_utente ::-webkit-scrollbar {
     width: 5px;
 }

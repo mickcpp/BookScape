@@ -37,7 +37,7 @@
 	        <div class="row align-items-center">
 	            <div class="col-lg-4 col-md-4 d-none d-md-block">
 	                <a class="navbar-brand" href="./">
-	                    <img src="img/nomeSito.png" alt="Bookscape" class="navbar-logo img-fluid">
+	                    <img id="nomeSito" src="img/nomeSito.png" alt="Bookscape" class="navbar-logo img-fluid">
 	                </a>
 	            </div>
 	            <div class="col-lg-6 col-md-5 col-sm-9 col-7">
