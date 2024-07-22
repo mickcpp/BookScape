@@ -168,7 +168,7 @@
 	                    <div class="card-body">
 	                        <div class="d-flex align-items-center mb-3">
 	                            <div class="avatar me-2" data-email="<%= email %>"><%= initials %></div>
-	                            <h5 id="emailRecensione" class="h5 mb-0"><%= recensione.getCliente() %></h5>
+	                            <h5 id="emailRecensione" class="h5 mb-0"><%= email.equals(id) ? "Tu" : EscaperHTML.escapeHTML(email) %></h5>
 	                        </div>
 	                        <p class="card-text mb-2"><%= EscaperHTML.escapeHTML(recensione.getRecensione()) %></p>
 	                        
