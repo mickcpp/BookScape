@@ -69,7 +69,7 @@
 				                    </form>
 		                        </div>
 		                        <div class="card-body">
-		                       		<h5 class="card-title"><%= product.getNome() %></h5>
+		                       		<h5 class="card-title"><%= EscaperHTML.escapeHTML(product.getNome()) %></h5>
 		                           	<div class="row mt-3">
 			                            <p class="col-9 my-0 py-0"><strong>Prezzo:</strong> <%= product.getPrezzo() %></p>
 			                          

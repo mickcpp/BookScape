@@ -47,7 +47,7 @@
 	                            </a>
 	                        </div>
 	                        <div class="card-body">
-	                            <h5 class="card-title"><%= item.getProduct().getNome() %></h5>
+	                            <h5 class="card-title"><%= EscaperHTML.escapeHTML(item.getProduct().getNome())%></h5>
 	                            <p class="my-0 py-0"><strong>Prezzo:</strong> <%= item.getProduct().getPrezzo() %></p>
 	                            <p class="my-0 py-0"><strong>Quantità:</strong> <%= item.getNumElementi() %></p>
 	                            <p class="my-0 py-0"><strong>Prezzo totale:</strong> <%= item.getTotalCost() %></p>
