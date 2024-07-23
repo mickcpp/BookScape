@@ -173,7 +173,7 @@
 								<button class="btn btn-success d-none d-lg-inline-block col-auto my-1" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=admin'">Promuovi ad admin</button>
 								<button class="btn btn-success btn-sm d-lg-none col-auto my-1" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=admin'">Promuovi ad admin</button>
 		                        <form id="formDelete" action="UserManagement" method="post">
-		                            <input type="hidden" name="id" value="<%=cliente.getEmail()%>">
+		                            <input type="hidden" name="id" value="<%=EscaperHTML.escapeHTML(cliente.getEmail())%>">
 		                            <input type="hidden" name="action" value="rimuovi">
 									<button type="button" class="btn btn-danger d-none d-lg-inline-block col-auto my-1" id="deleteButton" onclick="openModal()">Elimina</button>
 									<button type="button" class="btn btn-danger btn-sm d-lg-none col-auto my-1" id="deleteButton" onclick="openModal()">Elimina</button>

@@ -58,8 +58,8 @@
       			</div>
         
         		<div class="card-body">
-           			<h5 class="card-title"><%= musica.getNome() %></h5>
-          			<p class="card-text">By <%= musica.getArtista() %></p>
+           			<h5 class="card-title"><%= EscaperHTML.escapeHTML(musica.getNome()) %></h5>
+          			<p class="card-text">By <%= EscaperHTML.escapeHTML(musica.getArtista()) %></p>
            			<div class="rating me-2">
 		              	<% int valutazione = 3; if(valutazioni.get(musica.getId()) != null) { valutazione = valutazioni.get(musica.getId()); } for (int j = 0; j < valutazione; j++) { %>
 		                	<i class="fas fa-star"></i>

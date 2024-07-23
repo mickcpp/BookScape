@@ -111,8 +111,8 @@
                                         <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= libro.getNome() %></h5>
-                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=EscaperHTML.escapeHTML(libro.getAutore()) %></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
                                             <i class="fas fa-star"></i>
@@ -134,8 +134,8 @@
                                         <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= libro.getNome() %></h5>
-                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=EscaperHTML.escapeHTML(libro.getAutore()) %></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
                                             <i class="fas fa-star"></i>
@@ -157,8 +157,8 @@
                                         <a href="ProductDetails?productId=<%=libro.getId()%>&type=<%=libro.getClass().getSimpleName().toLowerCase()%>"><img src="<%= libro.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= libro.getNome() %></h5>
-                                        <p class="card-text mb-0 mb-sm-1">By <%=libro.getAutore() %></p>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=EscaperHTML.escapeHTML(libro.getAutore()) %></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
                                             <i class="fas fa-star"></i>
@@ -204,8 +204,8 @@
 									</form>
 				      			</div>
 		            			<div class="card-body">
-		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-		              				<p class="card-text">By <%=libro.getAutore() %></p>
+		              				<h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+		              				<p class="card-text">By <%= EscaperHTML.escapeHTML(libro.getAutore()) %></p>
 		              				<div class="rating me-2">
 		                				<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
 		                  					<i class="fas fa-star"></i>
@@ -239,8 +239,8 @@
 									</form>
 				      			</div>
 	            				<div class="card-body">
-		              				<h5 class="card-title"><%= libro.getNome() %></h5>
-	              					<p class="card-text">By <%=libro.getAutore() %></p>
+		              				<h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+	              					<p class="card-text">By <%= EscaperHTML.escapeHTML(libro.getAutore()) %></p>
 		              				<div class="rating me-2">
 					              	<% int valutazione = 3; if(valutazioni.get(libro.getId()) != null) { valutazione = valutazioni.get(libro.getId()); } for (int j = 0; j < valutazione; j++) { %>
 					                	<i class="fas fa-star"></i>
@@ -286,8 +286,8 @@
                                         <a href="ProductDetails?productId=<%=musica.getId()%>&type=<%=musica.getClass().getSimpleName().toLowerCase()%>"><img src="<%= musica.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= musica.getNome() %></h5>
-                                        <p class="card-text mb-0 mb-sm-1">By <%=musica.getArtista() %></p>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(musica.getNome()) %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%=EscaperHTML.escapeHTML(musica.getArtista()) %></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(musica.getId()) != null) { valutazione = valutazioni.get(musica.getId()); } for (int j = 0; j < valutazione; j++) { %>
                                             <i class="fas fa-star"></i>
@@ -309,8 +309,8 @@
                                         <a href="ProductDetails?productId=<%=musica.getId()%>&type=<%=musica.getClass().getSimpleName().toLowerCase()%>"><img src="<%= musica.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= musica.getNome() %></h5>
-                                        <p class="card-text mb-0 mb-sm-1">By <%=musica.getArtista() %></p>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(musica.getNome()) %></h5>
+                                        <p class="card-text mb-0 mb-sm-1">By <%= EscaperHTML.escapeHTML(musica.getArtista()) %></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(musica.getId()) != null) { valutazione = valutazioni.get(musica.getId()); } for (int j = 0; j < valutazione; j++) { %>
                                             <i class="fas fa-star"></i>
@@ -348,7 +348,7 @@
                                         <a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img src="<%= g.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= g.getNome() %></h5>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(g.getNome()) %></h5>
                                         <p class="card-text mb-0 mb-sm-1">By BSGadgets</p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(g.getId()) != null) { valutazione = valutazioni.get(g.getId()); } for (int j = 0; j < valutazione; j++) { %>
@@ -371,7 +371,7 @@
                                         <a href="ProductDetails?productId=<%=g.getId()%>&type=<%=g.getClass().getSimpleName().toLowerCase()%>"><img src="<%= g.getImgURL() %>" alt="..." class="img-fluid"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title"><%= g.getNome() %></h5>
+                                        <h5 class="card-title"><%= EscaperHTML.escapeHTML(g.getNome()) %></h5>
                                         <p class="card-text mb-0 mb-sm-1">By BSGadgets></p>
                                         <div class="rating">
                                             <% int valutazione = 3; if(valutazioni.get(g.getId()) != null) { valutazione = valutazioni.get(g.getId()); } for (int j = 0; j < valutazione; j++) { %>

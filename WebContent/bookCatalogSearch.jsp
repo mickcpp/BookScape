@@ -58,8 +58,8 @@
                     </form>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title"><%= libro.getNome() %></h5>
-                    <p class="card-text">By <%= libro.getAutore() %></p>
+                    <h5 class="card-title"><%= EscaperHTML.escapeHTML(libro.getNome()) %></h5>
+                    <p class="card-text">By <%= EscaperHTML.escapeHTML(libro.getAutore()) %></p>
                     <div class="rating me-2">
                         <% 
                             int valutazione = 3;

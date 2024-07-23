@@ -82,19 +82,19 @@
 		            <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 		            <div class="form-group mb-2">
 		                <label for="username">Username:</label>
-		                <input type="text" id="username" name="username" class="form-control" value="${cliente.getUsername()}" required>
+		                <input type="text" id="username" name="username" class="form-control" value="${EscaperHTML.escapeHTML(cliente.getUsername())}" required>
 		                <i class="fa fa-user" style="right: 14px"></i>
 		                <div class="error-message"></div>
 		            </div>
 		            <div class="form-group mb-2">
 		                <label for="nome">Nome:</label>
-		                <input type="text" id="nome" name="nome" class="form-control" value="${cliente.getNome()}" required>
+		                <input type="text" id="nome" name="nome" class="form-control" value="${EscaperHTML.escapeHTML(cliente.getNome())}" required>
 		                <i class="fa fa-id-card"></i>
 		                <div class="error-message"></div>
 		            </div>
 		            <div class="form-group mb-2">
 		                <label for="cognome">Cognome:</label>
-		                <input type="text" id="cognome" name="cognome" class="form-control" value="${cliente.getCognome()}" required>
+		                <input type="text" id="cognome" name="cognome" class="form-control" value="${EscaperHTML.escapeHTML(cliente.getCognome())}" required>
 		                <i class="fa fa-id-card"></i>
 		                <div class="error-message"></div>
 		            </div>
@@ -107,7 +107,7 @@
 		            %>
 		            <div class="form-group mb-3">
 		                <label for="dataNascita">Data di Nascita:</label>
-		                <input type="date" id="dataNascita" name="dataNascita" class="form-control" value="<%= formattedDate %>" required>
+		                <input type="date" id="dataNascita" name="dataNascita" class="form-control" value="<%= EscaperHTML.escapeHTML(formattedDate) %>" required>
 		                <div class="error-message"></div>
 		            </div>
 		            <button type="submit" class="btn btn-primary mb-5">Salva Modifiche</button>

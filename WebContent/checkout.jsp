@@ -160,11 +160,11 @@
 				    <div class="mt-3 mb-5">
 				 		<form action="OrderControl" method="post" style="position: relative">
 				            <input type="hidden" name="action" value="acquista">
-				            <input type="hidden" name="nomeConsegna" value="<%= ordine.getNomeConsegna() %>">
-				            <input type="hidden" name="cognomeConsegna" value="<%= ordine.getCognomeConsegna() %>">
-				            <input type="hidden" name="viaConsegna" value="<%= ordine.getVia() %>">
-				            <input type="hidden" name="cittaConsegna" value="<%= ordine.getCitta() %>">
-				            <input type="hidden" name="capConsegna" value="<%= ordine.getCAP() %>">
+				            <input type="hidden" name="nomeConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) %>">
+				            <input type="hidden" name="cognomeConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %>">
+				            <input type="hidden" name="viaConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getVia()) %>">
+				            <input type="hidden" name="cittaConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCitta()) %>">
+				            <input type="hidden" name="capConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCAP()) %>">
 				            <button style="position: absolute" type="submit" class="btn btn-success <% if (carta == null || carta.getNomeCarta() == null || carta.getNumeroCarta() == null || carta.getDataScadenza() == null) { %> disabled <% } %>">Conferma Acquisto</button>
 				        </form>
 				    </div>

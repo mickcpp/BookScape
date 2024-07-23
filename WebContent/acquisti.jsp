@@ -73,17 +73,17 @@
                         <input type="hidden" name="orderId" value="<%= ordine.getId() %>">
                         <input type="hidden" name="fatturaId" value="<%= index %>">
                         <input type="hidden" name="dataAcquisto" value="<%= dateFormatter.format(ordine.getDataOrdine().getTime()) %>">
-                        <input type="hidden" name="nomeCompletoConsegna" value="<%= ordine.getNomeConsegna() + " " + ordine.getCognomeConsegna() %>">
-                        <input type="hidden" name="viaConsegna" value="<%= ordine.getVia() %>">
-                        <input type="hidden" name="cittaConsegna" value="<%= ordine.getCitta() %>">
-                        <input type="hidden" name="capConsegna" value="<%= ordine.getCAP() %>">
+                        <input type="hidden" name="nomeCompletoConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) + " " + EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %>">
+                        <input type="hidden" name="viaConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getVia()) %>">
+                        <input type="hidden" name="cittaConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCitta()) %>">
+                        <input type="hidden" name="capConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCAP()) %>">
                         <input type="hidden" name="numeroProdotti" value="<%= ordine.getProdotti().size() %>">
                         <%
                             int i = 1;
                             for (CartItem item : ordine.getProdotti()) {
                         %>
                             <input type="hidden" name="tipo<%= i %>" value="<%= item.getProduct().getClass().getSimpleName() %>">
-                            <input type="hidden" name="nome<%= i %>" value="<%= item.getProduct().getNome() %>">
+                            <input type="hidden" name="nome<%= i %>" value="<%= EscaperHTML.escapeHTML(item.getProduct().getNome()) %>">
                             <input type="hidden" name="quantita<%= i %>" value="<%= item.getNumElementi() %>">
                             <input type="hidden" name="prezzo<%= i %>" value="<%= item.getProduct().getPrezzo() %>">
                         <%
