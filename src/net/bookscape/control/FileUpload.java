@@ -81,7 +81,13 @@ public class FileUpload extends HttpServlet {
         	redirect(request, response, redirectEditPage, "Il file caricato ha un'estensione non consentita.", true);
             return;
         }
-
+        
+        // Verifica se il nome del file è valido
+        if (!isValidFileName(fileName)) {
+            redirect(request, response, redirectEditPage, "Il nome del file contiene caratteri non validi.", true);
+            return;
+        }
+        
         // Verifica se il contenuto è un'immagine valida
         try (InputStream fileContent = filePart.getInputStream()) {
             BufferedImage image = ImageIO.read(fileContent);
@@ -142,4 +148,9 @@ public class FileUpload extends HttpServlet {
 		}
 		return 0;
 	}
+    
+    private boolean isValidFileName(String fileName) {
+        // Permette solo lettere, numeri, trattini e punti
+        return fileName.matches("[a-zA-Z0-9._-]+");
+    }
 }
