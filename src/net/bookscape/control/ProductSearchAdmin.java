@@ -1,6 +1,7 @@
 package net.bookscape.control;
 
 import java.io.IOException;
+
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
+import utility.EscaperHTML;
 
 @WebServlet("/ProductSearchAdmin")
 public class ProductSearchAdmin extends HttpServlet {
@@ -55,7 +57,7 @@ public class ProductSearchAdmin extends HttpServlet {
         for (Product p : filteredProducts) {
             sb.append("<tr>")
               .append("<td>").append(p.getId()).append("</td>")
-              .append("<td>").append(p.getNome()).append("</td>")
+              .append("<td>").append(EscaperHTML.escapeHTML(p.getNome())).append("</td>")
               .append("<td>").append(p.getPrezzo()).append("</td>")
               .append("<td>").append(p.getQuantita()).append("</td>")
               .append("<td class=\"row\">")

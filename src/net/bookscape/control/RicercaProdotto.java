@@ -1,6 +1,7 @@
 package net.bookscape.control;
 
 import java.io.IOException;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
+import utility.EscaperHTML;
 
 @WebServlet("/RicercaProdotto")
 public class RicercaProdotto extends HttpServlet {
@@ -41,6 +43,7 @@ public class RicercaProdotto extends HttpServlet {
                 for(int i = 0; i < p.getNome().length() - 1; i++) {
                     for(int j = i + 1; j < p.getNome().length(); j++) {
                         if(((String) p.getNome().subSequence(i, j)).equalsIgnoreCase(query) && !risultato.contains(p)){
+                        	p.setNome(EscaperHTML.escapeHTML(p.getNome()));
                             risultato.add(p);
                         }
                     }
