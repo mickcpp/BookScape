@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="net.bookscape.model.Product, net.bookscape.model.Libro, net.bookscape.model.Musica, net.bookscape.model.Gadget"%>
 <%@ page import="net.bookscape.model.FormatoLibro, net.bookscape.model.FormatoMusica" %>
+<%@ page import="utility.EscaperHTML"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,13 +83,13 @@
 
                 <div class="form-group mb-3">
                     <label for="nome">Nome:</label>
-                    <input type="text" class="form-control" id="nome" name="nome" value="${prodotto.getNome()}" required>
+                    <input type="text" class="form-control" id="nome" name="nome" value="${EscaperHTML.escapeHTML(prodotto.getNome())}" required>
                     <div class="error-message"></div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="descrizione">Descrizione:</label>
-                    <textarea id="descrizione" class="form-control" rows="5" cols="25" name="descrizione" required>${prodotto.getDescrizione()}</textarea>
+                    <textarea id="descrizione" class="form-control" rows="5" cols="25" name="descrizione" required>${EscaperHTML.escapeHTML(prodotto.getDescrizione())}</textarea>
                     <div class="error-message"></div>
                 </div>
 
@@ -115,7 +116,7 @@
 
                     <div class="form-group mb-3">
                         <label for="genere">Genere:</label>
-                        <input type="text" class="form-control" id="genere" name="genere" value="<%= l.getGenere()%>" required>
+                        <input type="text" class="form-control" id="genere" name="genere" value="<%= EscaperHTML.escapeHTML(l.getGenere())%>" required>
                         <div class="error-message"></div>
                     </div>
 
@@ -138,13 +139,13 @@
 
                     <div class="form-group mb-3">
                         <label for="ISBN">ISBN:</label>
-                        <input type="text" class="form-control" id="ISBN" name="ISBN" value="<%=l.getISBN()%>" required>
+                        <input type="text" class="form-control" id="ISBN" name="ISBN" value="<%=EscaperHTML.escapeHTML(l.getISBN())%>" required>
                         <div class="error-message"></div>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="autore">Autore:</label>
-                        <input type="text" class="form-control" id="autore" name="autore" value="<%=l.getAutore()%>" required>
+                        <input type="text" class="form-control" id="autore" name="autore" value="<%=EscaperHTML.escapeHTML(l.getAutore())%>" required>
                         <div class="error-message"></div>
                     </div>
 
@@ -160,7 +161,7 @@
 
                     <div class="form-group mb-3">
                         <label for="genere">Genere:</label>
-                        <input type="text" class="form-control" id="genere" name="genere" value="<%=m.getGenere()%>" required>
+                        <input type="text" class="form-control" id="genere" name="genere" value="<%=EscaperHTML.escapeHTML(m.getGenere())%>" required>
                         <div class="error-message"></div>
                     </div>
 
@@ -177,7 +178,7 @@
 
                     <div class="form-group mb-3">
                         <label for="artista">Artista:</label>
-                        <input type="text" class="form-control" id="artista" name="artista" value="<%=m.getArtista() %>" required>
+                        <input type="text" class="form-control" id="artista" name="artista" value="<%=EscaperHTML.escapeHTML(m.getArtista()) %>" required>
                         <div class="error-message"></div>
                     </div>
 
@@ -199,7 +200,7 @@
 
                     <div class="form-group mb-3">
                         <label for="materiale">Materiale:</label>
-                        <input type="text" class="form-control" id="materiale" name="materiale" value="<%=g.getMateriale()%>" required>
+                        <input type="text" class="form-control" id="materiale" name="materiale" value="<%=EscaperHTML.escapeHTML(g.getMateriale())%>" required>
                         <div class="error-message"></div>
                     </div>
 

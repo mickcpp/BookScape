@@ -44,6 +44,7 @@ public class RicercaProdotto extends HttpServlet {
                     for(int j = i + 1; j < p.getNome().length(); j++) {
                         if(((String) p.getNome().subSequence(i, j)).equalsIgnoreCase(query) && !risultato.contains(p)){
                         	p.setNome(EscaperHTML.escapeHTML(p.getNome()));
+                        	p.setImgURL(EscaperHTML.escapeHTML(p.getImgURL()));
                             risultato.add(p);
                         }
                     }
