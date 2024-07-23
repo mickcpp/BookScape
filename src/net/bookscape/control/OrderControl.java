@@ -156,6 +156,16 @@ public class OrderControl extends HttpServlet {
         	return;
         }
         
+        String csrfToken = request.getParameter("csrfToken");
+        String sessionCsrfToken = (String) request.getSession().getAttribute("csrfToken");
+        
+        if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+        
+        request.getSession().removeAttribute("csrfToken");
+        
         Ordine ordine = new Ordine();
         ordine.setProdotti(cart.getItems());
         

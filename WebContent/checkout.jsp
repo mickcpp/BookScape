@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Calendar, net.bookscape.model.CartItem"%>
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento"%>
-<%@ page import="utility.EscaperHTML"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -155,11 +155,15 @@
 		                    <% } %>
 		                </div>
 		            </div>
-		            
+		      	<%
+		            String csrfToken = UUID.randomUUID().toString();
+                	session.setAttribute("csrfToken", csrfToken);
+               	%>
 		            <!--  Pulsante conferma acquisto -->
 				    <div class="mt-3 mb-5">
 				 		<form action="OrderControl" method="post" style="position: relative">
 				            <input type="hidden" name="action" value="acquista">
+				            <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 				            <input type="hidden" name="nomeConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getNomeConsegna()) %>">
 				            <input type="hidden" name="cognomeConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getCognomeConsegna()) %>">
 				            <input type="hidden" name="viaConsegna" value="<%= EscaperHTML.escapeHTML(ordine.getVia()) %>">
