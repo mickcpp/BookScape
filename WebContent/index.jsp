@@ -80,13 +80,13 @@
 		<div id="carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
 		  <div class="carousel-inner">
 		    <div class="carousel-item active">
-		      <a href="BookCatalogSearch?type=Tolkien"> <img src="img/tolkienCarosello.jpg" class="d-block w-100" alt="..."> </a>
+		      <a href="BookCatalogSearch?type=Tolkien"> <img src="img/tolkienCarosello.webp" class="d-block w-100" alt="..."> </a>
 		    </div>
 		    <div class="carousel-item">
-		      <a href="GadgetCatalogSearch?type=Spider-Man"> <img src="img/spidermanCarosello.jpg" class="d-block w-100" alt="..."> </a>
+		      <a href="GadgetCatalogSearch?type=Spider-Man"> <img src="img/spidermanCarosello.webp" class="d-block w-100" alt="..."> </a>
 		    </div>
 		    <div class="carousel-item">
-		      <a href="MusicCatalogSearch?type=Beatles"> <img src="img/beatlesCarosello.jpg" class="d-block w-100" alt="..."> </a>
+		      <a href="MusicCatalogSearch?type=Beatles"> <img src="img/beatlesCarosello.webp" class="d-block w-100" alt="..."> </a>
 		    </div>
 		  </div>
 		  <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
