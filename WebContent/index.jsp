@@ -6,8 +6,9 @@
 	<head>
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-    	<title>Home</title>
+    	<title>BookScape - Libri, CD e Vinili Online - Spedizione Veloce e Sicura</title>
     	<meta name="description" content="Acquista libri, CD, vinili e altri media online nel nostro e-commerce. Trova edizioni rare, novità e offerte speciali con spedizione veloce e sicura.">
+    	<meta name="keywords" content="libri online, acquisto libri, CD online, vinili online, media online, edizioni rare, novità libri, offerte speciali, spedizione veloce, BookScape, libri, vinili, romanzi">
     	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 		<link rel="stylesheet" href="css/homePage.css">
