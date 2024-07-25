@@ -58,14 +58,14 @@
 	
 	<context-param>
         <param-name>uploadLocation</param-name>
-        <param-value>C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\BookScape\productImages</param-value>
+        <param-value>/opt/apache-tomcat-9.0.91/webapps/ROOT/productImages</param-value>
     </context-param>
 	
 	<session-config>
 		<session-timeout>2900</session-timeout>	
 	    <cookie-config>
 	        <http-only>true</http-only>
-<!--        <secure>true</secure>			non ancora possibile abilitarlo poiché non si sta utilizzando https -->
+            <secure>true</secure>
 	        <max-age>2600000</max-age>
 	    </cookie-config>
 	</session-config>
