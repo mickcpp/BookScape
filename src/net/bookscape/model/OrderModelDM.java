@@ -55,7 +55,7 @@ public class OrderModelDM implements OrderModel <Ordine> {
 	        
 	        preparedStatement.close();
 
-	        String insertBilling = "INSERT INTO datiFatturazione (Ordine, Nome, Cognome, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV) "
+	        String insertBilling = "INSERT INTO datifatturazione (Ordine, Nome, Cognome, Città, Via, CAP, `Nome carta`, `Numero carta`, `Data scadenza`, CVV) "
 	                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 	        preparedStatement = connection.prepareStatement(insertBilling);
 
