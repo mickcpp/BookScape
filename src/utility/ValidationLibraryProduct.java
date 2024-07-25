@@ -25,7 +25,7 @@ public interface ValidationLibraryProduct {
     }
 
     public static boolean validateGenre(String genre) {
-        String regex = "^[a-zA-Z\\s']{5,50}$";
+        String regex = "^[a-zA-Z\\s']{4,50}$";
         return Pattern.matches(regex, genre);
     }
 
