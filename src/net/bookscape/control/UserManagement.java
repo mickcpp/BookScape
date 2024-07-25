@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.bookscape.model.ClienteModelDM;
+import net.bookscape.model.CsrfTokens;
 
 /**
  * Servlet implementation class UserManagement
@@ -41,15 +42,24 @@ public class UserManagement extends HttpServlet {
 			return;
 		}
 		
-		String csrfToken = request.getParameter("csrfToken");
-        String sessionCsrfToken = (String) request.getSession().getAttribute("csrfToken");
+        CsrfTokens csrfTokens = (CsrfTokens) request.getSession().getAttribute("csrfTokens");
         
-        if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
+        if (csrfTokens == null) {
+            // Se non ci sono token, non è valido
             response.sendRedirect("./");
             return;
         }
+
+        String csrfToken = request.getParameter("csrfToken");
         
-        request.getSession().removeAttribute("csrfToken");
+        if (csrfToken == null || !csrfTokens.containsToken(csrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+
+        // Se il token è valido, rimuovilo dalla lista
+        csrfTokens.removeToken(csrfToken);
+        request.getSession().setAttribute("csrfTokens", csrfTokens);
         
 		try {	
 			if(action.equalsIgnoreCase("rimuovi")) {		        

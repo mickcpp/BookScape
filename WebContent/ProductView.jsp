@@ -36,9 +36,16 @@
 			session.removeAttribute("feedback-negative");
 			session.removeAttribute("errorMessage");
 			
-			session.removeAttribute("csrfToken");
-            String csrfToken = UUID.randomUUID().toString();
-            session.setAttribute("csrfToken", csrfToken);
+		    CsrfTokens csrfTokens = (CsrfTokens) session.getAttribute("csrfTokens");
+		    
+		    if (csrfTokens == null) {
+		        csrfTokens = new CsrfTokens();
+		    }
+
+		    // Genera un nuovo token
+		    String csrfToken = UUID.randomUUID().toString();
+		    csrfTokens.addToken(csrfToken);
+		    session.setAttribute("csrfTokens", csrfTokens);
 	    
 	        @SuppressWarnings("unchecked")
 	        List<Recensione> recensioni = (List<Recensione>) request.getAttribute("recensioni");

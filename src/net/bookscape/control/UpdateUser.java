@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.bookscape.model.CartaPagamento;
 import net.bookscape.model.Cliente;
 import net.bookscape.model.ClienteModelDM;
+import net.bookscape.model.CsrfTokens;
 import utility.ValidationUtilsCliente;
 
 /**
@@ -46,6 +47,25 @@ public class UpdateUser extends HttpServlet {
 			return;
 		}
 		
+        CsrfTokens csrfTokens = (CsrfTokens) request.getSession().getAttribute("csrfTokens");
+        
+        if (csrfTokens == null) {
+            // Se non ci sono token, non è valido
+            response.sendRedirect("./");
+            return;
+        }
+
+        String csrfToken = request.getParameter("csrfToken");
+        
+        if (csrfToken == null || !csrfTokens.containsToken(csrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+
+        // Se il token è valido, rimuovilo dalla lista
+        csrfTokens.removeToken(csrfToken);
+        request.getSession().setAttribute("csrfTokens", csrfTokens);
+        
 		String action = request.getParameter("action");
 		Cliente cliente = null;
 		

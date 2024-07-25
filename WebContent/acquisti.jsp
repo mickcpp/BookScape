@@ -1,6 +1,6 @@
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, java.util.Collection, java.text.SimpleDateFormat" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator, java.util.UUID"%>
-<%@ page import="utility.EscaperHTML" %>
+<%@ page import="utility.EscaperHTML, net.bookscape.model.CsrfTokens" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -59,9 +59,16 @@
     
                 int index = ordini.size();
                 
-                session.removeAttribute("csrfToken");
-                String csrfToken = UUID.randomUUID().toString();
-                session.setAttribute("csrfToken", csrfToken);
+    		    CsrfTokens csrfTokens = (CsrfTokens) session.getAttribute("csrfTokens");
+    		    
+    		    if (csrfTokens == null) {
+    		        csrfTokens = new CsrfTokens();
+    		    }
+
+    		    // Genera un nuovo token
+    		    String csrfToken = UUID.randomUUID().toString();
+    		    csrfTokens.addToken(csrfToken);
+    		    session.setAttribute("csrfTokens", csrfTokens);
                 
                 while (listIterator.hasPrevious()) {
                     Ordine ordine = listIterator.previous();
@@ -140,7 +147,7 @@
             
             setTimeout(function() {
                 location.reload();
-            }, 90); // 90 millisecondi di ritardo prima di aggiornare la pagina
+            }, 165); // 165 millisecondi di ritardo prima di aggiornare la pagina
         }
     </script>
     

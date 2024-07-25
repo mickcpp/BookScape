@@ -19,6 +19,7 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 import net.bookscape.model.Cliente;
+import net.bookscape.model.CsrfTokens;
 import net.bookscape.model.OrderModelDM;
 import utility.CardPaymentDetect;
 
@@ -48,17 +49,24 @@ public class FatturaDownload extends HttpServlet {
     		return;
     	}
     	
-        // Verifica il token CSRF
-        String csrfToken = request.getParameter("csrfToken");
-        String sessionCsrfToken = (String) session.getAttribute("csrfToken");
+        CsrfTokens csrfTokens = (CsrfTokens) request.getSession().getAttribute("csrfTokens");
         
-        if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
-            // Token CSRF non valido
+        if (csrfTokens == null) {
+            // Se non ci sono token, non è valido
             response.sendRedirect("./");
             return;
         }
+
+        String csrfToken = request.getParameter("csrfToken");
         
-        session.removeAttribute("csrfToken");
+        if (csrfToken == null || !csrfTokens.containsToken(csrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+
+        // Se il token è valido, rimuovilo dalla lista
+        csrfTokens.removeToken(csrfToken);
+        request.getSession().setAttribute("csrfTokens", csrfTokens);
         
     	String dataAcquisto = request.getParameter("dataAcquisto");
     	Cliente clienteFatturazione = null;

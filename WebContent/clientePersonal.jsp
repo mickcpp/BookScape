@@ -1,7 +1,7 @@
 <%@ page import="java.util.Collection" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date, java.util.Calendar"%>
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento"%>
-<%@ page import="utility.EscaperHTML, java.util.UUID"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID, net.bookscape.model.CsrfTokens"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,9 +53,16 @@
 			session.removeAttribute("feedback-negative");
 			session.removeAttribute("errorMessage");
 			
-			session.removeAttribute("csrfToken");
-            String csrfToken = UUID.randomUUID().toString();
-            session.setAttribute("csrfToken", csrfToken);
+		    CsrfTokens csrfTokens = (CsrfTokens) session.getAttribute("csrfTokens");
+		    
+		    if (csrfTokens == null) {
+		        csrfTokens = new CsrfTokens();
+		    }
+
+		    // Genera un nuovo token
+		    String csrfToken = UUID.randomUUID().toString();
+		    csrfTokens.addToken(csrfToken);
+		    session.setAttribute("csrfTokens", csrfTokens);
 	    %>
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>

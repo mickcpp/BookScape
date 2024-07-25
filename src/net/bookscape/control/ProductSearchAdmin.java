@@ -4,12 +4,15 @@ import java.io.IOException;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.bookscape.model.CsrfTokens;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
 import utility.EscaperHTML;
@@ -53,20 +56,50 @@ public class ProductSearchAdmin extends HttpServlet {
             .filter(p -> p.getNome().toLowerCase().contains(query))
             .collect(Collectors.toList());
 
+	    CsrfTokens csrfTokens = (CsrfTokens) request.getSession().getAttribute("csrfTokens");
+	    
+	    if (csrfTokens == null) {
+	        csrfTokens = new CsrfTokens();
+	    }
+
+	    // Genera un nuovo token
+	    String csrfToken = UUID.randomUUID().toString();
+	    csrfTokens.addToken(csrfToken);
+	    request.getSession().setAttribute("csrfTokens", csrfTokens);
+        
         StringBuilder sb = new StringBuilder();
         for (Product p : filteredProducts) {
-            sb.append("<tr>")
-              .append("<td>").append(p.getId()).append("</td>")
-              .append("<td>").append(EscaperHTML.escapeHTML(p.getNome())).append("</td>")
-              .append("<td>").append(p.getPrezzo()).append("</td>")
-              .append("<td>").append(p.getQuantita()).append("</td>")
-              .append("<td class=\"row\">")
-              .append("<button class=\"btn btn-primary d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
-              .append("<button class=\"btn btn-primary btn-sm d-lg-none col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
-              .append("<button class=\"btn btn-danger d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=rimuovi'\">Elimina</button>")
-              .append("<button class=\"btn btn-danger btn-sm d-lg-none col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=rimuovi'\">Elimina</button>")
-              .append("</td>")
-              .append("</tr>");
+        	sb.append("<tr>")
+        	  .append("<td>").append(p.getId()).append("</td>")
+        	  .append("<td>").append(EscaperHTML.escapeHTML(p.getNome())).append("</td>")
+        	  .append("<td>").append(p.getPrezzo()).append("</td>")
+        	  .append("<td>").append(p.getQuantita()).append("</td>")
+        	  .append("<td class=\"row\">")
+
+        	  // Modifica button for large screens
+        	  .append("<button class=\"btn btn-primary d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
+
+        	  // Modifica button for small screens
+        	  .append("<button class=\"btn btn-primary btn-sm d-lg-none col-auto my-1 my-lg-0 mx-1\" onclick=\"location.href='ProductControl?productId=").append(p.getId()).append("&action=viewEdit'\">Modifica</button>")
+
+        	  // Elimina button for large screens wrapped in a form
+        	  .append("<form action=\"ProductControl\" method=\"post\" class=\"d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-1\" style=\"padding: 0\">")
+        	  .append("<input type=\"hidden\" name=\"productId\" value=\"").append(p.getId()).append("\">")
+        	  .append("<input type=\"hidden\" name=\"action\" value=\"rimuovi\">")
+        	  .append("<input type=\"hidden\" name=\"csrfToken\" value=\"").append(csrfToken).append("\">") // Add CSRF token
+        	  .append("<button type=\"submit\" class=\"btn btn-danger\">Elimina</button>")
+        	  .append("</form>")
+
+        	  // Elimina button for small screens wrapped in a form
+        	  .append("<form action=\"ProductControl\" method=\"post\" class=\"d-lg-none col-auto my-1 my-lg-0 mx-1\" style=\"padding: 0\">")
+        	  .append("<input type=\"hidden\" name=\"productId\" value=\"").append(p.getId()).append("\">")
+        	  .append("<input type=\"hidden\" name=\"action\" value=\"rimuovi\">")
+        	  .append("<input type=\"hidden\" name=\"csrfToken\" value=\"").append(csrfToken).append("\">") // Add CSRF token
+        	  .append("<button type=\"submit\" class=\"btn btn-danger btn-sm\">Elimina</button>")
+        	  .append("</form>")
+
+        	  .append("</td>")
+        	  .append("</tr>");
         }
 
 

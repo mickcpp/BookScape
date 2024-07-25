@@ -60,9 +60,16 @@
     %>
     
     <%
-	    session.removeAttribute("csrfToken");
+	    CsrfTokens csrfTokens = (CsrfTokens) session.getAttribute("csrfTokens");
+	    
+	    if (csrfTokens == null) {
+	        csrfTokens = new CsrfTokens();
+	    }
+	
+	    // Genera un nuovo token
 	    String csrfToken = UUID.randomUUID().toString();
-	    session.setAttribute("csrfToken", csrfToken);
+	    csrfTokens.addToken(csrfToken);
+	    session.setAttribute("csrfTokens", csrfTokens);
     %>
 
     <div class="container my-4">

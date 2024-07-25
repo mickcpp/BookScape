@@ -3,7 +3,7 @@
 <%@ page import="net.bookscape.model.Libro, net.bookscape.model.Ordine" %>
 <%@ page import="net.bookscape.model.Musica, java.text.SimpleDateFormat" %>
 <%@ page import="net.bookscape.model.Gadget, java.util.Date" %>
-<%@ page import="utility.EscaperHTML, java.util.UUID"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID, net.bookscape.model.CsrfTokens"%>
 
 <!DOCTYPE html>
 <html>
@@ -52,9 +52,16 @@
 	            return;
 	        }
 	        
-	        session.removeAttribute("csrfToken");
-            String csrfToken = UUID.randomUUID().toString();
-            session.setAttribute("csrfToken", csrfToken);
+		    CsrfTokens csrfTokens = (CsrfTokens) session.getAttribute("csrfTokens");
+		    
+		    if (csrfTokens == null) {
+		        csrfTokens = new CsrfTokens();
+		    }
+
+		    // Genera un nuovo token
+		    String csrfToken = UUID.randomUUID().toString();
+		    csrfTokens.addToken(csrfToken);
+		    session.setAttribute("csrfTokens", csrfTokens);
 	    %>
 	
 	    <%@ include file="/template/navbar.jsp" %>

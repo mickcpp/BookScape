@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import net.bookscape.model.CsrfTokens;
+
 @WebServlet("/FileUpload")
 @MultipartConfig
 public class FileUpload extends HttpServlet {
@@ -50,6 +52,21 @@ public class FileUpload extends HttpServlet {
     		redirectEditPage = "ProductControl?productId=" + productId + "&action=viewEdit&type=" + request.getParameter("type");
     	}
     	
+        CsrfTokens csrfTokens = (CsrfTokens) request.getSession().getAttribute("csrfTokens");
+        
+        if (csrfTokens == null) {
+            // Se non ci sono token, non è valido
+            response.sendRedirect("./");
+            return;
+        }
+
+        String csrfToken = request.getParameter("csrfToken");
+        
+        if (csrfToken == null || !csrfTokens.containsToken(csrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+        
         Part filePart = request.getPart("immagine");
         if (filePart == null || filePart.getSize() == 0) {
         	if(action.equalsIgnoreCase("inserisci")) {
