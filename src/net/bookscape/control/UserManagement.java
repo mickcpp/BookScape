@@ -29,7 +29,7 @@ public class UserManagement extends HttpServlet {
 		model = new ClienteModelDM();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
 		String clienteId = request.getParameter("id");
@@ -41,8 +41,18 @@ public class UserManagement extends HttpServlet {
 			return;
 		}
 		
+		String csrfToken = request.getParameter("csrfToken");
+        String sessionCsrfToken = (String) request.getSession().getAttribute("csrfToken");
+        
+        if (csrfToken == null || !csrfToken.equals(sessionCsrfToken)) {
+            response.sendRedirect("./");
+            return;
+        }
+        
+        request.getSession().removeAttribute("csrfToken");
+        
 		try {	
-			if(action.equalsIgnoreCase("rimuovi")) {
+			if(action.equalsIgnoreCase("rimuovi")) {		        
 				try {
 					if(model.doDelete(clienteId)) {
 						redirect(request, response, "UserControl", "Cliente rimosso correttamente!", false);
@@ -88,9 +98,8 @@ public class UserManagement extends HttpServlet {
 		response.sendRedirect("admin/dashboard.jsp");
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
 	}
 	
 	public void redirect(HttpServletRequest request, HttpServletResponse response, String redirect, String message, boolean negative) throws ServletException, IOException {

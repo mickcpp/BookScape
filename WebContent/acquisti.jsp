@@ -59,6 +59,7 @@
     
                 int index = ordini.size();
                 
+                session.removeAttribute("csrfToken");
                 String csrfToken = UUID.randomUUID().toString();
                 session.setAttribute("csrfToken", csrfToken);
                 

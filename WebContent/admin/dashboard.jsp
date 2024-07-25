@@ -3,7 +3,7 @@
 <%@ page import="net.bookscape.model.Libro, net.bookscape.model.Ordine" %>
 <%@ page import="net.bookscape.model.Musica, java.text.SimpleDateFormat" %>
 <%@ page import="net.bookscape.model.Gadget, java.util.Date" %>
-<%@ page import="utility.EscaperHTML"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID"%>
 
 <!DOCTYPE html>
 <html>
@@ -51,6 +51,10 @@
 	            response.sendRedirect("/BookScape/UserControl");
 	            return;
 	        }
+	        
+	        session.removeAttribute("csrfToken");
+            String csrfToken = UUID.randomUUID().toString();
+            session.setAttribute("csrfToken", csrfToken);
 	    %>
 	
 	    <%@ include file="/template/navbar.jsp" %>
@@ -165,14 +169,43 @@
 		                        <%
 		                            if(admin){
 		                        %>
-		                          <button class="btn btn-warning d-none d-lg-inline-block col-auto" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=cliente'">Riporta a utente</button>
-								  <button class="btn btn-warning btn-sm d-lg-none col-auto" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=cliente'">Riporta a utente</button>
+		                         	<form method="post" action="UserManagement" class="d-none d-lg-inline-block col-auto" style="padding: 0">
+		                         		<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+									    <input type="hidden" name="id" value="<%=cliente.getEmail()%>">
+									    <input type="hidden" name="action" value="changeRole">
+									    <input type="hidden" name="role" value="cliente">
+									    <button class="btn btn-warning" type="submit">Riporta a utente</button>
+									</form>
+									
+									<form method="post" action="UserManagement" class="d-lg-none col-auto" style="padding: 0">
+										<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+									    <input type="hidden" name="id" value="<%=cliente.getEmail()%>">
+									    <input type="hidden" name="action" value="changeRole">
+									    <input type="hidden" name="role" value="cliente">
+									    <button class="btn btn-warning btn-sm" type="submit">Riporta a utente</button>
+									</form>
+		                         	
 		                        <%
 		                            } else {
 		                        %>
-								<button class="btn btn-success d-none d-lg-inline-block col-auto my-1" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=admin'">Promuovi ad admin</button>
-								<button class="btn btn-success btn-sm d-lg-none col-auto my-1" onclick="location.href='UserManagement?id=<%=cliente.getEmail()%>&action=changeRole&role=admin'">Promuovi ad admin</button>
+								<form class="d-none d-lg-inline-block" method="post" action="UserManagement" style="padding:0">
+									<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+								    <input type="hidden" name="id" value="<%=cliente.getEmail()%>">
+								    <input type="hidden" name="action" value="changeRole">
+								    <input type="hidden" name="role" value="admin">
+								    <button class="btn btn-success col-auto my-1" type="submit">Promuovi ad admin</button>
+								</form>
+								
+								<form class="d-lg-none" method="post" action="UserManagement" style="padding:0">
+									<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+								    <input type="hidden" name="id" value="<%=cliente.getEmail()%>">
+								    <input type="hidden" name="action" value="changeRole">
+								    <input type="hidden" name="role" value="admin">
+								    <button class="btn btn-success btn-sm col-auto my-1" type="submit">Promuovi ad admin</button>
+								</form>
+								
 		                        <form id="formDelete" action="UserManagement" method="post">
+		                        	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		                            <input type="hidden" name="id" value="<%=EscaperHTML.escapeHTML(cliente.getEmail())%>">
 		                            <input type="hidden" name="action" value="rimuovi">
 									<button type="button" class="btn btn-danger d-none d-lg-inline-block col-auto my-1" id="deleteButton" onclick="openModal()">Elimina</button>

@@ -156,6 +156,7 @@
 		                </div>
 		            </div>
 		      	<%
+		      		session.removeAttribute("csrfToken");
 		            String csrfToken = UUID.randomUUID().toString();
                 	session.setAttribute("csrfToken", csrfToken);
                	%>
