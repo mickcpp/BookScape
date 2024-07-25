@@ -2,7 +2,7 @@
 <%@ page import="java.util.List, java.util.ArrayList, java.util.ListIterator, java.util.UUID"%>
 <%@ page import="utility.EscaperHTML" %>
 <%@ page import="java.text.SimpleDateFormat"%>
-<%@ page import="java.util.concurrent.TimeUnit"%>
+<%@ page import="java.util.concurrent.TimeUnit, java.util.UUID"%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -58,6 +58,12 @@
             }
         }
     %>
+    
+    <%
+	    session.removeAttribute("csrfToken");
+	    String csrfToken = UUID.randomUUID().toString();
+	    session.setAttribute("csrfToken", csrfToken);
+    %>
 
     <div class="container my-4">
         <div class="row">
@@ -96,6 +102,7 @@
                                     if (recensione.getCliente().equals(id)) { // Mostra il pulsante solo se è la recensione del cliente autenticato
                                 %>
                                 <form action="RecensioneControl" method="post" style="float: right">
+                                	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="productId" value="${prodotto.getId()}">
                                     <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">

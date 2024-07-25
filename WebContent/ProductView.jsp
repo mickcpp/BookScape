@@ -35,6 +35,10 @@
 	 		session.removeAttribute("feedback");
 			session.removeAttribute("feedback-negative");
 			session.removeAttribute("errorMessage");
+			
+			session.removeAttribute("csrfToken");
+            String csrfToken = UUID.randomUUID().toString();
+            session.setAttribute("csrfToken", csrfToken);
 	    
 	        @SuppressWarnings("unchecked")
 	        List<Recensione> recensioni = (List<Recensione>) request.getAttribute("recensioni");
@@ -126,6 +130,7 @@
 	        <h3>Scrivi una Recensione</h3>
 	        <div style="display: block; margin:0" class="error-message"><%=errorMessage == null ? "" : errorMessage%></div>
 	        <form action="RecensioneControl" method="post" onsubmit="return validateForm()">
+	        	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 	            <input type="hidden" name="action" value="insert">   
 	            <input type="hidden" name="productId" value="${prodotto.getId()}">   
 	            <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">         
@@ -187,6 +192,7 @@
 	                            if (recensione.getCliente().equals(id)) { // Mostra il pulsante solo se è la recensione del cliente autenticato
 	                        %>
 	                            <form action="RecensioneControl" method="post" style="float: right">
+	                            	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 	                                <input type="hidden" name="action" value="delete">
 	                                <input type="hidden" name="productId" value="${prodotto.getId()}">
 	                                <input type="hidden" name="type" value="${prodotto.getClass().getSimpleName().toLowerCase()}">

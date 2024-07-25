@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="net.bookscape.model.Product, net.bookscape.model.Libro, net.bookscape.model.Musica, net.bookscape.model.Gadget"%>
 <%@ page import="net.bookscape.model.FormatoLibro, net.bookscape.model.FormatoMusica" %>
-<%@ page import="utility.EscaperHTML"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +63,10 @@
         String feedbackNegativo = (String) session.getAttribute("feedback-negative");
         session.removeAttribute("feedback");
         session.removeAttribute("feedback-negative");
+        
+        session.removeAttribute("csrfToken");
+        String csrfToken = UUID.randomUUID().toString();
+        session.setAttribute("csrfToken", csrfToken);
     %>
 
     <%@ include file="/template/feedbackSection.jsp" %>
@@ -77,6 +81,7 @@
             <% } %>
 
             <form action="FileUpload" method="post" enctype="multipart/form-data" onsubmit="<%= (prodotto instanceof Libro) ? "return validateLibro()" : (prodotto instanceof Musica) ? "return validateMusica()" : "return validateGadget()" %>">
+                <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
                 <input type="hidden" name="action" value="<%=action%>">
                 <input type="hidden" name="productId" id="productId" value="<%= prodotto.getId() %>">
                 <input type="hidden" name="productImageURL" id="productImageURL" value="<%= prodotto.getImgURL() %>">

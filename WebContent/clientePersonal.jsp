@@ -1,7 +1,7 @@
 <%@ page import="java.util.Collection" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.text.SimpleDateFormat, java.util.GregorianCalendar, java.util.Date, java.util.Calendar"%>
 <%@ page import="net.bookscape.model.Ordine, net.bookscape.model.CartItem, net.bookscape.model.Cliente, net.bookscape.model.CartaPagamento"%>
-<%@ page import="utility.EscaperHTML"%>
+<%@ page import="utility.EscaperHTML, java.util.UUID"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +52,10 @@
 	 		session.removeAttribute("feedback");
 			session.removeAttribute("feedback-negative");
 			session.removeAttribute("errorMessage");
+			
+			session.removeAttribute("csrfToken");
+            String csrfToken = UUID.randomUUID().toString();
+            session.setAttribute("csrfToken", csrfToken);
 	    %>
 	    
 	    <%@ include file="template/feedbackSection.jsp" %>
@@ -78,6 +82,7 @@
 		        <h2>Modifica Dati Personali</h2>
 		        <div class="error-message" role="alert"><%=errorMessage == null ? "" : errorMessage%></div>
 		        <form action="UpdateUser" method="post" onsubmit="return validateFormPersonalData()">
+		   			<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		            <input type="hidden" name="action" value="updateDatiPersonali">
 		            <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 		            <div class="form-group mb-2">
@@ -127,6 +132,7 @@
 		        <h2 class="mb-2">Modifica Indirizzo</h2>
 		        <div class="error-message" role="alert"><%=errorMessage == null ? "" : errorMessage%></div>
 		        <form action="UpdateUser" method="post" onsubmit="return validateFormAddress()">
+		        	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		            <input type="hidden" name="action" value="updateIndirizzo">
 		            <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 		            <div class="form-group mb-3">
@@ -149,6 +155,7 @@
 		            <p class="mb-2">Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
 		            <p id="editCardParagrafo"><b>Modifica Metodo di Pagamento: </b><a class="btn btn-outline-primary my-2 my-sm-0 mx-sm-2" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
 		            <form id="deleteCardForm" action="UpdateUser" method="POST">
+		            	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		                <input type="hidden" name="action" value="eliminaPagamento">
 		                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 		                <button id="eliminaCarta" type="submit" class="btn btn-danger">Elimina</button>
@@ -157,6 +164,7 @@
 		        <div id="payment-form" class="payment-form" onsubmit="return validateFormPayment()" style="display: none">
 		            <div class="error-message" role="alert"><%=errorMessage == null ? "" : errorMessage%></div>
 		            <form action="UpdateUser" method="post">
+		            	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		                <input type="hidden" name="action" value="updatePagamento">
 		                <input type="hidden" name="redirect" value="<%=redirectUrl%>">
 		                <div class="form-group mb-2">
@@ -186,6 +194,7 @@
 		    <hr>
 		
 		    <form id="formDelete" action="DeleteUser" method="post">
+		  		<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		        <button type="button" id="deleteButton" class="btn btn-danger" onclick="openModal()">Elimina account</button>
 		    </form>
 		

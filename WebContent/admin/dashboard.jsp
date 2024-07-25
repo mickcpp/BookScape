@@ -76,7 +76,7 @@
 
 		    <div class="sezione mb-4">
 		        <h2>Manage Products</h2>
-		        <form action="ProductControl" method="post">
+		        <form action="ProductControl" method="get">
 		            <input type="hidden" name="action" value="viewInsert">
 		            <input type="radio" name="type" value="libro" id="libro" checked>
 		            <label for="libro">Libro</label>
@@ -116,8 +116,19 @@
 		                    <td class="row">
 								<button class="btn btn-primary d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-md-1" onclick="location.href='ProductControl?productId=<%= p.getId() %>&action=viewEdit'">Modifica</button>
 								<button class="btn btn-primary btn-sm d-lg-none col-auto my-1 my-lg-0 mx-md-1" onclick="location.href='ProductControl?productId=<%= p.getId() %>&action=viewEdit'">Modifica</button>
-								<button class="btn btn-danger d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-md-1" onclick="location.href='ProductControl?productId=<%= p.getId() %>&action=rimuovi'">Elimina</button>
-								<button class="btn btn-danger btn-sm d-lg-none col-auto my-1 my-lg-0 mx-md-1" onclick="location.href='ProductControl?productId=<%= p.getId() %>&action=rimuovi'">Elimina</button>
+								<form action="ProductControl" method="post" class="d-none d-lg-inline-block col-auto my-1 my-lg-0 mx-md-1" style="padding:0">
+								    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+								    <input type="hidden" name="productId" value="<%= p.getId() %>">
+								    <input type="hidden" name="action" value="rimuovi">
+								    <button type="submit" class="btn btn-danger">Elimina</button>
+								</form>
+								
+								<form action="ProductControl" method="post" class="d-lg-none col-auto my-1 my-lg-0 mx-md-1" style="padding:0">
+								    <input type="hidden" name="csrfToken" value="<%= csrfToken %>">
+								    <input type="hidden" name="productId" value="<%= p.getId() %>">
+								    <input type="hidden" name="action" value="rimuovi">
+								    <button type="submit" class="btn btn-danger btn-sm">Elimina</button>
+								</form>
 		                    </td>
 		                </tr>
 		                <%
