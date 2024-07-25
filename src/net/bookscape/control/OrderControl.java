@@ -52,14 +52,11 @@ public class OrderControl extends HttpServlet {
         try {
             if (action != null) {
                 switch (action) {
-                    case "checkout":
-                        performCheckout(request, response, clienteId);
-                        break;
-                    case "acquista":
-                        performAcquista(request, response, clienteId);
-                        break;
                     case "visualizza":
                         showOrdini(request, response, clienteId);
+                        break;
+                    case "checkout":
+                        performCheckout(request, response, clienteId);
                         break;
                     default:
                         response.sendRedirect("error404.jsp");
@@ -75,7 +72,29 @@ public class OrderControl extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        String clienteId = (String) request.getSession().getAttribute("cliente");
+        if (clienteId == null || clienteId.equals("")) {
+            response.sendRedirect("Login");
+            return;
+        }
+
+        String action = request.getParameter("action");
+        
+        try {
+        	if (action != null) {
+                if ("acquista".equals(action)) {
+                    performAcquista(request, response, clienteId);
+                } else if("checkout".equals(action)){
+                	performCheckout(request, response, clienteId);
+                } else {
+                    response.sendRedirect("error404.jsp");
+                }
+            } else {
+                response.sendRedirect("./");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
     private void performCheckout(HttpServletRequest request, HttpServletResponse response, String clienteId)
@@ -102,13 +121,13 @@ public class OrderControl extends HttpServlet {
             String cognome = request.getParameter("cognomeSpedizione");
             String input = request.getParameter("indirizzoSpedizione");
             
-			String errorMessage = ValidationUtilsCliente.validateFormShipping(nome, cognome, input);
+            String errorMessage = ValidationUtilsCliente.validateFormShipping(nome, cognome, input);
 
-	        if (errorMessage != null) {
-	        	request.getSession().setAttribute("errorMessage", errorMessage);
-	    		response.sendRedirect("OrderControl?action=checkout&option=false");
-	        	return;
-	        }
+            if (errorMessage != null) {
+            	request.getSession().setAttribute("errorMessage", errorMessage);
+        		response.sendRedirect("OrderControl?action=checkout&option=false");
+            	return;
+            }
             
             ordine.setNomeConsegna(nome);
             ordine.setCognomeConsegna(cognome);
@@ -186,7 +205,6 @@ public class OrderControl extends HttpServlet {
 	        request.getSession().removeAttribute("cart");
 	        return;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
