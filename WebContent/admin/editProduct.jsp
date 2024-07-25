@@ -107,7 +107,7 @@
 
                 <div class="form-group mb-3">
                     <label for="immagine">Immagine:</label>
-                    <input type="file" class="form-control" id="immagine" name="immagine" accept=".jpg, .jpeg, .png">
+                    <input type="file" class="form-control" id="immagine" name="immagine" accept=".jpg, .jpeg, .png, .webp">
                 </div>
 
                 <% if (prodotto instanceof Libro) {

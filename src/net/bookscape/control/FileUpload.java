@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,7 +24,7 @@ public class FileUpload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-    private static final String[] ALLOWED_EXTENSIONS = { "jpg", "jpeg", "png"};
+    private static final String[] ALLOWED_EXTENSIONS = { "jpg", "jpeg", "png", "webp"};
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -91,7 +92,7 @@ public class FileUpload extends HttpServlet {
         // Verifica se il contenuto è un'immagine valida
         try (InputStream fileContent = filePart.getInputStream()) {
             BufferedImage image = ImageIO.read(fileContent);
-            if (image == null) {
+            if(image == null) {
             	redirect(request, response, redirectEditPage, "Il file caricato non è un'immagine valida.", true);
                 return;
             }
@@ -151,6 +152,6 @@ public class FileUpload extends HttpServlet {
     
     private boolean isValidFileName(String fileName) {
         // Permette solo lettere, numeri, trattini e punti
-        return fileName.matches("[a-zA-Z0-9._-]+");
+    	return fileName.matches("[a-zA-Z0-9._\\- ]+");
     }
 }

@@ -16,5 +16,11 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-8.0.12.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/pdfbox-app-3.0.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imageio-webp-3.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/common-image-3.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/common-io-3.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/common-lang-3.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imageio-core-3.10.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imageio-metadata-3.10.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
