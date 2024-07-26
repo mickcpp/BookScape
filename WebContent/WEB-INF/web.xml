@@ -117,4 +117,18 @@
 	    <filter-name>HttpHeaderSecurityFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+        <filter-name>RateLimitFilter Global</filter-name>
+        <filter-class>org.apache.catalina.filters.RateLimitFilter</filter-class>
+        <init-param>
+        	<param-name>statusMessage</param-name>
+        	<param-value>Niente DDoS su Bookscape</param-value>
+    	</init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>RateLimitFilter Global</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
