@@ -100,7 +100,7 @@
 		</div>
 		
 		<div class="container-lg mt-4 mt-md-5 mb-5">
-            <h2 class="h1 text-center mb-3 mb-md-4">I libri piu recensiti</h2>
+            <h1 class="h1 text-center mb-3 mb-md-4">I libri piu recensiti</h1>
             <div id="bookCarousel" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -187,7 +187,7 @@
 		<hr>
 		
 		<div class="container-lg mt-4 mt-md-3 mb-4">
-			<h2 id="headerEditorialChoise" class="display-2 text-center mb-4">Scelte della redazione</h2>
+			<h1 id="headerEditorialChoise" class="display-2 text-center mb-4">Scelte della redazione</h1>
 			<div id="editorialChoises" class="carousel slide">
 			 	<div class="carousel-inner">
 			   		<div class="carousel-item active">
