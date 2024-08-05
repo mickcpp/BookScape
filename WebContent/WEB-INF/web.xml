@@ -47,7 +47,7 @@
   </filter-mapping>
   <context-param>
     <param-name>uploadLocation</param-name>
-    <param-value>/opt/apache-tomcat-9.0.91/webapps/ROOT/productImages</param-value>
+    <param-value>/opt/apache-tomcat-10.1.26/webapps/ROOT/productImages</param-value>
   </context-param>
   <session-config>
     <session-timeout>2900</session-timeout>
