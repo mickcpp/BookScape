@@ -2,7 +2,7 @@
 <%@ page import="net.bookscape.model.Product, net.bookscape.model.Libro, net.bookscape.model.Musica, net.bookscape.model.Gadget"%>
 <%@ page import="utility.EscaperHTML"%>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 	<head>
 		<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">

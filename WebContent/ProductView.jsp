@@ -5,7 +5,7 @@
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.concurrent.TimeUnit"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 	<head>
 	    <meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">

@@ -1,7 +1,7 @@
 <%@ page import="java.util.Collection, java.util.Iterator" contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="net.bookscape.model.Product, net.bookscape.model.Wishlist, utility.EscaperHTML"%>
 
-<html>
+<html lang="it">
 	<head>
 	    <meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
