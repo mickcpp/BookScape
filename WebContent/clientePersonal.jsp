@@ -15,6 +15,7 @@
 	    <link rel="stylesheet" href="css/feedback.css">
 	   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	   	<link rel="icon" href="img/logo.png" type="image/x-icon">
+	   	<jsp:include page="header.jsp" />
 	</head>
 	<body>
 	    <%@ include file="template/navbar.jsp" %>
@@ -160,7 +161,7 @@
 		        <% } else { %>
 		            <p class="mb-2">Carta: <%= EscaperHTML.escapeHTML(carta.getNomeCarta()) %> (**** **** **** <%= EscaperHTML.escapeHTML(carta.getNumeroCarta().substring(carta.getNumeroCarta().length() - 4)) %>)</p>
 		            <p class="mb-2">Data Scadenza: <%= carta.getDataScadenza().get(Calendar.MONTH) + 1 %>/<%= carta.getDataScadenza().get(Calendar.YEAR) %></p>
-		            <p id="editCardParagrafo"><b>Modifica Metodo di Pagamento: </b><a class="btn btn-outline-primary my-2 my-sm-0 mx-sm-2" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
+		            <p id="editCardParagrafo" class="mb-0"><b>Modifica Metodo di Pagamento: </b><a class="btn btn-outline-primary my-2 my-sm-0 mx-sm-2" href="javascript:void(0);" onclick="togglePaymentForm()">Modifica</a></p>
 		            <form id="deleteCardForm" action="UpdateUser" method="POST">
 		            	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">
 		                <input type="hidden" name="action" value="eliminaPagamento">
@@ -168,7 +169,7 @@
 		                <button id="eliminaCarta" type="submit" class="btn btn-danger">Elimina</button>
 		            </form>
 		        <% } %>
-		        <div id="payment-form" class="payment-form" onsubmit="return validateFormPayment()" style="display: none">
+		        <div id="payment-form" class="payment-form mt-3" onsubmit="return validateFormPayment()" style="display: none">
 		            <div class="error-message" role="alert"><%=errorMessage == null ? "" : errorMessage%></div>
 		            <form action="UpdateUser" method="post">
 		            	<input type="hidden" name="csrfToken" value="<%= csrfToken %>">

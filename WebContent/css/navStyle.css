@@ -234,6 +234,9 @@ body.blurred .container{
 	#choiceModal {
 	    top: 50%;
 	}
+	.risultati .product #name {
+	    font-size: 14px;
+	}
 }
 
 @media (max-width: 380px) {

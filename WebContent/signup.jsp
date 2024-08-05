@@ -10,6 +10,7 @@
 	    <link rel="stylesheet" href="css/signup.css">
 	    <link rel="stylesheet" href="css/feedback.css">
 	    <link rel="icon" href="img/logo.png" type="image/x-icon">
+	    <jsp:include page="header.jsp" />
 	</head>
 	
 	<body>

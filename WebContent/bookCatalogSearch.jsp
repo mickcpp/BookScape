@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/catalog.css">
     <link rel="stylesheet" href="css/feedback.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
+    <jsp:include page="header.jsp" />
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>

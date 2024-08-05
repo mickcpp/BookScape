@@ -16,6 +16,7 @@
 	    <link rel="stylesheet" href="css/feedback.css">
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	    <link rel="icon" href="img/logo.png" type="image/x-icon">
+	    <jsp:include page="/header.jsp" />
 	    
 	    <script>
 	        $(document).ready(function(){

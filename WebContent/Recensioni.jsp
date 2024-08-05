@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/recensioni.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
+    <jsp:include page="header.jsp" />
 </head>
 <body>
     <%@ include file="template/navbar.jsp" %>
