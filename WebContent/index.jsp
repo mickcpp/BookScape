@@ -38,6 +38,16 @@
 				return;
 			}
 			
+			List<Integer> libriPiuRecensitiID = (List<Integer>) request.getAttribute("libriPiuRecensitiID");
+			
+			List<Libro> libriPiuRecensiti = prodotti.stream().filter(P -> P instanceof Libro)
+			.map(P -> (Libro) P)
+			.filter(P -> libriPiuRecensitiID.contains(P.getId()))
+			.sorted(Comparator.comparingInt(libro -> libriPiuRecensitiID.indexOf(libro.getId())))
+			.toList();
+			
+			libriPiuRecensiti.reversed();
+			
 			List<Libro> libri = prodotti.stream()
 						.filter(P -> P instanceof Libro)
 						.map(P -> (Libro) P)
@@ -106,7 +116,7 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="row d-flex justify-content-center">
-                            <% int i = 0; for(Libro libro : libri) { if(i < 9) { i++; continue; } if(i == 12) break;  %>
+                            <% int i = 0; for(Libro libro : libriPiuRecensiti) {if(i == 3) break;  %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">
@@ -129,7 +139,7 @@
                 
                     <div class="carousel-item">
                         <div class="row d-flex justify-content-center">
-                            <% i = 0; for(Libro libro : libri) { if(i < 4) { i++; continue; } if(i == 7) break; %>
+                            <% i = 0; for(Libro libro : libriPiuRecensiti) { if(i < 3) { i++; continue; } if(i == 6) break; %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">
@@ -152,7 +162,7 @@
                 
                     <div class="carousel-item">
                         <div class="row d-flex justify-content-center">
-                            <% i = 0; for(Libro libro : libri) { if(i < 12) { i++; continue; } if(i == 15) break; %>
+                            <% i = 0; for(Libro libro : libriPiuRecensiti) { if(i < 6) { i++; continue; } if(i == 9) break; %>
                             <div class="col-4 col-md-3 col-lg-3 d-flex justify-content-center">
                                 <div class="card mx-2 my-2">
                                     <div class="img-container">

@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+
 import utility.UtilsModel;
 
 public class ProductModelDM implements ProductModel <Product> {
@@ -498,4 +500,27 @@ public class ProductModelDM implements ProductModel <Product> {
 	    }
 	}
 	
+    public Collection<Integer> doRetrievePiuRecensiti() {
+        Collection<Integer> result = new ArrayList<>();
+        String query = "SELECT l.ID, l.Nome, COALESCE(COUNT(r.ID), 0) AS NumeroRecensioni "
+                     + "FROM libro l "
+                     + "LEFT JOIN recensionelibro r ON l.ID = r.Libro AND r.Valutazione >= 3 "
+                     + "GROUP BY l.ID, l.Nome "
+                     + "ORDER BY NumeroRecensioni DESC "
+                     + "LIMIT 9";
+        
+        try (Connection connection = DriverManagerCP.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("ID");
+                result.add(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return result;
+    }
 }

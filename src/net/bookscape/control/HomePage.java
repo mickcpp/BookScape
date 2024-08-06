@@ -11,7 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
 import net.bookscape.model.RecensioneModelDM;
@@ -40,18 +39,21 @@ public class HomePage extends HttpServlet {
 		
 		Collection<Product> prodotti = null;
 		Map<Integer, Integer> valutazioni = null;
+		Collection<Integer> libriPiuRecensitiID = null;
 		
 		try {
 			prodotti = model.doRetrieveAll(null);
 			valutazioni = recensioneModel.doRetrieveAllRatingAverageBooks();
 			valutazioni.putAll(recensioneModel.doRetrieveAllRatingAverageMusic());
 			valutazioni.putAll(recensioneModel.doRetrieveAllRatingAverageGadgets());
+			libriPiuRecensitiID = model.doRetrievePiuRecensiti();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+				
 		request.setAttribute("prodotti", prodotti);
 		request.setAttribute("valutazioni", valutazioni);
+		request.setAttribute("libriPiuRecensitiID", libriPiuRecensitiID);
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("./");
 		dispatcher.forward(request, response);
