@@ -83,7 +83,6 @@
                             if (recensioni != null && !recensioni.isEmpty()) {
                                 int num = 0;
                                 for (Recensione recensione : recensioni) {
-                                    if (num == 4) break;
                                     String email = recensione.getCliente();
                                     String initials = email.substring(0, 1).toUpperCase();
                         %>
