@@ -20,7 +20,7 @@
     }
 
     function validateAlpha(input) {
-	    const re = /^[a-zA-Z']{3,50}$/;
+	    const re = /^[a-zA-Z'’]{3,50}$/;
 	    return re.test(String(input));
 	}
 
@@ -29,7 +29,7 @@
         const numeroSpazi = trimInput.split(' ').length - 1;
 
         if (numeroSpazi === 0) {
-            return trimInput.length >= 3 && trimInput.length <= 50 && /^[a-zA-Z']+$/.test(trimInput);
+            return trimInput.length >= 3 && trimInput.length <= 50 && /^[a-zA-Z'’]+$/.test(trimInput);
             
         } else if (numeroSpazi === 1) {
         	
@@ -38,14 +38,14 @@
             const lunghezzaParola2 = parole[1].length;
 
             // Verifica che entrambe le parole abbiano almeno 3 caratteri
-            return lunghezzaParola1 >= 3 && lunghezzaParola2 >= 3 && trimInput.length <= 50 && /^[a-zA-Z'\s]+$/.test(trimInput);
+            return lunghezzaParola1 >= 3 && lunghezzaParola2 >= 3 && trimInput.length <= 50 && /^[a-zA-Z'’\s]+$/.test(trimInput);
         } else {
             return false;
         }
     }
     
     function validateAlphaNumericWithSpaces(input) {
-        const re = /^[a-zA-Z0-9'\s]{3,50}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
+        const re = /^[a-zA-Z0-9'’\s]{3,50}$/;  // Accetta lettere, numeri e spazi, lunghezza minima 3
         const containsLetter = /[a-zA-Z]/.test(input);  // Verifica se c'è almeno una lettera
         return containsLetter && re.test(String(input));
     }

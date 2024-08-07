@@ -19,7 +19,7 @@
 	}
 	
 	function validateGenre(genre) {
-	    const re = /^[a-zA-Z\s']{3,50}$/;
+	    const re = /^[a-zA-Z\s'’]{3,50}$/;
 	    return re.test(String(genre));
 	}
 	
@@ -45,7 +45,7 @@
 	}
 	
 	function validateAuthor(author) {
-	    const re = /^[a-zA-Z\s'.]{5,50}$/;
+	    const re = /^[a-zA-Z\s'’.]{5,50}$/;
 	    return re.test(String(author));
 	}
 	
