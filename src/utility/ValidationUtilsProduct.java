@@ -29,8 +29,8 @@ public interface ValidationUtilsProduct {
     	if(errore != null) return errore;
     	
     	if (!ValidationLibraryProduct.validateGenre(genere)) {
-    		if(genere.length() < 5 || genere.length() > 50) {
-    			return "Il genere deve essere lungo minimo 5 e massimo 50 caratteri.";
+    		if(genere.length() < 3 || genere.length() > 50) {
+    			return "Il genere deve essere lungo minimo 3 e massimo 50 caratteri.";
     		} else {
     			return "Il genere può contenere solo lettere e apostrofi.";
     		}
@@ -69,8 +69,8 @@ public interface ValidationUtilsProduct {
     	if(errore != null) return errore;
     	
     	if (!ValidationLibraryProduct.validateGenre(genere)) {
-    		if(genere.length() < 5 || genere.length() > 50) {
-    			return "Il genere deve essere lungo minimo 5 e massimo 50 caratteri.";
+    		if(genere.length() < 3 || genere.length() > 50) {
+    			return "Il genere deve essere lungo minimo 3 e massimo 50 caratteri.";
     		} else {
     			return "Il genere può contenere solo lettere e apostrofi.";
     		}

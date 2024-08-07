@@ -10,8 +10,8 @@
 	   	const numeroPagine = document.getElementById('numeroPagine');
 	    
 	    if (genere && !validateGenre(genere.value)) {
-	    	if(genere.value.length < 5 || genere.value.length > 50) {
-	    		showError(genere, "Il genere deve essere lungo minimo 5 e massimo 50 caratteri.");
+	    	if(genere.value.length < 3 || genere.value.length > 50) {
+	    		showError(genere, "Il genere deve essere lungo minimo 3 e massimo 50 caratteri.");
 		        isValid = false;
 	    	} else{
 				showError(genere, "Il genere può contenere solo lettere e apostrofi.");
@@ -63,8 +63,8 @@
 	    const numeroTracce = document.getElementById('numeroTracce');
 	    
 	    if (genere && !validateGenre(genere.value)) {
-	    	if(genere.value.length < 5 || genere.value.length > 50) {
-	    		showError(genere, "Il genere deve essere lungo minimo 5 e massimo 50 caratteri.");
+	    	if(genere.value.length < 3 || genere.value.length > 50) {
+	    		showError(genere, "Il genere deve essere lungo minimo 3 e massimo 50 caratteri.");
 		        isValid = false;
 	    	} else{
 				showError(genere, "Il genere può contenere solo lettere e apostrofi.");
