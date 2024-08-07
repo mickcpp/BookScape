@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import net.bookscape.model.Libro;
+import net.bookscape.model.Musica;
 import net.bookscape.model.Product;
 import net.bookscape.model.ProductModelDM;
 import utility.EscaperHTML;
@@ -40,6 +42,27 @@ public class RicercaProdotto extends HttpServlet {
         try {
             prodotti = model.doRetrieveAll(null);
             for(Product p : prodotti) {
+            	
+            	String autore = null;
+            	
+            	if(p instanceof Libro || p instanceof Musica) {
+                	if(p instanceof Libro) {
+                		autore = ((Libro) p).getAutore();
+                	} else if(p instanceof Musica) {
+                		autore = ((Musica) p).getArtista();
+                	}
+                	
+                	for(int i = 0; i <= autore.length() - 4; i++) {
+                	    for(int j = i + 4; j <= autore.length(); j++) {
+                	    	if(((String) autore.subSequence(i, j)).equalsIgnoreCase(query) && !risultato.contains(p)){
+                            	p.setNome(EscaperHTML.escapeHTML(p.getNome()));
+                            	p.setImgURL(EscaperHTML.escapeHTML(p.getImgURL()));
+                                risultato.add(p);
+                            }
+                	    }
+                	}
+            	}
+            	
                 for(int i = 0; i < p.getNome().length() - 1; i++) {
                     for(int j = i + 1; j < p.getNome().length(); j++) {
                         if(((String) p.getNome().subSequence(i, j)).equalsIgnoreCase(query) && !risultato.contains(p)){
