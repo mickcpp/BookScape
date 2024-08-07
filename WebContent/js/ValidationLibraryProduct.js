@@ -1,5 +1,5 @@
 	function validateName(name) {
-	    const re = /^.{2,25}$/;
+	    const re = /^.{2,40}$/;
 	    return re.test(String(name));
 	}
 	

@@ -5,7 +5,7 @@ public interface ValidationUtilsProduct {
 	public static String validateForm(String nome, String descrizione, String prezzo, String quantita) {
 		
         if (!ValidationLibraryProduct.validateName(nome)) {
-        	return "Il nome deve essere lungo minimo 2 e massimo 25 caratteri.";
+        	return "Il nome deve essere lungo minimo 2 e massimo 40 caratteri.";
         }
 
         if (!ValidationLibraryProduct.validateDescription(descrizione)) {

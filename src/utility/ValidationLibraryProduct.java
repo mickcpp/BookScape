@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public interface ValidationLibraryProduct {
 
     public static boolean validateName(String name) {
-        String regex = "^.{2,25}$";
+        String regex = "^.{2,40}$";
         return Pattern.matches(regex, name);
     }
 

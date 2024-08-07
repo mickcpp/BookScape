@@ -147,7 +147,7 @@
         resetErrors();
 
         if (!validateName(nome.value)) {
-            showError(nome, "Il nome deve essere lungo minimo 2 e massimo 25 caratteri.");
+            showError(nome, "Il nome deve essere lungo minimo 2 e massimo 40 caratteri.");
             isValid = false;
         }
         
