@@ -57,13 +57,13 @@ public class MusicCatalogSearch extends HttpServlet {
 		}
 		
 		if(tipo.equalsIgnoreCase("miscellaneous")) {
-			musics2 = musics.stream().filter(m -> !m.getGenere().contains("Rock") && !m.getGenere().equalsIgnoreCase("Pop") && !m.getGenere().equalsIgnoreCase("Hip-Hop")).collect(Collectors.toList());
+			musics2 = musics.stream().filter(m -> !m.getGenere().contains("Rock") && !m.getGenere().contains("Pop") && !m.getGenere().contains("Hip-Hop")).collect(Collectors.toList());
 		}
 		if(tipo.equalsIgnoreCase("Beatles")) {
 			musics2 = musics.stream().filter(m -> m.getArtista().contains(tipo)).collect(Collectors.toList());
 		}
 		else {
-			musics2 = musics.stream().filter(m -> m.getGenere().equalsIgnoreCase(tipo)).collect(Collectors.toList());
+			musics2 = musics.stream().filter(m -> m.getGenere().contains(tipo)).collect(Collectors.toList());
 		}
 		
 		request.setAttribute("type", tipo);
