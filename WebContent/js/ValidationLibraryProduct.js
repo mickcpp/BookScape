@@ -19,7 +19,7 @@
 	}
 	
 	function validateGenre(genre) {
-	    const re = /^[a-zA-Z\s'’]{3,50}$/;
+	    const re = /^[a-zA-Z\s'’/]{3,50}$/;
 	    return re.test(String(genre));
 	}
 	
