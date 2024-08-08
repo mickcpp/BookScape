@@ -58,8 +58,7 @@ public class MusicCatalogSearch extends HttpServlet {
 		
 		if(tipo.equalsIgnoreCase("miscellaneous")) {
 			musics2 = musics.stream().filter(m -> !m.getGenere().contains("Rock") && !m.getGenere().contains("Pop") && !m.getGenere().contains("Hip-Hop")).collect(Collectors.toList());
-		}
-		if(tipo.equalsIgnoreCase("Beatles")) {
+		} else if(tipo.equalsIgnoreCase("Beatles")) {
 			musics2 = musics.stream().filter(m -> m.getArtista().contains(tipo)).collect(Collectors.toList());
 		}
 		else {
