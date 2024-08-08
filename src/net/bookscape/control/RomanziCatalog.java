@@ -33,7 +33,7 @@ public class RomanziCatalog extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Collection<Libro> libri = null;
-        Collection<Libro> libriHorror = null;
+        Collection<Libro> romanzi = null;
         Map<Integer, Integer> valutazioni = null;
 
         try {
@@ -44,12 +44,12 @@ public class RomanziCatalog extends HttpServlet {
         }
 
         if (libri != null) {
-            libriHorror = libri.stream()
-                               .filter(l -> l.getDescrizione().contains("romanzo") || l.getDescrizione().contains("Romanzo"))
+        	romanzi = libri.stream()
+                               .filter(l -> l.getDescrizione().contains("romanzo") || l.getDescrizione().contains("Romanzo") || l.getGenere().contains("Romanzo"))
                                .collect(Collectors.toList());
         }
 
-        request.setAttribute("libri", libriHorror);
+        request.setAttribute("libri", romanzi);
         request.setAttribute("valutazioni", valutazioni);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("romanziCatalog.jsp");

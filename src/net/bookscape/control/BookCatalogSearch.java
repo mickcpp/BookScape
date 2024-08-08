@@ -58,22 +58,22 @@ public class BookCatalogSearch extends HttpServlet {
         	}
         	if(tipo.equalsIgnoreCase("Horror")) {
         		libri2 = libri.stream()
-                        .filter(l -> l.getGenere().equals(tipo))
+                        .filter(l -> l.getGenere().contains(tipo))
                         .collect(Collectors.toList());
         	}
         	if(tipo.equalsIgnoreCase("teen")) {
         		libri2 = libri.stream()
-                        .filter(l -> l.getDescrizione().contains("Fiaba") || l.getDescrizione().contains("ragazzi"))
+                        .filter(l -> l.getDescrizione().contains("Fiaba") || l.getDescrizione().contains("ragazzi") || l.getGenere().contains("Fiaba") || l.getGenere().contains("Teen"))
                         .collect(Collectors.toList());
         	}
         	if(tipo.equalsIgnoreCase("Manga")) {
         		libri2 = libri.stream()
-                        .filter(l -> l.getGenere().equals(tipo))
+                        .filter(l -> l.getGenere().contains(tipo))
                         .collect(Collectors.toList());
         	}
         	if(tipo.equalsIgnoreCase("Classic")) {
         		libri2 = libri.stream()
-                        .filter(l -> l.getDescrizione().contains("Classico") || l.getDescrizione().contains("classico"))
+                        .filter(l -> l.getDescrizione().contains("Classico") || l.getDescrizione().contains("classico") || l.getGenere().contains("Classico"))
                         .collect(Collectors.toList());
         	}
         	if(tipo.equalsIgnoreCase("Tolkien")) {
@@ -83,7 +83,7 @@ public class BookCatalogSearch extends HttpServlet {
         	}
         	if(tipo.equalsIgnoreCase("love")) {
         		libri2 = libri.stream()
-                        .filter(l -> l.getDescrizione().contains("amore") || l.getDescrizione().contains("romantica"))
+                        .filter(l -> l.getDescrizione().contains("amore") || l.getDescrizione().contains("romantica") || l.getGenere().contains("Romantico"))
                         .collect(Collectors.toList());
         	}            
         }
