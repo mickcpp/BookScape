@@ -109,7 +109,6 @@
     <filter-name>RateLimitFilter Global</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
   <filter>
     <display-name>ReferrerHeaderFilter</display-name>
     <filter-name>ReferrerHeaderFilter</filter-name>
@@ -117,6 +116,15 @@
   </filter>
   <filter-mapping>
     <filter-name>ReferrerHeaderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>RedirectFilter</display-name>
+    <filter-name>RedirectFilter</filter-name>
+    <filter-class>net.bookscape.control.RedirectFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RedirectFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 </web-app>
