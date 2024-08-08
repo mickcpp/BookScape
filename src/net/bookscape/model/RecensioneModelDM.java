@@ -169,6 +169,8 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 		                    )
 		                ));
 			
+			if(valutazioni == null) valutazioni = new HashMap<Integer, Integer>();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -217,6 +219,8 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 		                    )
 		                ));
 			
+			if(valutazioni == null) valutazioni = new HashMap<Integer, Integer>();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -264,6 +268,8 @@ public class RecensioneModelDM implements RecensioneModel<Recensione>{
 		                        avg -> (int) Math.round(avg)
 		                    )
 		                ));
+			
+			if(valutazioni == null) valutazioni = new HashMap<Integer, Integer>();
 			
 		} finally {
 			try {
