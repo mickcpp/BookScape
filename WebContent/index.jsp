@@ -234,7 +234,7 @@
 	          				</div>
 			        		<% i++; } %>
 			      		</div>
-			    	</div>
+			    	</div> 
 			    	
 			    	<div class="carousel-item">
 			      		<div class="row d-flex justify-content-center">
