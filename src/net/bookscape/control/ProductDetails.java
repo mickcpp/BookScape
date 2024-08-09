@@ -49,7 +49,7 @@ public class ProductDetails extends HttpServlet {
 			prodotto = modelProduct.doRetrieveByKey(id, TABLE.valueOf(tableName));
 			recensioni = modelRecensione.doRetrieveAll(id, TABLE.valueOf(tableName), "Data");
 		} catch (SQLException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.out.println("Error:" + e.getMessage()); 
 		}
 		
 		request.setAttribute("prodotto", prodotto);
