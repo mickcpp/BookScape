@@ -32,7 +32,7 @@
 		<%@ include file="/template/navbar.jsp" %>
 		<h1 style="text-align: center;">Errore!</h1>
 		 
-		<p id="paragrafoErrore">Si è verificato un problema!</p>
+		<p id="paragrafoErrore">Si è verificato un problema!</p> 
 		
 		<%@ include file="/template/footer.jsp"%>
 		
