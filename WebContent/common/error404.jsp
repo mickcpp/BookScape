@@ -9,8 +9,7 @@
 		
 		<base href="${pageContext.request.contextPath}/">
 		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/navStyle.css">
-		<link rel="stylesheet" href="css/footerStyle.css">
+		<jsp:include page="/header.jsp" />
 		
 		<style>
 			.errorContent{

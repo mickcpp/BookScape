@@ -10,15 +10,15 @@
 		
 		<base href="${pageContext.request.contextPath}/">
 		<link rel="stylesheet" href="css/style.css">
-		<link rel="stylesheet" href="css/navStyle.css">
-		<link rel="stylesheet" href="css/footerStyle.css">
+		<jsp:include page="/header.jsp" />
 		
 		<style>
 			#paragrafoErrore{
-				padding-left: 20px;
-				width: 80%;
+				font-size: 20px;
+				color: #5E5B58;
 				margin-top: 0;
-				padding-bottom: 40px;
+				padding-bottom: 220px;
+				text-align: center;
 			}
 			.section-menu{
 				display: none;
@@ -31,17 +31,8 @@
 	<body>
 		<%@ include file="/template/navbar.jsp" %>
 		<h1 style="text-align: center;">Errore!</h1>
-		<%
-		  if(exception != null) {
-		      out.println("<p id='paragrafoErrore'>Exception: " + exception.getMessage());
-		      out.println("<br><br>");
-		      StackTraceElement[] st = exception.getStackTrace();
-		      for(StackTraceElement e: st){
-		          out.println(e.toString() + "<br>");
-		      }
-		      out.println("</p>");
-		  }
-		%>
+		 
+		<p id="paragrafoErrore">Si è verificato un problema!</p>
 		
 		<%@ include file="/template/footer.jsp"%>
 		
